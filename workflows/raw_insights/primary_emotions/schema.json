@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Primary Emotions Insight Schema",
+    "description": "Simple schema for extracting the 6 primary emotions from patient-agent conversations",
+    "type": "object",
+    "properties": {
+        "primary_emotions": {
+            "type": "array",
+            "description": "Array of primary emotions detected in the conversation",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "emotion": {
+                        "type": "string",
+                        "enum": [
+                            "joy",
+                            "sadness",
+                            "anger",
+                            "fear",
+                            "surprise",
+                            "disgust"
+                        ],
+                        "description": "One of the 6 primary emotions (Ekman's basic emotions)"
+                    },
+                    "intensity": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10,
+                        "description": "Intensity level of the detected emotion (1=very low, 10=extremely high)"
+                    },
+                    "context": {
+                        "type": "string",
+                        "description": "Context explaining why this emotion was present",
+                        "maxLength": 200,
+                        "minLength": 10
+                    },
+                    "trigger": {
+                        "type": "string",
+                        "description": "What triggered this emotion (situation, thought, event)",
+                        "maxLength": 150
+                    }
+                },
+                "required": [
+                    "emotion",
+                    "intensity",
+                    "context"
+                ],
+                "additionalProperties": false
+            },
+            "maxItems": 6,
+            "minItems": 0
+        }
+    },
+    "required": [
+        "primary_emotions"
+    ],
+    "additionalProperties": false
+}

@@ -4,6 +4,7 @@ CREATE TABLE profiles (
   
   full_name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
+  phone TEXT,
   role user_role NOT NULL DEFAULT 'patient',
   
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
