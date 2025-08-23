@@ -1,90 +1,88 @@
 {
-    "perfil_psicologico_inicial": {
-        "metadata": {
-            "version": "1.0",
-            "fecha_registro_iso8601": "2025-11-05T15:45:00-05:00",
-            "clinico": {
-                "nombre": "Lic. Patricia Morales",
-                "credenciales": "Psicóloga Familiar"
-            }
-        },
-        "usuario": {
-            "nombre_preferido": "Sofia",
-            "edad": 22,
-            "genero": "femenino",
-            "pronombres": "ella",
-            "ubicacion": "Quito, Ecuador",
-            "estado_civil": "soltera, vive con familia"
-        },
-        "motivo_consulta": {
-            "descripcion_breve": "Conflictos familiares intensos con padres sobre autonomía y decisiones de vida; baja autoestima y dudas sobre identidad.",
-            "objetivos_iniciales_usuario": [
-                "mejorar comunicación familiar",
-                "aumentar autoestima",
-                "tomar decisiones propias con confianza"
-            ]
-        },
-        "presentacion_actual": {
-            "sintomas_principales": [
-                "autoestima_baja",
-                "indecision_cronica",
-                "ansiedad_social",
-                "irritabilidad_familiar",
-                "confusion_identidad"
-            ],
-            "inicio": "8_meses_intensificado",
-            "impacto_funcional": {
-                "laboral": "leve",
-                "social": "moderado",
-                "autocuidado": "adecuado"
-            },
-            "habitos_clave": {
-                "sueno_horas": 8.0,
-                "apetito": "normal",
-                "actividad_fisica": "yoga_2x_semana",
-                "sustancias": {
-                    "alcohol": "social_fin_semana",
-                    "tabaco": "no",
-                    "cafeina": "te_natural"
-                }
-            }
-        },
-        "riesgo": {
-            "ideacion_autolesiva": "pensamientos_ocasionales_no_planificados",
-            "riesgo_hacia_terceros": "no",
-            "nivel_riesgo_global": "bajo-moderado",
-            "acciones_inmediatas": [
-                "fortalecimiento_autoestima",
-                "habilidades_comunicacion",
-                "exploracion_identidad"
-            ]
-        },
-        "fortalezas": [
-            "inteligencia_emocional_desarrollada",
-            "creatividad_artistica",
-            "deseo_crecimiento_personal",
-            "estudios_universitarios"
+    "metadata": {
+        "version": "1.0",
+        "fecha_registro_iso8601": "2025-11-05T15:45:00-05:00",
+        "clinico": {
+            "nombre": "Lic. Patricia Morales",
+            "credenciales": "Psicóloga Familiar"
+        }
+    },
+    "usuario": {
+        "nombre_preferido": "Sofia",
+        "edad": 22,
+        "genero": "femenino",
+        "pronombres": "ella",
+        "ubicacion": "Quito, Ecuador",
+        "estado_civil": "soltera, vive con familia"
+    },
+    "motivo_consulta": {
+        "descripcion_breve": "Conflictos familiares intensos con padres sobre autonomía y decisiones de vida; baja autoestima y dudas sobre identidad.",
+        "objetivos_iniciales_usuario": [
+            "mejorar comunicación familiar",
+            "aumentar autoestima",
+            "tomar decisiones propias con confianza"
+        ]
+    },
+    "presentacion_actual": {
+        "sintomas_principales": [
+            "autoestima_baja",
+            "indecision_cronica",
+            "ansiedad_social",
+            "irritabilidad_familiar",
+            "confusion_identidad"
         ],
-        "objetivos_4_semanas": [
-            "tener_1_conversacion_asertiva_semanal_padres",
-            "identificar_3_valores_personales_claros",
-            "participar_actividad_social_nueva_semanal"
-        ],
-        "plan_inicial": {
-            "modalidad": "virtual_presencial_alternado",
-            "frecuencia": "semanal",
-            "enfoque": [
-                "terapia_humanista",
-                "habilidades_comunicacion",
-                "fortalecimiento_identidad"
-            ],
-            "tareas": [
-                "diario_emociones_valores",
-                "practica_comunicacion_asertiva",
-                "exploracion_intereses_personales"
-            ]
+        "inicio": "8_meses_intensificado",
+        "impacto_funcional": {
+            "laboral": "leve",
+            "social": "moderado",
+            "autocuidado": "adecuado"
         },
-        "proxima_cita_iso8601": "2025-11-12T15:45:00-05:00",
-        "consentimiento_informado": true
-    }
+        "habitos_clave": {
+            "sueno_horas": 8.0,
+            "apetito": "normal",
+            "actividad_fisica": "yoga_2x_semana",
+            "sustancias": {
+                "alcohol": "social_fin_semana",
+                "tabaco": "no",
+                "cafeina": "te_natural"
+            }
+        }
+    },
+    "riesgo": {
+        "ideacion_autolesiva": "pensamientos_ocasionales_no_planificados",
+        "riesgo_hacia_terceros": "no",
+        "nivel_riesgo_global": "bajo-moderado",
+        "acciones_inmediatas": [
+            "fortalecimiento_autoestima",
+            "habilidades_comunicacion",
+            "exploracion_identidad"
+        ]
+    },
+    "fortalezas": [
+        "inteligencia_emocional_desarrollada",
+        "creatividad_artistica",
+        "deseo_crecimiento_personal",
+        "estudios_universitarios"
+    ],
+    "objetivos_4_semanas": [
+        "tener_1_conversacion_asertiva_semanal_padres",
+        "identificar_3_valores_personales_claros",
+        "participar_actividad_social_nueva_semanal"
+    ],
+    "plan_inicial": {
+        "modalidad": "virtual_presencial_alternado",
+        "frecuencia": "semanal",
+        "enfoque": [
+            "terapia_humanista",
+            "habilidades_comunicacion",
+            "fortalecimiento_identidad"
+        ],
+        "tareas": [
+            "diario_emociones_valores",
+            "practica_comunicacion_asertiva",
+            "exploracion_intereses_personales"
+        ]
+    },
+    "proxima_cita_iso8601": "2025-11-12T15:45:00-05:00",
+    "consentimiento_informado": true
 }

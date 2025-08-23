@@ -1,5 +1,4 @@
 {
-    "perfil_psicologico_inicial": {
         "metadata": {
             "version": "1.0",
             "fecha_registro_iso8601": "2025-07-10T11:00:00-03:00",
@@ -85,5 +84,4 @@
         },
         "proxima_cita_iso8601": "2025-07-15T11:00:00-03:00",
         "consentimiento_informado": true
-    }
 }

@@ -1,89 +1,87 @@
 {
-    "perfil_psicologico_inicial": {
-        "metadata": {
-            "version": "1.0",
-            "fecha_registro_iso8601": "2025-10-02T16:15:00-03:00",
-            "clinico": {
-                "nombre": "Dra. Francisca Silva",
-                "credenciales": "Psicóloga Especialista en Trauma"
-            }
-        },
-        "usuario": {
-            "nombre_preferido": "Ana",
-            "edad": 28,
-            "genero": "femenino",
-            "pronombres": "ella",
-            "ubicacion": "Santiago, Chile",
-            "estado_civil": "soltera, en relación de 3 años"
-        },
-        "motivo_consulta": {
-            "descripcion_breve": "Trastorno de estrés postraumático tras accidente automovilístico hace 2 meses; pesadillas, flashbacks y evitación.",
-            "objetivos_iniciales_usuario": [
-                "reducir pesadillas",
-                "volver a manejar",
-                "controlar flashbacks"
-            ]
-        },
-        "presentacion_actual": {
-            "sintomas_principales": [
-                "pesadillas_recurrentes",
-                "flashbacks",
-                "evitacion_vehiculos",
-                "hipervigilancia",
-                "sobresalto_exagerado"
-            ],
-            "inicio": "2_meses",
-            "impacto_funcional": {
-                "laboral": "moderado",
-                "social": "severo",
-                "autocuidado": "levemente_afectado"
-            },
-            "habitos_clave": {
-                "sueno_horas": 5.5,
-                "apetito": "normal_con_episodios_nausea",
-                "actividad_fisica": "evita_salir",
-                "sustancias": {
-                    "alcohol": "no",
-                    "tabaco": "no",
-                    "cafeina": "1-2_tazas_dia"
-                }
-            }
-        },
-        "riesgo": {
-            "ideacion_autolesiva": "niega",
-            "riesgo_hacia_terceros": "no",
-            "nivel_riesgo_global": "moderado",
-            "acciones_inmediatas": [
-                "psicoeducacion_trauma",
-                "tecnicas_grounding",
-                "exposicion_gradual_planificada"
-            ]
-        },
-        "fortalezas": [
-            "apoyo_pareja_incondicional",
-            "motivacion_alta_para_recuperacion",
-            "recursos_cognitivos_preservados"
+    "metadata": {
+        "version": "1.0",
+        "fecha_registro_iso8601": "2025-10-02T16:15:00-03:00",
+        "clinico": {
+            "nombre": "Dra. Francisca Silva",
+            "credenciales": "Psicóloga Especialista en Trauma"
+        }
+    },
+    "usuario": {
+        "nombre_preferido": "Ana",
+        "edad": 28,
+        "genero": "femenino",
+        "pronombres": "ella",
+        "ubicacion": "Santiago, Chile",
+        "estado_civil": "soltera, en relación de 3 años"
+    },
+    "motivo_consulta": {
+        "descripcion_breve": "Trastorno de estrés postraumático tras accidente automovilístico hace 2 meses; pesadillas, flashbacks y evitación.",
+        "objetivos_iniciales_usuario": [
+            "reducir pesadillas",
+            "volver a manejar",
+            "controlar flashbacks"
+        ]
+    },
+    "presentacion_actual": {
+        "sintomas_principales": [
+            "pesadillas_recurrentes",
+            "flashbacks",
+            "evitacion_vehiculos",
+            "hipervigilancia",
+            "sobresalto_exagerado"
         ],
-        "objetivos_4_semanas": [
-            "dormir_6h_continuas_4_noches_semana",
-            "usar_transporte_publico_sin_ansiedad_severa",
-            "practicar_tecnicas_grounding_efectivamente"
-        ],
-        "plan_inicial": {
-            "modalidad": "presencial",
-            "frecuencia": "semanal",
-            "enfoque": [
-                "EMDR",
-                "TCC_trauma_focada",
-                "tecnicas_relajacion"
-            ],
-            "tareas": [
-                "registro_sintomas_diario",
-                "practica_grounding_2x_dia",
-                "exposicion_gradual_vehiculos"
-            ]
+        "inicio": "2_meses",
+        "impacto_funcional": {
+            "laboral": "moderado",
+            "social": "severo",
+            "autocuidado": "levemente_afectado"
         },
-        "proxima_cita_iso8601": "2025-10-09T16:15:00-03:00",
-        "consentimiento_informado": true
-    }
+        "habitos_clave": {
+            "sueno_horas": 5.5,
+            "apetito": "normal_con_episodios_nausea",
+            "actividad_fisica": "evita_salir",
+            "sustancias": {
+                "alcohol": "no",
+                "tabaco": "no",
+                "cafeina": "1-2_tazas_dia"
+            }
+        }
+    },
+    "riesgo": {
+        "ideacion_autolesiva": "niega",
+        "riesgo_hacia_terceros": "no",
+        "nivel_riesgo_global": "moderado",
+        "acciones_inmediatas": [
+            "psicoeducacion_trauma",
+            "tecnicas_grounding",
+            "exposicion_gradual_planificada"
+        ]
+    },
+    "fortalezas": [
+        "apoyo_pareja_incondicional",
+        "motivacion_alta_para_recuperacion",
+        "recursos_cognitivos_preservados"
+    ],
+    "objetivos_4_semanas": [
+        "dormir_6h_continuas_4_noches_semana",
+        "usar_transporte_publico_sin_ansiedad_severa",
+        "practicar_tecnicas_grounding_efectivamente"
+    ],
+    "plan_inicial": {
+        "modalidad": "presencial",
+        "frecuencia": "semanal",
+        "enfoque": [
+            "EMDR",
+            "TCC_trauma_focada",
+            "tecnicas_relajacion"
+        ],
+        "tareas": [
+            "registro_sintomas_diario",
+            "practica_grounding_2x_dia",
+            "exposicion_gradual_vehiculos"
+        ]
+    },
+    "proxima_cita_iso8601": "2025-10-09T16:15:00-03:00",
+    "consentimiento_informado": true
 }

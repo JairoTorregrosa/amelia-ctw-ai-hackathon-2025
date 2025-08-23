@@ -1,89 +1,87 @@
 {
-    "perfil_psicologico_inicial": {
-        "metadata": {
-            "version": "1.0",
-            "fecha_registro_iso8601": "2025-09-15T14:30:00-06:00",
-            "clinico": {
-                "nombre": "Dra. Carmen Méndez",
-                "credenciales": "Psicóloga Clínica"
-            }
-        },
-        "usuario": {
-            "nombre_preferido": "María",
-            "edad": 32,
-            "genero": "femenino",
-            "pronombres": "ella",
-            "ubicacion": "Ciudad de México, México",
-            "estado_civil": "casada, 2 hijos"
-        },
-        "motivo_consulta": {
-            "descripcion_breve": "Crisis de ansiedad y ataques de pánico desde hace 3 meses; relacionado con presión laboral y maternidad.",
-            "objetivos_iniciales_usuario": [
-                "controlar ataques de pánico",
-                "manejar ansiedad diaria",
-                "encontrar equilibrio trabajo-familia"
-            ]
-        },
-        "presentacion_actual": {
-            "sintomas_principales": [
-                "crisis_panico",
-                "ansiedad_generalizada",
-                "tension_muscular",
-                "preocupacion_excesiva",
-                "fatiga"
-            ],
-            "inicio": "3_meses",
-            "impacto_funcional": {
-                "laboral": "moderado-severo",
-                "social": "moderado",
-                "autocuidado": "afectado (ejercicio y alimentación)"
-            },
-            "habitos_clave": {
-                "sueno_horas": 6.0,
-                "apetito": "irregular",
-                "actividad_fisica": "ninguna",
-                "sustancias": {
-                    "alcohol": "muy_ocasional",
-                    "tabaco": "no",
-                    "cafeina": "4-5_tazas_dia"
-                }
-            }
-        },
-        "riesgo": {
-            "ideacion_autolesiva": "niega",
-            "riesgo_hacia_terceros": "no",
-            "nivel_riesgo_global": "moderado",
-            "acciones_inmediatas": [
-                "tecnicas_respiracion",
-                "psicoeducacion_sobre_ansiedad",
-                "plan_manejo_crisis"
-            ]
-        },
-        "fortalezas": [
-            "red_apoyo_familiar_solida",
-            "compromiso_profesional",
-            "capacidad_reflexiva"
+    "metadata": {
+        "version": "1.0",
+        "fecha_registro_iso8601": "2025-09-15T14:30:00-06:00",
+        "clinico": {
+            "nombre": "Dra. Carmen Méndez",
+            "credenciales": "Psicóloga Clínica"
+        }
+    },
+    "usuario": {
+        "nombre_preferido": "María",
+        "edad": 32,
+        "genero": "femenino",
+        "pronombres": "ella",
+        "ubicacion": "Ciudad de México, México",
+        "estado_civil": "casada, 2 hijos"
+    },
+    "motivo_consulta": {
+        "descripcion_breve": "Crisis de ansiedad y ataques de pánico desde hace 3 meses; relacionado con presión laboral y maternidad.",
+        "objetivos_iniciales_usuario": [
+            "controlar ataques de pánico",
+            "manejar ansiedad diaria",
+            "encontrar equilibrio trabajo-familia"
+        ]
+    },
+    "presentacion_actual": {
+        "sintomas_principales": [
+            "crisis_panico",
+            "ansiedad_generalizada",
+            "tension_muscular",
+            "preocupacion_excesiva",
+            "fatiga"
         ],
-        "objetivos_4_semanas": [
-            "reducir_frecuencia_ataques_panico_75_por_ciento",
-            "implementar_tecnicas_respiracion_diariamente",
-            "establecer_limites_laborales_claros"
-        ],
-        "plan_inicial": {
-            "modalidad": "virtual",
-            "frecuencia": "bi-semanal",
-            "enfoque": [
-                "CBT_para_ansiedad",
-                "tecnicas_mindfulness",
-                "manejo_estres"
-            ],
-            "tareas": [
-                "registro_ataques_panico",
-                "practica_respiracion_3x_dia",
-                "establecimiento_rutinas"
-            ]
+        "inicio": "3_meses",
+        "impacto_funcional": {
+            "laboral": "moderado-severo",
+            "social": "moderado",
+            "autocuidado": "afectado (ejercicio y alimentación)"
         },
-        "proxima_cita_iso8601": "2025-09-18T14:30:00-06:00",
-        "consentimiento_informado": true
-    }
+        "habitos_clave": {
+            "sueno_horas": 6.0,
+            "apetito": "irregular",
+            "actividad_fisica": "ninguna",
+            "sustancias": {
+                "alcohol": "muy_ocasional",
+                "tabaco": "no",
+                "cafeina": "4-5_tazas_dia"
+            }
+        }
+    },
+    "riesgo": {
+        "ideacion_autolesiva": "niega",
+        "riesgo_hacia_terceros": "no",
+        "nivel_riesgo_global": "moderado",
+        "acciones_inmediatas": [
+            "tecnicas_respiracion",
+            "psicoeducacion_sobre_ansiedad",
+            "plan_manejo_crisis"
+        ]
+    },
+    "fortalezas": [
+        "red_apoyo_familiar_solida",
+        "compromiso_profesional",
+        "capacidad_reflexiva"
+    ],
+    "objetivos_4_semanas": [
+        "reducir_frecuencia_ataques_panico_75_por_ciento",
+        "implementar_tecnicas_respiracion_diariamente",
+        "establecer_limites_laborales_claros"
+    ],
+    "plan_inicial": {
+        "modalidad": "virtual",
+        "frecuencia": "bi-semanal",
+        "enfoque": [
+            "CBT_para_ansiedad",
+            "tecnicas_mindfulness",
+            "manejo_estres"
+        ],
+        "tareas": [
+            "registro_ataques_panico",
+            "practica_respiracion_3x_dia",
+            "establecimiento_rutinas"
+        ]
+    },
+    "proxima_cita_iso8601": "2025-09-18T14:30:00-06:00",
+    "consentimiento_informado": true
 }
