@@ -1,0 +1,88 @@
+{
+    "perfil_psicologico_inicial": {
+        "metadata": {
+            "version": "1.0",
+            "fecha_registro_iso8601": "2025-08-23T16:00:00-05:00",
+            "clinico": {
+                "nombre": "Lic. Andrea López",
+                "credenciales": "Psicóloga"
+            }
+        },
+        "usuario": {
+            "nombre_preferido": "Juan",
+            "edad": 27,
+            "genero": "masculino",
+            "pronombres": "él",
+            "ubicacion": "Bogotá, Colombia",
+            "estado_civil": "soltero (ruptura reciente)"
+        },
+        "motivo_consulta": {
+            "descripcion_breve": "Duelo por ruptura con su novia hace ~1 semana; tristeza, rumiación y alteraciones del sueño.",
+            "objetivos_iniciales_usuario": [
+                "entender el duelo",
+                "dormir mejor",
+                "reducir rumiación"
+            ]
+        },
+        "presentacion_actual": {
+            "sintomas_principales": [
+                "tristeza",
+                "llanto_fácil",
+                "insomnio_inicial",
+                "rumiacion",
+                "disminucion_apetito"
+            ],
+            "inicio": "1_semana",
+            "impacto_funcional": {
+                "laboral": "leve-moderado",
+                "social": "moderado",
+                "autocuidado": "afectado (sueño)"
+            },
+            "habitos_clave": {
+                "sueno_horas": 5.0,
+                "apetito": "disminuido",
+                "actividad_fisica": "1x/semana",
+                "sustancias": {
+                    "alcohol": "ocasional",
+                    "tabaco": "no",
+                    "cafeina": "2-3_tazas_dia"
+                }
+            }
+        },
+        "riesgo": {
+            "ideacion_autolesiva": "niega",
+            "riesgo_hacia_terceros": "no",
+            "nivel_riesgo_global": "bajo",
+            "acciones_inmediatas": [
+                "psicoeducacion_sobre_duelo",
+                "plan_basico_de_seguridad"
+            ]
+        },
+        "fortalezas": [
+            "apoyo_familiar_y_amigos",
+            "buen_insight",
+            "motivacion_para_el_cambio"
+        ],
+        "objetivos_4_semanas": [
+            "dormir_7h_en_5_noches_por_semana",
+            "reducir_rumiacion_50_por_ciento",
+            "retomar_actividades_placenteras_3x_semana"
+        ],
+        "plan_inicial": {
+            "modalidad": "virtual/presencial",
+            "frecuencia": "semanal",
+            "enfoque": [
+                "apoyo",
+                "psicoeducacion",
+                "CBT_breve (segun_criterio)"
+            ],
+            "tareas": [
+                "higiene_de_sueno_basica",
+                "diario_de_emociones_1x_dia",
+                "agenda_de_actividades_placenteras"
+            ]
+        },
+        "proxima_cita_iso8601": "2025-08-30T10:00:00-05:00",
+        "consentimiento_informado": true
+    }
+}

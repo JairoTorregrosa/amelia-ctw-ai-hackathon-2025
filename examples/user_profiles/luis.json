@@ -1,0 +1,90 @@
+{
+    "perfil_psicologico_inicial": {
+        "metadata": {
+            "version": "1.0",
+            "fecha_registro_iso8601": "2025-06-18T09:30:00-05:00",
+            "clinico": {
+                "nombre": "Lic. Miguel Vargas",
+                "credenciales": "Psicólogo Especialista en Adicciones"
+            }
+        },
+        "usuario": {
+            "nombre_preferido": "Luis",
+            "edad": 38,
+            "genero": "masculino",
+            "pronombres": "él",
+            "ubicacion": "Lima, Perú",
+            "estado_civil": "casado, 3 hijos menores"
+        },
+        "motivo_consulta": {
+            "descripcion_breve": "Recuperación de trastorno por consumo de alcohol; 45 días sobrio tras intervención familiar; conflictos matrimoniales.",
+            "objetivos_iniciales_usuario": [
+                "mantener sobriedad",
+                "reparar relación familiar",
+                "desarrollar estrategias de afrontamiento"
+            ]
+        },
+        "presentacion_actual": {
+            "sintomas_principales": [
+                "craving_ocasional",
+                "ansiedad_situacional",
+                "culpa_intensa",
+                "alteraciones_sueno",
+                "tension_interpersonal"
+            ],
+            "inicio": "problema_cronico_6_anos",
+            "impacto_funcional": {
+                "laboral": "estable_mejorado",
+                "social": "muy_afectado",
+                "autocuidado": "en_recuperacion"
+            },
+            "habitos_clave": {
+                "sueno_horas": 7.0,
+                "apetito": "recuperandose",
+                "actividad_fisica": "caminata_diaria",
+                "sustancias": {
+                    "alcohol": "abstinencia_45_dias",
+                    "tabaco": "si_2_cajetillas_dia",
+                    "cafeina": "moderada"
+                }
+            }
+        },
+        "riesgo": {
+            "ideacion_autolesiva": "niega_actualmente",
+            "riesgo_hacia_terceros": "no_actual",
+            "nivel_riesgo_global": "moderado",
+            "acciones_inmediatas": [
+                "plan_prevencion_recaidas",
+                "terapia_familiar_programada",
+                "grupos_apoyo"
+            ]
+        },
+        "fortalezas": [
+            "motivacion_cambio_alta",
+            "45_dias_sobriedad",
+            "reconoce_impacto_familia",
+            "empleo_estable"
+        ],
+        "objetivos_4_semanas": [
+            "completar_90_dias_sobriedad",
+            "participar_terapia_familiar_semanal",
+            "implementar_plan_manejo_craving"
+        ],
+        "plan_inicial": {
+            "modalidad": "presencial_grupal_individual",
+            "frecuencia": "2x_semana_individual_1x_grupal",
+            "enfoque": [
+                "terapia_cognitivo_conductual",
+                "prevencion_recaidas",
+                "terapia_familiar_sistemica"
+            ],
+            "tareas": [
+                "registro_craving_diario",
+                "asistencia_AA",
+                "actividades_familiares_programadas"
+            ]
+        },
+        "proxima_cita_iso8601": "2025-06-21T09:30:00-05:00",
+        "consentimiento_informado": true
+    }
+}

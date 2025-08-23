@@ -1,0 +1,89 @@
+{
+    "perfil_psicologico_inicial": {
+        "metadata": {
+            "version": "1.0",
+            "fecha_registro_iso8601": "2025-07-10T11:00:00-03:00",
+            "clinico": {
+                "nombre": "Lic. Roberto Fernández",
+                "credenciales": "Psicólogo Laboral"
+            }
+        },
+        "usuario": {
+            "nombre_preferido": "Carlos",
+            "edad": 45,
+            "genero": "masculino",
+            "pronombres": "él",
+            "ubicacion": "Buenos Aires, Argentina",
+            "estado_civil": "divorciado, 1 hijo adolescente"
+        },
+        "motivo_consulta": {
+            "descripcion_breve": "Episodio depresivo mayor con burnout laboral tras 6 meses de sobrecarga; sentimientos de inutilidad y desesperanza.",
+            "objetivos_iniciales_usuario": [
+                "recuperar motivación laboral",
+                "mejorar estado anímico",
+                "reconstruir relación con su hijo"
+            ]
+        },
+        "presentacion_actual": {
+            "sintomas_principales": [
+                "animo_deprimido",
+                "anhedonia",
+                "fatiga_cronica",
+                "concentracion_disminuida",
+                "irritabilidad"
+            ],
+            "inicio": "6_meses",
+            "impacto_funcional": {
+                "laboral": "severo",
+                "social": "severo",
+                "autocuidado": "muy_afectado"
+            },
+            "habitos_clave": {
+                "sueno_horas": 4.5,
+                "apetito": "muy_disminuido",
+                "actividad_fisica": "ninguna",
+                "sustancias": {
+                    "alcohol": "moderado_diario",
+                    "tabaco": "1_paquete_dia",
+                    "cafeina": "6+_tazas_dia"
+                }
+            }
+        },
+        "riesgo": {
+            "ideacion_autolesiva": "ideacion_pasiva_ocasional",
+            "riesgo_hacia_terceros": "no",
+            "nivel_riesgo_global": "moderado-alto",
+            "acciones_inmediatas": [
+                "evaluacion_psiquiatrica",
+                "plan_seguridad_detallado",
+                "red_apoyo_inmediata"
+            ]
+        },
+        "fortalezas": [
+            "experiencia_profesional_valiosa",
+            "amor_por_su_hijo",
+            "reconoce_necesidad_ayuda"
+        ],
+        "objetivos_4_semanas": [
+            "estabilizar_sueno_6h_minimo",
+            "reducir_consumo_alcohol_50_por_ciento",
+            "retomar_contacto_regular_con_hijo"
+        ],
+        "plan_inicial": {
+            "modalidad": "presencial",
+            "frecuencia": "semanal_con_seguimientos",
+            "enfoque": [
+                "CBT_para_depresion",
+                "terapia_interpersonal",
+                "intervencion_crisis"
+            ],
+            "tareas": [
+                "registro_estado_animo_diario",
+                "plan_reduccion_alcohol",
+                "actividad_placentera_pequena_diaria"
+            ]
+        },
+        "proxima_cita_iso8601": "2025-07-15T11:00:00-03:00",
+        "consentimiento_informado": true
+    }
+}
