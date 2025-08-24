@@ -26,17 +26,10 @@ import { MessageSender } from '@/types/constants';
 
 export default function DashboardPage() {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
-  // Initialize default date range: today minus one week through today
-  const formatISODate = (d: Date): string =>
-    new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0, 10);
-  const today = new Date();
-  const initialTo = formatISODate(today);
-  const oneWeekAgo = new Date(today);
-  oneWeekAgo.setDate(today.getDate() - 7);
-  const initialFrom = formatISODate(oneWeekAgo);
+  // Initialize default date range: 2025-08-24 through 2025-09-13
   const [dateRange, setDateRange] = useState({
-    from: initialFrom,
-    to: initialTo,
+    from: '2025-08-24',
+    to: '2025-09-13',
   });
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [engagementHelpOpen, setEngagementHelpOpen] = useState(false);
@@ -60,7 +53,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!selectedPatientId && patients && patients.length > 0) {
-      setSelectedPatientId(patients[0].id);
+      const defaultCarlos = patients.find((p) =>
+        (p.full_name || '').toLowerCase().includes('carlos'),
+      );
+      setSelectedPatientId((defaultCarlos || patients[0]).id);
     }
   }, [patients, selectedPatientId]);
 
