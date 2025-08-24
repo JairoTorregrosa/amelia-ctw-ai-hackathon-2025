@@ -26,6 +26,8 @@ import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { format, parseISO } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Clock } from 'lucide-react';
 import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
 import { MessageSender } from '@/types/constants';
 
@@ -250,6 +252,16 @@ export default function DashboardPage() {
         {/* Date Range Picker */}
         <div className="mb-6">
           <DateRangePicker dateRange={dateRange} onDateRangeChange={setDateRange} />
+        </div>
+
+        {/* Report Generation Notice */}
+        <div className="mb-6">
+          <Alert className="border-blue-200 bg-blue-50">
+            <Clock className="h-4 w-4 text-blue-600" />
+            <AlertDescription className="text-blue-800">
+              <strong>Note:</strong> Reports and insights may take up to 10 minutes to be generated and become viewable in the dashboard after a conversation is finished.
+            </AlertDescription>
+          </Alert>
         </div>
 
         {/* Insights Grid */}
