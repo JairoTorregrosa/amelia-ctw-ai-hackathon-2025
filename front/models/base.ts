@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/libraries/supabase'
 import type { Database, Tables, TablesInsert, TablesUpdate } from '@/types/supabase'
 
 // Generic types for public schema tables

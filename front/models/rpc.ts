@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/libraries/supabase'
 import type { Database } from '@/types/supabase'
 import { ensure } from './base'
 
