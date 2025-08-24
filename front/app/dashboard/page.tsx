@@ -19,8 +19,8 @@ import { format, parseISO, isValid as isValidDate } from "date-fns"
 export default function DashboardPage() {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null)
   const [dateRange, setDateRange] = useState({
-    from: "2025-07-15",
-    to: "2025-07-22",
+    from: "2025-08-15",
+    to: "2025-08-29",
   })
   const [isLoadingSummary, setIsLoadingSummary] = useState(false)
 
@@ -177,7 +177,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Charts Grid */}
-        <InsightCharts isLoading={isLoadingSummary} />
+        <InsightCharts
+          isLoading={isLoadingSummary}
+          patientId={selectedPatientId ?? undefined}
+          dateRange={{ from: dateRange.from, to: dateRange.to }}
+        />
       </div>
     </div>
   )

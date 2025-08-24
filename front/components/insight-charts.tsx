@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   LineChart,
@@ -18,7 +18,10 @@ import {
 } from "recharts"
 import { TrendingUp, MessageSquare, AlertTriangle, Activity } from "lucide-react"
 import { ChartLoadingSkeleton } from "./chart-loading-skeleton"
-import { CrisisEmotionModal, getCrisisDetails, getEmotionDetails } from "./crisis-emotion-modal"
+import { CrisisEmotionModal, getCrisisDetails } from "./crisis-emotion-modal"
+import { useQuery } from "@tanstack/react-query"
+import { fetchPrimaryEmotionInsightsByPatient, type PrimaryEmotionItem } from "@/models/conversation_insights"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 // Mock data for charts
 const moodData = [
@@ -42,14 +45,6 @@ const sessionData = [
   { day: "Sun", sessions: 1, engagement: 82 },
 ]
 
-const emotionData = [
-  { name: "Calm", value: 35, color: "#A5E3D0" },
-  { name: "Anxious", value: 25, color: "#6CAEDD" },
-  { name: "Happy", value: 20, color: "#C7B7E8" },
-  { name: "Sad", value: 15, color: "#F97316" },
-  { name: "Angry", value: 5, color: "#EF4444" },
-]
-
 const crisisData = [
   { time: "09:30", intensity: 8, duration: 15 },
   { time: "14:20", intensity: 6, duration: 8 },
@@ -58,12 +53,35 @@ const crisisData = [
 
 interface InsightChartsProps {
   isLoading?: boolean
+  patientId?: string
+  dateRange?: { from: string; to: string }
 }
 
-export function InsightCharts({ isLoading = false }: InsightChartsProps) {
+type AggregatedEmotion = {
+  name: string
+  count: number
+  avgIntensity: number | null
+  triggers: string[]
+  contexts: string[]
+  color: string
+}
+
+const EMOTION_COLORS: Record<string, string> = {
+  joy: "#A5E3D0",
+  sadness: "#6CAEDD",
+  anger: "#EF4444",
+  fear: "#F59E0B",
+  disgust: "#10B981",
+  surprise: "#C7B7E8",
+}
+
+const ALLOWED_EMOTIONS = new Set(["joy", "sadness", "anger", "fear", "surprise", "disgust"])
+
+export function InsightCharts({ isLoading = false, patientId, dateRange }: InsightChartsProps) {
   const [modalOpen, setModalOpen] = useState(false)
   const [modalType, setModalType] = useState<"crisis" | "emotion">("crisis")
   const [modalData, setModalData] = useState<any>(null)
+  const [selectedEmotion, setSelectedEmotion] = useState<AggregatedEmotion | null>(null)
 
   const handleCrisisClick = (crisisIndex: number) => {
     const crisisDetails = getCrisisDetails(crisisIndex)
@@ -75,13 +93,71 @@ export function InsightCharts({ isLoading = false }: InsightChartsProps) {
   }
 
   const handleEmotionClick = (emotionName: string) => {
-    const emotionDetails = getEmotionDetails(emotionName)
-    if (emotionDetails) {
+    const agg = aggregatedEmotions.find((e) => e.name.toLowerCase() === emotionName.toLowerCase())
+    if (agg) {
       setModalType("emotion")
-      setModalData(emotionDetails)
+      setSelectedEmotion(agg)
       setModalOpen(true)
     }
   }
+
+  const { data: primaryEmotionContents, isLoading: loadingPrimaryEmotions } = useQuery({
+    queryKey: ["primaryEmotions", patientId, dateRange?.from, dateRange?.to],
+    enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
+    queryFn: async () => {
+      return fetchPrimaryEmotionInsightsByPatient({
+        patientId: patientId as string,
+        fromIso: `${dateRange!.from}T00:00:00`,
+        toIso: `${dateRange!.to}T23:59:59`,
+      })
+    },
+  })
+
+  const aggregatedEmotions: AggregatedEmotion[] = useMemo(() => {
+    const allItems: PrimaryEmotionItem[] = []
+    for (const content of primaryEmotionContents || []) {
+      const list = content?.primary_emotions || []
+      for (const item of list) {
+        if (item && item.emotion) {
+          const normalized = String(item.emotion).toLowerCase()
+          if (ALLOWED_EMOTIONS.has(normalized)) {
+            allItems.push({ ...item, emotion: normalized })
+          }
+        }
+      }
+    }
+    if (allItems.length === 0) return []
+
+    const byEmotion = new Map<string, { total: number; intensities: number[]; triggers: string[]; contexts: string[] }>()
+    for (const item of allItems) {
+      const key = (item.emotion || "unknown").toLowerCase()
+      if (!byEmotion.has(key)) byEmotion.set(key, { total: 0, intensities: [], triggers: [], contexts: [] })
+      const bucket = byEmotion.get(key)!
+      bucket.total += 1
+      if (typeof item.intensity === 'number') bucket.intensities.push(item.intensity)
+      if (item.trigger) bucket.triggers.push(item.trigger)
+      if (item.context) bucket.contexts.push(item.context)
+    }
+
+    const palette = ["#A5E3D0", "#6CAEDD", "#C7B7E8", "#F97316", "#EF4444", "#10B981"]
+    let i = 0
+
+    return Array.from(byEmotion.entries()).map(([name, b]) => {
+      const avg = b.intensities.length ? b.intensities.reduce((a, n) => a + n, 0) / b.intensities.length : null
+      const color = EMOTION_COLORS[name] || palette[i++ % palette.length]
+      // Deduplicate keeping first occurrences
+      const dedupe = (arr: string[]) => Array.from(new Set(arr)).slice(0, 5)
+      const displayName = name.charAt(0).toUpperCase() + name.slice(1)
+      return {
+        name: displayName,
+        count: b.total,
+        avgIntensity: avg,
+        triggers: dedupe(b.triggers),
+        contexts: dedupe(b.contexts),
+        color,
+      }
+    })
+  }, [primaryEmotionContents])
 
   if (isLoading) {
     return (
@@ -173,7 +249,7 @@ export function InsightCharts({ isLoading = false }: InsightChartsProps) {
           </CardContent>
         </Card>
 
-        {/* Emotion Distribution */}
+        {/* Emotion Distribution (Primary Emotions from Insights) */}
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -182,50 +258,58 @@ export function InsightCharts({ isLoading = false }: InsightChartsProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={emotionData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  paddingAngle={5}
-                  dataKey="value"
-                  onClick={(data) => {
-                    if (data && data.name) {
-                      handleEmotionClick(data.name)
-                    }
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
-                  {emotionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+            {loadingPrimaryEmotions ? (
+              <div className="h-[250px] flex items-center justify-center text-sm text-muted-foreground">Loading emotions…</div>
+            ) : aggregatedEmotions.length === 0 ? (
+              <div className="h-[250px] flex items-center justify-center text-sm text-muted-foreground">No emotion data in range</div>
+            ) : (
+              <>
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart>
+                    <Pie
+                      data={aggregatedEmotions.map((e) => ({ name: e.name, value: e.count, color: e.color }))}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                      onClick={(data) => {
+                        if (data && data.name) {
+                          handleEmotionClick(data.name as string)
+                        }
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {aggregatedEmotions.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#ffffff",
+                        border: "1px solid #e5e7eb",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="flex flex-wrap gap-3 mt-4">
+                  {aggregatedEmotions.map((emotion, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 cursor-pointer hover:bg-muted p-1 rounded transition-colors"
+                      onClick={() => handleEmotionClick(emotion.name)}
+                    >
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: emotion.color }} />
+                      <span className="text-xs text-muted-foreground">
+                        {emotion.name} ({emotion.count})
+                      </span>
+                    </div>
                   ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "8px",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="flex flex-wrap gap-2 mt-4">
-              {emotionData.map((emotion, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 cursor-pointer hover:bg-muted p-1 rounded transition-colors"
-                  onClick={() => handleEmotionClick(emotion.name)}
-                >
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: emotion.color }} />
-                  <span className="text-xs text-muted-foreground">
-                    {emotion.name} ({emotion.value}%)
-                  </span>
                 </div>
-              ))}
-            </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -263,7 +347,54 @@ export function InsightCharts({ isLoading = false }: InsightChartsProps) {
         </Card>
       </div>
 
-      <CrisisEmotionModal isOpen={modalOpen} onClose={() => setModalOpen(false)} type={modalType} data={modalData} />
+      {/* Existing modal for mock crisis data */}
+      <CrisisEmotionModal isOpen={modalOpen && modalType === 'crisis'} onClose={() => setModalOpen(false)} type={modalType} data={modalData} />
+
+      {/* Primary Emotion Details Modal */}
+      <Dialog open={modalOpen && modalType === 'emotion'} onOpenChange={() => setModalOpen(false)}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5" style={{ color: selectedEmotion?.color }} />
+              {selectedEmotion?.name} Details
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <div className="text-xs text-muted-foreground">Occurrences</div>
+                <div className="font-semibold">{selectedEmotion?.count ?? 0}</div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Avg Intensity</div>
+                <div className="font-semibold">{selectedEmotion?.avgIntensity != null ? selectedEmotion?.avgIntensity.toFixed(1) : '—'}</div>
+              </div>
+            </div>
+            <div>
+              <div className="text-sm font-medium mb-1">Common Triggers</div>
+              <div className="flex flex-wrap gap-2">
+                {(selectedEmotion?.triggers || []).map((t, i) => (
+                  <span key={i} className="text-xs px-2 py-1 rounded bg-muted">{t}</span>
+                ))}
+                {(!selectedEmotion || selectedEmotion.triggers.length === 0) && (
+                  <span className="text-xs text-muted-foreground">No triggers</span>
+                )}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm font-medium mb-1">Contexts</div>
+              <ul className="list-disc pl-5 space-y-1 max-h-40 overflow-y-auto">
+                {(selectedEmotion?.contexts || []).map((c, i) => (
+                  <li key={i} className="text-sm">{c}</li>
+                ))}
+                {(!selectedEmotion || selectedEmotion.contexts.length === 0) && (
+                  <span className="text-xs text-muted-foreground">No contexts</span>
+                )}
+              </ul>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
