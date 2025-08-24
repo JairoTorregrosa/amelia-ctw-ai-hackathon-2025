@@ -7,7 +7,4 @@ export type Profile = Row<'profiles'>;
 export type ProfileInsert = Insert<'profiles'>;
 export type ProfileUpdate = Update<'profiles'>;
 
-export enum UserRoleEnum {
-  Patient = 'patient',
-  Therapist = 'therapist',
-}
+// UserRole enum moved to @/types/constants

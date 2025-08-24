@@ -20,14 +20,17 @@ import { LoadingSpinner } from '@/components/loading-spinner';
 import { useQuery } from '@tanstack/react-query';
 import { PatientContext, Profiles } from '@/models';
 import { fetchMessageTimestampsByPatientRange } from '@/models/messages';
-import { CrisisClassificationRow, fetchMoodClassificationByPatientRange } from '@/models/conversation_insights';
-import { fetchCrisisClassificationByPatientRange } from '@/models/conversation_insights';
+import {
+  fetchMoodClassificationByPatientRange,
+  fetchCrisisClassificationByPatientRange,
+} from '@/models/conversation_insights';
 import { fetchConversationsByPatientRange } from '@/models/conversations';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { format, parseISO } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { MoodClassificationRow } from '@/models/conversation_insights';
+import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
+import { MessageSender } from '@/types/constants';
 
 export default function DashboardPage() {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
@@ -89,7 +92,7 @@ export default function DashboardPage() {
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
-        sender: 'patient',
+        sender: MessageSender.Patient,
       });
       const days = new Set(
         timestamps.map((iso) => iso.slice(0, 10)), // YYYY-MM-DD
@@ -114,9 +117,9 @@ export default function DashboardPage() {
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
       });
-      const scores: number[] = rows
+      const scores = rows
         .map((row: MoodClassificationRow) => row?.content?.mood_score)
-        .filter((n: number | undefined) => typeof n === 'number' && n >= 0 && n <= 10);
+        .filter((n: number | undefined): n is number => typeof n === 'number' && n >= 0 && n <= 10);
       if (scores.length === 0) return null;
       const avg = scores.reduce((a, n) => a + n, 0) / scores.length;
       return Math.round(avg * 10) / 10;

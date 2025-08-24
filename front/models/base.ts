@@ -18,15 +18,18 @@ export type ListOptions<N extends TableName> = {
   range?: { from: number; to: number };
 };
 
-export function ensure<T>(data: T | null, error: any): T {
+export function ensure<T>(data: T | null, error: Error | null): T {
   if (error) throw error;
   return data as T;
 }
-export function applyListOptions<N extends TableName>(qb: any, options?: ListOptions<N>) {
+export function applyListOptions<N extends TableName>(
+  qb: ReturnType<typeof supabase.from>,
+  options?: ListOptions<N>,
+) {
   let query = qb.select(options?.select || '*');
 
   if (options?.filters) {
-    query = query.match(options.filters as Record<string, any>);
+    query = query.match(options.filters as Record<string, unknown>);
   }
 
   if (options?.order) {
@@ -62,7 +65,7 @@ export function makeRepository<N extends TableName>(table: N) {
         .select(select || '*')
         .eq('id', id as any)
         .maybeSingle();
-      if (error && (error as any).code !== 'PGRST116') throw error;
+      if (error && 'code' in error && error.code !== 'PGRST116') throw error;
       return (data as Row<N>) ?? null;
     },
 

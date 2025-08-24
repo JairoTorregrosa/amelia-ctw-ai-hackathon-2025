@@ -21,10 +21,15 @@ import { ChartLoadingSkeleton } from './chart-loading-skeleton';
 import { useQuery } from '@tanstack/react-query';
 import {
   fetchPrimaryEmotionInsightsByPatient,
-  type PrimaryEmotionItem,
   fetchMoodClassificationByPatientRange,
   fetchCrisisClassificationByPatientRange,
 } from '@/models/conversation_insights';
+import type {
+  PrimaryEmotionItem,
+  AggregatedEmotion,
+  CrisisClassificationRow,
+} from '@/types/insights';
+import { EMOTION_COLORS } from '@/types/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { fetchConversationsByPatientRange } from '@/models/conversations';
 import { format, eachDayOfInterval } from 'date-fns';
@@ -35,33 +40,19 @@ interface InsightChartsProps {
   dateRange?: { from: string; to: string };
 }
 
-type AggregatedEmotion = {
-  name: string;
-  count: number;
-  avgIntensity: number | null;
-  triggers: string[];
-  contexts: string[];
-  color: string;
-};
+// AggregatedEmotion type moved to @/types/insights
 
-const EMOTION_COLORS: Record<string, string> = {
-  joy: '#A5E3D0',
-  sadness: '#6CAEDD',
-  anger: '#EF4444',
-  fear: '#F59E0B',
-  disgust: '#10B981',
-  surprise: '#C7B7E8',
-};
+// EMOTION_COLORS moved to @/types/constants
 
 const ALLOWED_EMOTIONS = new Set(['joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust']);
 
 export function InsightCharts({ isLoading = false, patientId, dateRange }: InsightChartsProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'emotion' | 'crisis-classification'>('emotion');
-  const [modalData, setModalData] = useState<any>(null);
+  const [modalData, setModalData] = useState<CrisisClassificationRow | null>(null);
   const [selectedEmotion, setSelectedEmotion] = useState<AggregatedEmotion | null>(null);
 
-  const handleCrisisClassificationClick = (item: any) => {
+  const handleCrisisClassificationClick = (item: CrisisClassificationRow) => {
     setModalType('crisis-classification');
     setModalData(item);
     setModalOpen(true);
@@ -105,13 +96,13 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     // Group by created_at day and average mood_score
     const items: { date: string; score: number }[] = [];
     for (const row of moodRows || []) {
-      const content: any = (row as any)?.content;
+      const content = row?.content as { mood_score?: number } | undefined;
       if (!content) continue;
       const rawScore = content?.mood_score;
       const derived =
         typeof rawScore === 'number' && rawScore >= 0 && rawScore <= 10 ? rawScore : undefined;
       if (derived == null) continue;
-      const ts: string | undefined = (row as any)?.created_at;
+      const ts: string | undefined = row?.created_at;
       if (!ts) continue;
       const day = ts.slice(0, 10);
       items.push({ date: day, score: derived });
@@ -233,16 +224,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
 
   const crisisItems = useMemo(() => {
     const list = (crisisRows || [])
-      .map((r: any) => ({
-        created_at: r?.created_at as string,
-        is_crisis: Boolean(r?.content?.is_crisis),
-        crisis_severity: r?.content?.crisis_severity || '',
-        activator: r?.content?.activator || '',
-        belief: r?.content?.belief || '',
-        consequence: r?.content?.consequence || '',
-        context: r?.content?.context || '',
-      }))
-      .filter((x) => x.is_crisis)
+      .filter((r: CrisisClassificationRow) => Boolean(r.content?.is_crisis))
       .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
     return list;
   }, [crisisRows]);
@@ -436,11 +418,11 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                         {format(new Date(item.created_at), 'MMM d, yyyy HH:mm')}
                       </div>
                       <div className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700">
-                        {item.crisis_severity || 'unspecified'}
+                        {item.content?.crisis_severity || 'unspecified'}
                       </div>
                     </div>
                     <div className="text-muted-foreground mt-1 line-clamp-2 text-xs">
-                      {item.context}
+                      {item.content?.context}
                     </div>
                   </div>
                 ))}
@@ -527,36 +509,36 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
               <div>
                 <div className="text-muted-foreground text-xs">Severity</div>
                 <div className="font-medium capitalize">
-                  {modalData?.crisis_severity || 'unspecified'}
+                  {modalData?.content?.crisis_severity || 'unspecified'}
                 </div>
               </div>
               <div>
                 <div className="text-muted-foreground text-xs">Is Crisis</div>
-                <div className="font-medium">{modalData?.is_crisis ? 'Yes' : 'No'}</div>
+                <div className="font-medium">{modalData?.content?.is_crisis ? 'Yes' : 'No'}</div>
               </div>
             </div>
-            {modalData?.activator ? (
+            {modalData?.content?.activator ? (
               <div>
                 <div className="text-sm font-medium">Activator</div>
-                <div className="text-muted-foreground text-sm">{modalData.activator}</div>
+                <div className="text-muted-foreground text-sm">{modalData.content.activator}</div>
               </div>
             ) : null}
-            {modalData?.belief ? (
+            {modalData?.content?.belief ? (
               <div>
                 <div className="text-sm font-medium">Belief</div>
-                <div className="text-muted-foreground text-sm">{modalData.belief}</div>
+                <div className="text-muted-foreground text-sm">{modalData.content.belief}</div>
               </div>
             ) : null}
-            {modalData?.consequence ? (
+            {modalData?.content?.consequence ? (
               <div>
                 <div className="text-sm font-medium">Consequence</div>
-                <div className="text-muted-foreground text-sm">{modalData.consequence}</div>
+                <div className="text-muted-foreground text-sm">{modalData.content.consequence}</div>
               </div>
             ) : null}
             <div>
               <div className="text-sm font-medium">Context</div>
               <div className="text-muted-foreground text-sm whitespace-pre-wrap">
-                {modalData?.context || '—'}
+                {modalData?.content?.context || '—'}
               </div>
             </div>
           </div>

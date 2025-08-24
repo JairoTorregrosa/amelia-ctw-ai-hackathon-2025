@@ -16,15 +16,7 @@ export const Rpc = {
       error,
     );
   },
-  get_conversation_insights: async (
-    args: Database['public']['Functions']['get_conversation_insights']['Args'],
-  ) => {
-    const { data, error } = await supabase.rpc('get_conversation_insights', args);
-    return ensure<Database['public']['Functions']['get_conversation_insights']['Returns']>(
-      data,
-      error,
-    );
-  },
+  // get_conversation_insights function not available in current database schema
   get_conversation_timeout_minutes: async (
     args: Database['public']['Functions']['get_conversation_timeout_minutes']['Args'],
   ) => {

@@ -5,6 +5,7 @@ import { CalendarDays, AlertTriangle, Heart } from 'lucide-react';
 import { LoadingSpinner } from './loading-spinner';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
+import { RISK_LEVEL_COLORS } from '@/types/constants';
 import { format, parseISO, isValid as isValidDate } from 'date-fns';
 
 interface PatientSidebarProps {
@@ -22,23 +23,7 @@ export function PatientSidebar({
 }: PatientSidebarProps) {
   const getRiskColor = (level?: string) => {
     const normalized = (level || '').toLowerCase();
-    switch (normalized) {
-      case 'low':
-      case 'bajo':
-        return 'bg-green-100 text-green-800';
-      case 'bajo-moderado':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'medium':
-      case 'moderado':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'moderado-alto':
-        return 'bg-orange-100 text-orange-800';
-      case 'high':
-      case 'alto':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+    return RISK_LEVEL_COLORS[normalized] || RISK_LEVEL_COLORS.default;
   };
 
   const formatRiskLabel = (label?: string) => {
