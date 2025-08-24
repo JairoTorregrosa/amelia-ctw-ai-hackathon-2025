@@ -16,10 +16,7 @@ export type ChartConfig = {
   [k in string]: {
     label?: ReactNode;
     icon?: React.ComponentType;
-  } & (
-    | { color?: string; theme?: never }
-    | { color?: never; theme: Record<string, string> }
-  );
+  } & ({ color?: string; theme?: never } | { color?: never; theme: Record<string, string> });
 };
 
 // Date range types

@@ -9,7 +9,9 @@ export type Conversation = Row<'conversations'>;
 export type ConversationInsert = Insert<'conversations'>;
 export type ConversationUpdate = Update<'conversations'>;
 
-export async function fetchConversationsByPatientRange(params: InsightQueryParams): Promise<Conversation[]> {
+export async function fetchConversationsByPatientRange(
+  params: InsightQueryParams,
+): Promise<Conversation[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversations')

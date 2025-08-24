@@ -20,14 +20,15 @@ export interface MoodClassificationContent {
   confidence?: number;
   factors?: string[];
   timestamp?: string;
+  mood_score?: number;
 }
 
 export interface MoodClassificationRow {
   created_at: string;
   content: MoodClassificationContent;
-  conversations?: { 
-    started_at?: string | null; 
-    last_message_at?: string | null; 
+  conversations?: {
+    started_at?: string | null;
+    last_message_at?: string | null;
   } | null;
 }
 
@@ -48,9 +49,9 @@ export interface CrisisClassificationContent {
 export interface CrisisClassificationRow {
   created_at: string;
   content: CrisisClassificationContent;
-  conversations?: { 
-    started_at?: string | null; 
-    last_message_at?: string | null; 
+  conversations?: {
+    started_at?: string | null;
+    last_message_at?: string | null;
   } | null;
 }
 
@@ -72,7 +73,7 @@ export interface InsightQueryParams {
 }
 
 // Generic insight content type
-export type InsightContent = 
-  | PrimaryEmotionContent 
-  | MoodClassificationContent 
+export type InsightContent =
+  | PrimaryEmotionContent
+  | MoodClassificationContent
   | CrisisClassificationContent;

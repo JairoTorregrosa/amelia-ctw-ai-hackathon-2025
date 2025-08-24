@@ -54,21 +54,29 @@ export const EMOTION_COLORS: Record<string, string> = {
 // Risk level color mappings
 export const RISK_LEVEL_COLORS: Record<string, string> = {
   low: 'bg-green-100 text-green-800',
-  'bajo': 'bg-green-100 text-green-800',
+  bajo: 'bg-green-100 text-green-800',
   'bajo-moderado': 'bg-yellow-100 text-yellow-800',
   medium: 'bg-yellow-100 text-yellow-800',
-  'moderado': 'bg-yellow-100 text-yellow-800',
+  moderado: 'bg-yellow-100 text-yellow-800',
   'moderado-alto': 'bg-orange-100 text-orange-800',
   high: 'bg-red-100 text-red-800',
-  'alto': 'bg-red-100 text-red-800',
+  alto: 'bg-red-100 text-red-800',
   critical: 'bg-red-500 text-white',
   default: 'bg-gray-100 text-gray-800',
 } as const;
 
 // Chart configuration constants
 export const CHART_COLORS = [
-  '#A5E3D0', '#6CAEDD', '#EF4444', '#F59E0B', '#8B5CF6',
-  '#10B981', '#F97316', '#06B6D4', '#EC4899', '#84CC16'
+  '#A5E3D0',
+  '#6CAEDD',
+  '#EF4444',
+  '#F59E0B',
+  '#8B5CF6',
+  '#10B981',
+  '#F97316',
+  '#06B6D4',
+  '#EC4899',
+  '#84CC16',
 ] as const;
 
 // API endpoints (if needed)

@@ -27,5 +27,5 @@ export async function fetchMessageTimestampsByPatientRange(params: {
 
   const { data, error } = await query;
   if (error) throw error;
-  return (data || []).map((r: { created_at: string; sender: MessageSender }) => r.created_at);
+  return (data || []).map((r: any) => r.created_at as string);
 }

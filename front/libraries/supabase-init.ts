@@ -3,7 +3,7 @@ import { supabase } from './supabase';
 // Test Supabase connection
 export async function testSupabaseConnection() {
   try {
-    const { data, error } = await supabase.from('_test').select('*').limit(1);
+    const { data, error } = await supabase.from('profiles').select('*').limit(1);
 
     if (error && error.code === 'PGRST116') {
       // Table doesn't exist, but connection is working

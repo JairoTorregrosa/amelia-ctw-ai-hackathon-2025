@@ -22,7 +22,10 @@ export function ensure<T>(data: T | null, error: Error | null): T {
   if (error) throw error;
   return data as T;
 }
-export function applyListOptions<N extends TableName>(qb: ReturnType<typeof supabase.from>, options?: ListOptions<N>) {
+export function applyListOptions<N extends TableName>(
+  qb: ReturnType<typeof supabase.from>,
+  options?: ListOptions<N>,
+) {
   let query = qb.select(options?.select || '*');
 
   if (options?.filters) {
@@ -60,7 +63,7 @@ export function makeRepository<N extends TableName>(table: N) {
       const { data, error } = await supabase
         .from(table)
         .select(select || '*')
-        .eq('id', id as string | number)
+        .eq('id', id as any)
         .maybeSingle();
       if (error && 'code' in error && error.code !== 'PGRST116') throw error;
       return (data as Row<N>) ?? null;
@@ -69,7 +72,7 @@ export function makeRepository<N extends TableName>(table: N) {
     async create(payload: Insert<N>): Promise<Row<N>> {
       const { data, error } = await supabase
         .from(table)
-        .insert(payload as Record<string, unknown>)
+        .insert(payload as any)
         .select()
         .single();
       return ensure<Row<N>>(data as Row<N> | null, error);
@@ -78,7 +81,7 @@ export function makeRepository<N extends TableName>(table: N) {
     async upsert(payload: Insert<N>): Promise<Row<N>> {
       const { data, error } = await supabase
         .from(table)
-        .upsert(payload as Record<string, unknown>)
+        .upsert(payload as any)
         .select()
         .single();
       return ensure<Row<N>>(data as Row<N> | null, error);
@@ -87,8 +90,8 @@ export function makeRepository<N extends TableName>(table: N) {
     async update(id: IdOf<N>, payload: Update<N>): Promise<Row<N>> {
       const { data, error } = await supabase
         .from(table)
-        .update(payload as Record<string, unknown>)
-        .eq('id', id as string | number)
+        .update(payload as any)
+        .eq('id', id as any)
         .select()
         .single();
       return ensure<Row<N>>(data as Row<N> | null, error);
@@ -98,7 +101,7 @@ export function makeRepository<N extends TableName>(table: N) {
       const { error } = await supabase
         .from(table)
         .delete()
-        .eq('id', id as string | number);
+        .eq('id', id as any);
       if (error) throw error;
     },
   };

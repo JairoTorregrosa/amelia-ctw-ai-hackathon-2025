@@ -1,11 +1,11 @@
 import { makeRepository } from './base';
 import type { Row, Insert, Update } from './base';
 import { supabase } from '@/libraries/supabase';
-import type { 
-  PrimaryEmotionContent, 
-  MoodClassificationRow, 
+import type {
+  PrimaryEmotionContent,
+  MoodClassificationRow,
   CrisisClassificationRow,
-  InsightQueryParams 
+  InsightQueryParams,
 } from '@/types/insights';
 
 export const ConversationInsights = makeRepository('conversation_insights');
@@ -16,7 +16,9 @@ export type ConversationInsightUpdate = Update<'conversation_insights'>;
 
 // Types moved to @/types/insights
 
-export async function fetchPrimaryEmotionInsightsByPatient(params: InsightQueryParams): Promise<PrimaryEmotionContent[]> {
+export async function fetchPrimaryEmotionInsightsByPatient(
+  params: InsightQueryParams,
+): Promise<PrimaryEmotionContent[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversation_insights')
@@ -35,12 +37,14 @@ export async function fetchPrimaryEmotionInsightsByPatient(params: InsightQueryP
 
   if (error) throw error;
   // Return only the content json array
-  return (data || []).map((row: { content: PrimaryEmotionContent }) => row.content);
+  return (data || []).map((row: any) => row.content as PrimaryEmotionContent);
 }
 
 // Mood classification types moved to @/types/insights
 
-export async function fetchMoodClassificationByPatientRange(params: InsightQueryParams): Promise<MoodClassificationRow[]> {
+export async function fetchMoodClassificationByPatientRange(
+  params: InsightQueryParams,
+): Promise<MoodClassificationRow[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversation_insights')
@@ -63,7 +67,9 @@ export async function fetchMoodClassificationByPatientRange(params: InsightQuery
 
 // Crisis classification types moved to @/types/insights
 
-export async function fetchCrisisClassificationByPatientRange(params: InsightQueryParams): Promise<CrisisClassificationRow[]> {
+export async function fetchCrisisClassificationByPatientRange(
+  params: InsightQueryParams,
+): Promise<CrisisClassificationRow[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversation_insights')
