@@ -20,7 +20,7 @@ import { TrendingUp, MessageSquare, AlertTriangle, Activity } from "lucide-react
 import { ChartLoadingSkeleton } from "./chart-loading-skeleton"
 import { CrisisEmotionModal, getCrisisDetails } from "./crisis-emotion-modal"
 import { useQuery } from "@tanstack/react-query"
-import { fetchPrimaryEmotionInsightsByPatient, type PrimaryEmotionItem } from "@/models/conversation_insights"
+import { fetchPrimaryEmotionInsightsByPatient, type PrimaryEmotionItem, fetchMoodClassificationByPatientRange } from "@/models/conversation_insights"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { fetchConversationsByPatientRange } from "@/models/conversations"
 import { format, eachDayOfInterval } from "date-fns"
@@ -114,6 +114,49 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
       })
     },
   })
+
+  const { data: moodRows } = useQuery({
+    queryKey: ["moodClassification", patientId, dateRange?.from, dateRange?.to],
+    enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
+    queryFn: async () => {
+      return fetchMoodClassificationByPatientRange({
+        patientId: patientId as string,
+        fromIso: `${dateRange!.from}T00:00:00`,
+        toIso: `${dateRange!.to}T23:59:59`,
+      })
+    },
+  })
+
+  const moodDaily = useMemo(() => {
+    // Expected content shape: { context: string, mood_score: number, classification_type: string }
+    // Group by created_at day and average mood_score
+    const items: { date: string; score: number }[] = []
+    for (const row of moodRows || []) {
+      const content: any = (row as any)?.content
+      if (!content) continue
+      const rawScore = content?.mood_score
+      const derived = typeof rawScore === 'number' && rawScore >= 0 && rawScore <= 10 ? rawScore : undefined
+      if (derived == null) continue
+      const ts: string | undefined = (row as any)?.created_at
+      if (!ts) continue
+      const day = ts.slice(0, 10)
+      items.push({ date: day, score: derived })
+    }
+
+    const byDay = new Map<string, number[]>()
+    for (const it of items) {
+      if (!byDay.has(it.date)) byDay.set(it.date, [])
+      byDay.get(it.date)!.push(it.score)
+    }
+
+    const days = eachDayOfInterval({ start: new Date(`${dateRange!.from}T00:00:00`), end: new Date(`${dateRange!.to}T00:00:00`) })
+    return days.map((d) => {
+      const key = format(d, 'yyyy-MM-dd')
+      const arr = byDay.get(key) || []
+      const avg = arr.length ? arr.reduce((a, n) => a + n, 0) / arr.length : null
+      return { date: format(d, 'MM/dd'), mood: avg }
+    })
+  }, [moodRows, dateRange?.from, dateRange?.to])
 
   const { data: dailyConversations } = useQuery({
     queryKey: ["dailyConversations", patientId, dateRange?.from, dateRange?.to],
@@ -211,20 +254,20 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Mood Trends Chart */}
+        {/* Daily Mood (Average per day) */}
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-primary" />
-              Mood & Anxiety Trends
+              Daily Average Mood
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={moodData}>
+              <LineChart data={moodDaily}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
-                <YAxis stroke="#6b7280" fontSize={12} />
+                <YAxis stroke="#6b7280" fontSize={12} domain={[0, 10]} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "#ffffff",
@@ -232,22 +275,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                     borderRadius: "8px",
                   }}
                 />
-                <Line
-                  type="monotone"
-                  dataKey="mood"
-                  stroke="#6CAEDD"
-                  strokeWidth={3}
-                  dot={{ fill: "#6CAEDD", strokeWidth: 2, r: 4 }}
-                  name="Mood Score"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="anxiety"
-                  stroke="#A5E3D0"
-                  strokeWidth={3}
-                  dot={{ fill: "#A5E3D0", strokeWidth: 2, r: 4 }}
-                  name="Anxiety Level"
-                />
+                <Line type="monotone" dataKey="mood" stroke="#6CAEDD" strokeWidth={3} dot={{ fill: "#6CAEDD", strokeWidth: 2, r: 4 }} name="Avg Mood" />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>

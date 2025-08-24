@@ -45,4 +45,34 @@ export async function fetchPrimaryEmotionInsightsByPatient(params: {
   return (data || []).map((row: any) => row.content as PrimaryEmotionContent)
 }
 
+// Mood classification
+export type MoodClassificationRow = {
+  created_at: string
+  content: any
+  conversations?: { started_at?: string | null; last_message_at?: string | null } | null
+}
+
+export async function fetchMoodClassificationByPatientRange(params: {
+  patientId: string
+  fromIso: string
+  toIso: string
+}): Promise<MoodClassificationRow[]> {
+  const { patientId, fromIso, toIso } = params
+  const { data, error } = await supabase
+    .from('conversation_insights')
+    .select([
+      'created_at,content',
+      'conversations!inner(started_at,last_message_at,patient_id)',
+      'insight_types!inner(type_key)'
+    ].join(','))
+    .eq('completed', true)
+    .eq('conversations.patient_id', patientId)
+    .gte('conversations.started_at', fromIso)
+    .lte('conversations.last_message_at', toIso)
+    .eq('insight_types.type_key', 'mood_classification')
+
+  if (error) throw error
+  return (data || []) as unknown as MoodClassificationRow[]
+}
+
 
