@@ -17,6 +17,10 @@ interface DateRangePickerProps {
 
 export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const today = new Date();
+  const todayStr = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    .toISOString()
+    .slice(0, 10);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -37,6 +41,7 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
                 value={dateRange.from}
                 onChange={(e) => onDateRangeChange({ ...dateRange, from: e.target.value })}
                 className="border-border mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                max={todayStr}
               />
             </div>
             <div>
@@ -46,6 +51,7 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
                 value={dateRange.to}
                 onChange={(e) => onDateRangeChange({ ...dateRange, to: e.target.value })}
                 className="border-border mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                max={todayStr}
               />
             </div>
           </div>
