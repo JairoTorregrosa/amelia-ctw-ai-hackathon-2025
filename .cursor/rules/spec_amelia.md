@@ -4,7 +4,7 @@ Este documento detalla la arquitectura simplificada para el MVP del sistema de a
 
 ### **Flujo 1: Conversacional**
 
-* **Misión:** Gestionar la interacción en tiempo real con el paciente, manejando los dos casos de uso principales (check-in y log de crisis) y utilizando un contexto calculado en tiempo real.  
+* **Misión:** Gestionar la interacción en tiempo real con el paciente, manejando los dos casos de uso principales (check-in y log de crisis) y utilizando un contexto calculado en tiempo real.
 * **Trigger:** **Webhook** por cada mensaje de WhatsApp.  
 * **Input:** Mensaje del usuario.  
 * **Proceso Detallado (Pasos en N8n):**  
