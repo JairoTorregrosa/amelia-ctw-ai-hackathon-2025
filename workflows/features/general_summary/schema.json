@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "General Summary Schema",
+    "description": "Schema for comprehensive psychological summary based on all raw insights",
+    "type": "object",
+    "properties": {
+        "general_summary": {
+            "type": "object",
+            "properties": {
+                "psychological_summary": {
+                    "type": "string",
+                    "description": "Comprehensive narrative summary of patient's psychological state, emotions, and mood patterns",
+                    "minLength": 400,
+                    "maxLength": 700
+                },
+                "events_summary": {
+                    "type": "string",
+                    "description": "Narrative summary of the most important events, situations, and developments mentioned",
+                    "minLength": 300,
+                    "maxLength": 600
+                },
+                "suggested_questions": {
+                    "type": "array",
+                    "description": "Therapeutic questions for future sessions",
+                    "items": {
+                        "type": "string",
+                        "minLength": 50,
+                        "maxLength": 150
+                    },
+                    "minItems": 5,
+                    "maxItems": 7
+                },
+                "suggested_tasks": {
+                    "type": "array",
+                    "description": "Suggested therapeutic activities and homework",
+                    "items": {
+                        "type": "string",
+                        "minLength": 50,
+                        "maxLength": 200
+                    },
+                    "minItems": 3,
+                    "maxItems": 5
+                }
+            },
+            "required": [
+                "psychological_summary",
+                "events_summary",
+                "suggested_questions",
+                "suggested_tasks"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "general_summary"
+    ],
+    "additionalProperties": false
+}
