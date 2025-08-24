@@ -148,6 +148,36 @@ export default function DashboardPage() {
     },
   });
 
+  const {
+    data: generalSummary,
+    isLoading: loadingGeneralSummary,
+    error: generalSummaryError,
+    refetch: refetchGeneralSummary,
+  } = useQuery({
+    queryKey: ['generalSummary', selectedPatientId, dateRange.from, dateRange.to],
+    enabled: Boolean(selectedPatientId),
+    queryFn: async () => {
+      const qs = new URLSearchParams({
+        start_date: `${dateRange.from}T00:00:00`,
+        end_date: `${dateRange.to}T23:59:59`,
+        patient_id: selectedPatientId as string,
+      })
+      const res = await fetch(`https://imontoyah05.app.n8n.cloud/webhook/general-summary?${qs.toString()}`, {
+        method: 'GET',
+        cache: 'no-store',
+      })
+      if (!res.ok) throw new Error('Failed to fetch summary')
+      const json = await res.json()
+      return (json?.general_summary ?? null) as {
+        psychological_summary?: string
+        events_summary?: string
+        suggested_questions?: string[]
+        suggested_tasks?: string[]
+      } | null
+    },
+    retry: 0,
+  })
+
   const handlePatientChange = (patientId: string) => {
     setSelectedPatientId(patientId);
     setIsLoadingSummary(true);
@@ -278,13 +308,56 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-muted mt-4 rounded-lg p-4">
-                    <p className="text-muted-foreground text-sm">
-                      <strong>Key Insights:</strong> Patient shows significant improvement in
-                      anxiety management. Mood scores have increased by 15% compared to previous
-                      period. Recommended to continue current therapy approach with focus on coping
-                      strategies.
-                    </p>
+                  <div className="bg-muted mt-4 rounded-lg p-4 space-y-2">
+                    <div className="text-sm font-medium">Key Insights</div>
+                    {loadingGeneralSummary ? (
+                      <div className="flex items-center gap-3">
+                        <LoadingSpinner size="sm" />
+                        <div className="text-xs text-muted-foreground">
+                          Generating summary… This may take up to a minute. Please stay on this page.
+                        </div>
+                      </div>
+                    ) : generalSummaryError ? (
+                      <div className="text-xs text-red-600">
+                        Failed to load summary.{' '}
+                        <button className="underline" onClick={() => refetchGeneralSummary()}>
+                          Try again
+                        </button>
+                      </div>
+                    ) : generalSummary ? (
+                      <div className="space-y-3">
+                        {generalSummary.psychological_summary ? (
+                          <p className="text-sm text-muted-foreground">
+                            {generalSummary.psychological_summary}
+                          </p>
+                        ) : null}
+                        {generalSummary.events_summary ? (
+                          <p className="text-xs text-muted-foreground">{generalSummary.events_summary}</p>
+                        ) : null}
+                        {Array.isArray(generalSummary.suggested_questions) && generalSummary.suggested_questions.length > 0 ? (
+                          <div>
+                            <div className="text-xs font-medium mb-1">Suggested Questions</div>
+                            <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
+                              {generalSummary.suggested_questions.map((q, i) => (
+                                <li key={i}>{q}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null}
+                        {Array.isArray(generalSummary.suggested_tasks) && generalSummary.suggested_tasks.length > 0 ? (
+                          <div>
+                            <div className="text-xs font-medium mb-1">Suggested Tasks</div>
+                            <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
+                              {generalSummary.suggested_tasks.map((t, i) => (
+                                <li key={i}>{t}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">No summary available.</p>
+                    )}
                   </div>
                 </>
               )}
