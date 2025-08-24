@@ -21,10 +21,11 @@ import { ChartLoadingSkeleton } from './chart-loading-skeleton';
 import { useQuery } from '@tanstack/react-query';
 import {
   fetchPrimaryEmotionInsightsByPatient,
-  type PrimaryEmotionItem,
   fetchMoodClassificationByPatientRange,
   fetchCrisisClassificationByPatientRange,
 } from '@/models/conversation_insights';
+import type { PrimaryEmotionItem, AggregatedEmotion, CrisisClassificationRow } from '@/types/insights';
+import { EMOTION_COLORS } from '@/types/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { fetchConversationsByPatientRange } from '@/models/conversations';
 import { format, eachDayOfInterval } from 'date-fns';
@@ -35,33 +36,19 @@ interface InsightChartsProps {
   dateRange?: { from: string; to: string };
 }
 
-type AggregatedEmotion = {
-  name: string;
-  count: number;
-  avgIntensity: number | null;
-  triggers: string[];
-  contexts: string[];
-  color: string;
-};
+// AggregatedEmotion type moved to @/types/insights
 
-const EMOTION_COLORS: Record<string, string> = {
-  joy: '#A5E3D0',
-  sadness: '#6CAEDD',
-  anger: '#EF4444',
-  fear: '#F59E0B',
-  disgust: '#10B981',
-  surprise: '#C7B7E8',
-};
+// EMOTION_COLORS moved to @/types/constants
 
 const ALLOWED_EMOTIONS = new Set(['joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust']);
 
 export function InsightCharts({ isLoading = false, patientId, dateRange }: InsightChartsProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'emotion' | 'crisis-classification'>('emotion');
-  const [modalData, setModalData] = useState<any>(null);
+  const [modalData, setModalData] = useState<CrisisClassificationRow | null>(null);
   const [selectedEmotion, setSelectedEmotion] = useState<AggregatedEmotion | null>(null);
 
-  const handleCrisisClassificationClick = (item: any) => {
+  const handleCrisisClassificationClick = (item: CrisisClassificationRow) => {
     setModalType('crisis-classification');
     setModalData(item);
     setModalOpen(true);
@@ -105,13 +92,13 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     // Group by created_at day and average mood_score
     const items: { date: string; score: number }[] = [];
     for (const row of moodRows || []) {
-      const content: any = (row as any)?.content;
+      const content = row?.content as { mood_score?: number } | undefined;
       if (!content) continue;
       const rawScore = content?.mood_score;
       const derived =
         typeof rawScore === 'number' && rawScore >= 0 && rawScore <= 10 ? rawScore : undefined;
       if (derived == null) continue;
-      const ts: string | undefined = (row as any)?.created_at;
+      const ts: string | undefined = row?.created_at;
       if (!ts) continue;
       const day = ts.slice(0, 10);
       items.push({ date: day, score: derived });
@@ -233,14 +220,14 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
 
   const crisisItems = useMemo(() => {
     const list = (crisisRows || [])
-      .map((r: any) => ({
-        created_at: r?.created_at as string,
-        is_crisis: Boolean(r?.content?.is_crisis),
-        crisis_severity: r?.content?.crisis_severity || '',
-        activator: r?.content?.activator || '',
-        belief: r?.content?.belief || '',
-        consequence: r?.content?.consequence || '',
-        context: r?.content?.context || '',
+      .map((r: CrisisClassificationRow) => ({
+        created_at: r.created_at,
+        is_crisis: Boolean(r.content?.is_crisis),
+        crisis_severity: r.content?.crisis_severity || '',
+        activator: r.content?.activator || '',
+        belief: r.content?.belief || '',
+        consequence: r.content?.consequence || '',
+        context: r.content?.context || '',
       }))
       .filter((x) => x.is_crisis)
       .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));

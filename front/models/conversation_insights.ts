@@ -1,6 +1,12 @@
 import { makeRepository } from './base';
 import type { Row, Insert, Update } from './base';
 import { supabase } from '@/libraries/supabase';
+import type { 
+  PrimaryEmotionContent, 
+  MoodClassificationRow, 
+  CrisisClassificationRow,
+  InsightQueryParams 
+} from '@/types/insights';
 
 export const ConversationInsights = makeRepository('conversation_insights');
 
@@ -8,22 +14,9 @@ export type ConversationInsight = Row<'conversation_insights'>;
 export type ConversationInsightInsert = Insert<'conversation_insights'>;
 export type ConversationInsightUpdate = Update<'conversation_insights'>;
 
-export type PrimaryEmotionItem = {
-  context?: string;
-  emotion?: string;
-  trigger?: string;
-  intensity?: number;
-};
+// Types moved to @/types/insights
 
-export type PrimaryEmotionContent = {
-  primary_emotions?: PrimaryEmotionItem[];
-};
-
-export async function fetchPrimaryEmotionInsightsByPatient(params: {
-  patientId: string;
-  fromIso: string;
-  toIso: string;
-}): Promise<PrimaryEmotionContent[]> {
+export async function fetchPrimaryEmotionInsightsByPatient(params: InsightQueryParams): Promise<PrimaryEmotionContent[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversation_insights')
@@ -42,21 +35,12 @@ export async function fetchPrimaryEmotionInsightsByPatient(params: {
 
   if (error) throw error;
   // Return only the content json array
-  return (data || []).map((row: any) => row.content as PrimaryEmotionContent);
+  return (data || []).map((row: { content: PrimaryEmotionContent }) => row.content);
 }
 
-// Mood classification
-export type MoodClassificationRow = {
-  created_at: string;
-  content: any;
-  conversations?: { started_at?: string | null; last_message_at?: string | null } | null;
-};
+// Mood classification types moved to @/types/insights
 
-export async function fetchMoodClassificationByPatientRange(params: {
-  patientId: string;
-  fromIso: string;
-  toIso: string;
-}): Promise<MoodClassificationRow[]> {
+export async function fetchMoodClassificationByPatientRange(params: InsightQueryParams): Promise<MoodClassificationRow[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversation_insights')
@@ -77,18 +61,9 @@ export async function fetchMoodClassificationByPatientRange(params: {
   return (data || []) as unknown as MoodClassificationRow[];
 }
 
-// Crisis classification
-export type CrisisClassificationRow = {
-  created_at: string;
-  content: any;
-  conversations?: { started_at?: string | null; last_message_at?: string | null } | null;
-};
+// Crisis classification types moved to @/types/insights
 
-export async function fetchCrisisClassificationByPatientRange(params: {
-  patientId: string;
-  fromIso: string;
-  toIso: string;
-}): Promise<CrisisClassificationRow[]> {
+export async function fetchCrisisClassificationByPatientRange(params: InsightQueryParams): Promise<CrisisClassificationRow[]> {
   const { patientId, fromIso, toIso } = params;
   const { data, error } = await supabase
     .from('conversation_insights')

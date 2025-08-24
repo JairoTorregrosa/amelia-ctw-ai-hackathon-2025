@@ -1,6 +1,7 @@
 import { makeRepository } from './base';
 import type { Row, Insert, Update } from './base';
 import { supabase } from '@/libraries/supabase';
+import type { MessageSender } from '@/types/constants';
 
 export const Messages = makeRepository('messages');
 
@@ -12,7 +13,7 @@ export async function fetchMessageTimestampsByPatientRange(params: {
   patientId: string;
   fromIso: string;
   toIso: string;
-  sender?: 'patient' | 'agent';
+  sender?: MessageSender;
 }): Promise<string[]> {
   const { patientId, fromIso, toIso, sender } = params;
   let query = supabase
@@ -26,5 +27,5 @@ export async function fetchMessageTimestampsByPatientRange(params: {
 
   const { data, error } = await query;
   if (error) throw error;
-  return (data || []).map((r: { created_at: string; sender: 'patient' | 'agent' }) => r.created_at);
+  return (data || []).map((r: { created_at: string; sender: MessageSender }) => r.created_at);
 }

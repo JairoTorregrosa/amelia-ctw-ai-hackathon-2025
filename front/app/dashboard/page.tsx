@@ -20,14 +20,13 @@ import { LoadingSpinner } from '@/components/loading-spinner';
 import { useQuery } from '@tanstack/react-query';
 import { PatientContext, Profiles } from '@/models';
 import { fetchMessageTimestampsByPatientRange } from '@/models/messages';
-import { CrisisClassificationRow, fetchMoodClassificationByPatientRange } from '@/models/conversation_insights';
-import { fetchCrisisClassificationByPatientRange } from '@/models/conversation_insights';
+import { fetchMoodClassificationByPatientRange, fetchCrisisClassificationByPatientRange } from '@/models/conversation_insights';
 import { fetchConversationsByPatientRange } from '@/models/conversations';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { format, parseISO } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { MoodClassificationRow } from '@/models/conversation_insights';
+import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
 
 export default function DashboardPage() {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
