@@ -144,7 +144,7 @@ export abstract class BaseModel<N extends TableName> {
    */
   async count(filters?: Partial<Row<N>>): Promise<number> {
     let query = supabase.from(this.tableName).select('*', { count: 'exact', head: true });
-    
+
     if (filters) {
       query = query.match(filters as Record<string, unknown>);
     }
@@ -176,4 +176,3 @@ export abstract class BaseModel<N extends TableName> {
     return supabase.from(this.tableName);
   }
 }
-

@@ -189,8 +189,8 @@ export default function DashboardPage() {
 
   // Minimal inline markdown formatter for **bold** segments used in key_insights
   const formatInlineMarkdown = (text: string): string => {
-    return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-  }
+    return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  };
 
   return (
     <div className="bg-background flex min-h-screen">
@@ -234,7 +234,10 @@ export default function DashboardPage() {
 
           {/* Psychologist Profile */}
           <div className="flex items-center gap-3">
-            <UserAvatar src={therapist?.profile_picture_url ?? undefined} alt={therapist?.full_name} />
+            <UserAvatar
+              src={therapist?.profile_picture_url ?? undefined}
+              alt={therapist?.full_name}
+            />
             <span className="text-sm font-medium">{therapist?.full_name || 'Therapist'}</span>
             <Button asChild variant="outline" size="sm">
               <Link href="/">Logout</Link>
@@ -252,7 +255,8 @@ export default function DashboardPage() {
           <Alert className="border-blue-200 bg-blue-50">
             <Clock className="h-4 w-4 text-blue-600" />
             <AlertDescription className="text-blue-800">
-              <strong>Note:</strong> Reports and insights may take up to 10 minutes to be generated and become viewable in the dashboard after a conversation is finished.
+              <strong>Note:</strong> Reports and insights may take up to 10 minutes to be generated
+              and become viewable in the dashboard after a conversation is finished.
             </AlertDescription>
           </Alert>
         </div>
@@ -340,8 +344,8 @@ export default function DashboardPage() {
                           <div>
                             <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
                               {generalSummary.map((k, i) => {
-                                const html = formatInlineMarkdown(k)
-                                return <li key={i} dangerouslySetInnerHTML={{ __html: html }} />
+                                const html = formatInlineMarkdown(k);
+                                return <li key={i} dangerouslySetInnerHTML={{ __html: html }} />;
                               })}
                             </ul>
                           </div>

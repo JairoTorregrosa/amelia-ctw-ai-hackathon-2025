@@ -77,20 +77,23 @@ export class PatientContextModel extends BaseModel<'patient_context'> {
   /**
    * Update patient context by patient ID
    */
-  async updateByPatientId(patientId: string, updates: Partial<PatientContextUpdate>): Promise<PatientContextRow> {
+  async updateByPatientId(
+    patientId: string,
+    updates: Partial<PatientContextUpdate>,
+  ): Promise<PatientContextRow> {
     const existing = await this.getByPatientId(patientId);
-    
+
     if (existing) {
       return this.update(existing.id, {
         ...updates,
-        last_updated_at: new Date().toISOString()
+        last_updated_at: new Date().toISOString(),
       } as PatientContextUpdate);
     } else {
       // Create new context if it doesn't exist
       return this.create({
         patient_id: patientId,
         ...updates,
-        last_updated_at: new Date().toISOString()
+        last_updated_at: new Date().toISOString(),
       } as PatientContextInsert);
     }
   }
@@ -100,7 +103,7 @@ export class PatientContextModel extends BaseModel<'patient_context'> {
    */
   async updateTriageInfo(patientId: string, triageInfo: TriageInfo): Promise<PatientContextRow> {
     return this.updateByPatientId(patientId, {
-      triage_info: triageInfo as any
+      triage_info: triageInfo as any,
     });
   }
 

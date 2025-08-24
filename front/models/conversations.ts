@@ -71,11 +71,11 @@ export class ConversationsModel extends BaseModel<'conversations'> {
    * Close a conversation
    */
   async close(id: number, summary?: string): Promise<Conversation> {
-    const updateData: ConversationUpdate = { 
+    const updateData: ConversationUpdate = {
       status: 'closed',
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
-    
+
     if (summary) {
       updateData.summary = summary;
     }
@@ -86,4 +86,3 @@ export class ConversationsModel extends BaseModel<'conversations'> {
 
 // Create and export singleton instance
 export const Conversations = new ConversationsModel();
-

@@ -75,7 +75,7 @@ export class ProfilesModel extends BaseModel<'profiles'> {
   async updateProfile(id: string, updates: Partial<ProfileUpdate>): Promise<Profile> {
     return this.update(id, {
       ...updates,
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     } as ProfileUpdate);
   }
 
@@ -90,26 +90,30 @@ export class ProfilesModel extends BaseModel<'profiles'> {
     phone?: string;
   }): Promise<Profile> {
     const { id, email, fullName, role, phone } = profileData;
-    
+
     return this.create({
       id,
       email,
       full_name: fullName,
       role,
-      phone: phone || null
+      phone: phone || null,
     } as ProfileInsert);
   }
 
   /**
    * Get profile with patient context if available
    */
-  async getPatientWithContext(patientId: string): Promise<Profile & { patient_context?: any } | null> {
+  async getPatientWithContext(
+    patientId: string,
+  ): Promise<(Profile & { patient_context?: any }) | null> {
     const { data, error } = await this.supabase
       .from(this.tableName)
-      .select(`
+      .select(
+        `
         *,
         patient_context (*)
-      `)
+      `,
+      )
       .eq('id', patientId)
       .eq('role', UserRole.Patient)
       .maybeSingle();

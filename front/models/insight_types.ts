@@ -48,7 +48,7 @@ export class InsightTypesModel extends BaseModel<'insight_types'> {
     if (!current) throw new Error('Insight type not found');
 
     return this.update(id, {
-      is_active: !current.is_active
+      is_active: !current.is_active,
     } as InsightTypeUpdate);
   }
 }

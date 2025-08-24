@@ -71,50 +71,58 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section className="bg-white px-6 py-16" id="about">
         <div className="mx-auto max-w-6xl">
-          <div className="grid items-start gap-12 lg:gap-24 lg:grid-cols-2">
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-24">
             <div className="max-w-xl lg:pr-8">
               <h2 className="mb-2 text-4xl font-bold text-slate-800">How It Works</h2>
               <p className="text-slate-600">Care on WhatsApp, insights for your therapist.</p>
               <div className="mt-8 grid gap-5 sm:grid-cols-2">
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                    <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <MessageCircle className="h-5 w-5" />
                     </span>
                     <h3 className="font-semibold text-slate-800">Reach out anytime</h3>
                   </div>
-                  <p className="mt-2 text-sm text-slate-600">Message Amelia on WhatsApp for warm, instant support.</p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Message Amelia on WhatsApp for warm, instant support.
+                  </p>
                 </div>
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                    <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <ListChecks className="h-5 w-5" />
                     </span>
                     <h3 className="font-semibold text-slate-800">Choose your flow</h3>
                   </div>
-                  <p className="mt-2 text-sm text-slate-600">Chat freely or do a 2‑minute guided check‑in.</p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Chat freely or do a 2‑minute guided check‑in.
+                  </p>
                 </div>
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                    <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <Shield className="h-5 w-5" />
                     </span>
                     <h3 className="font-semibold text-slate-800">Private by design</h3>
                   </div>
-                  <p className="mt-2 text-sm text-slate-600">Your reflections are stored securely.</p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Your reflections are stored securely.
+                  </p>
                 </div>
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                    <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <BarChart3 className="h-5 w-5" />
                     </span>
                     <h3 className="font-semibold text-slate-800">Insight for your care</h3>
                   </div>
-                  <p className="mt-2 text-sm text-slate-600">Summaries and trends help your therapist see progress.</p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Summaries and trends help your therapist see progress.
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl bg-slate-50 p-8 md:p-12 shadow-sm">
+            <div className="rounded-2xl bg-slate-50 p-8 shadow-sm md:p-12">
               <img src="/whatsapp_picture.jpg" alt="Chat Interface" className="h-auto w-full" />
             </div>
           </div>

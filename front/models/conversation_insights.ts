@@ -21,15 +21,19 @@ export class ConversationInsightsModel extends BaseModel<'conversation_insights'
   /**
    * Fetch primary emotion insights for a patient within a date range
    */
-  async fetchPrimaryEmotionsByPatient(params: InsightQueryParams): Promise<PrimaryEmotionContent[]> {
+  async fetchPrimaryEmotionsByPatient(
+    params: InsightQueryParams,
+  ): Promise<PrimaryEmotionContent[]> {
     const { patientId, fromIso, toIso } = params;
     const { data, error } = await this.supabase
       .from(this.tableName)
-      .select([
-        'content',
-        'conversations!inner(patient_id,started_at,last_message_at)',
-        'insight_types!inner(type_key)',
-      ].join(','))
+      .select(
+        [
+          'content',
+          'conversations!inner(patient_id,started_at,last_message_at)',
+          'insight_types!inner(type_key)',
+        ].join(','),
+      )
       .eq('completed', true)
       .eq('conversations.patient_id', patientId)
       .gte('conversations.started_at', fromIso)
@@ -43,15 +47,19 @@ export class ConversationInsightsModel extends BaseModel<'conversation_insights'
   /**
    * Fetch mood classification insights for a patient within a date range
    */
-  async fetchMoodClassificationByPatientRange(params: InsightQueryParams): Promise<MoodClassificationRow[]> {
+  async fetchMoodClassificationByPatientRange(
+    params: InsightQueryParams,
+  ): Promise<MoodClassificationRow[]> {
     const { patientId, fromIso, toIso } = params;
     const { data, error } = await this.supabase
       .from(this.tableName)
-      .select([
-        'created_at,content',
-        'conversations!inner(started_at,last_message_at,patient_id)',
-        'insight_types!inner(type_key)',
-      ].join(','))
+      .select(
+        [
+          'created_at,content',
+          'conversations!inner(started_at,last_message_at,patient_id)',
+          'insight_types!inner(type_key)',
+        ].join(','),
+      )
       .eq('completed', true)
       .eq('conversations.patient_id', patientId)
       .gte('conversations.started_at', fromIso)
@@ -65,15 +73,19 @@ export class ConversationInsightsModel extends BaseModel<'conversation_insights'
   /**
    * Fetch crisis classification insights for a patient within a date range
    */
-  async fetchCrisisClassificationByPatientRange(params: InsightQueryParams): Promise<CrisisClassificationRow[]> {
+  async fetchCrisisClassificationByPatientRange(
+    params: InsightQueryParams,
+  ): Promise<CrisisClassificationRow[]> {
     const { patientId, fromIso, toIso } = params;
     const { data, error } = await this.supabase
       .from(this.tableName)
-      .select([
-        'created_at,content',
-        'conversations!inner(started_at,last_message_at,patient_id)',
-        'insight_types!inner(type_key)',
-      ].join(','))
+      .select(
+        [
+          'created_at,content',
+          'conversations!inner(started_at,last_message_at,patient_id)',
+          'insight_types!inner(type_key)',
+        ].join(','),
+      )
       .eq('completed', true)
       .eq('conversations.patient_id', patientId)
       .gte('conversations.started_at', fromIso)
@@ -134,21 +146,21 @@ export class ConversationInsightsModel extends BaseModel<'conversation_insights'
     return this.update(id, {
       completed: true,
       content,
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     } as ConversationInsightUpdate);
   }
 
   /**
    * Get insights by type and patient
    */
-  async getByTypeAndPatient(insightType: string, patientId: string, limit?: number): Promise<ConversationInsight[]> {
+  async getByTypeAndPatient(
+    insightType: string,
+    patientId: string,
+    limit?: number,
+  ): Promise<ConversationInsight[]> {
     let query = this.supabase
       .from(this.tableName)
-      .select([
-        '*',
-        'insight_types!inner(type_key)',
-        'conversations!inner(patient_id)'
-      ].join(','))
+      .select(['*', 'insight_types!inner(type_key)', 'conversations!inner(patient_id)'].join(','))
       .eq('insight_types.type_key', insightType)
       .eq('conversations.patient_id', patientId)
       .eq('completed', true)
@@ -166,4 +178,3 @@ export class ConversationInsightsModel extends BaseModel<'conversation_insights'
 
 // Create and export singleton instance
 export const ConversationInsights = new ConversationInsightsModel();
-

@@ -77,7 +77,7 @@ export class MessagesModel extends BaseModel<'messages'> {
    */
   async getRecentByPatient(patientId: string, hours: number = 24): Promise<Message[]> {
     const fromTime = new Date(Date.now() - hours * 60 * 60 * 1000).toISOString();
-    
+
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
@@ -116,14 +116,14 @@ export class MessagesModel extends BaseModel<'messages'> {
       this.count({ patient_id: patientId } as Partial<Message>),
       this.countBySenderAndPatient(patientId, MessageSender.Patient),
       this.countBySenderAndPatient(patientId, MessageSender.Agent),
-      this.getByPatientId(patientId, 1)
+      this.getByPatientId(patientId, 1),
     ]);
 
     return {
       total,
       fromPatient,
       fromAgent,
-      lastMessageAt: lastMessage[0]?.created_at
+      lastMessageAt: lastMessage[0]?.created_at,
     };
   }
 
@@ -137,16 +137,15 @@ export class MessagesModel extends BaseModel<'messages'> {
     conversationId?: number;
   }): Promise<Message> {
     const { content, patientId, sender, conversationId } = params;
-    
+
     return this.create({
       content,
       patient_id: patientId,
       sender,
-      conversation_id: conversationId || null
+      conversation_id: conversationId || null,
     } as MessageInsert);
   }
 }
 
 // Create and export singleton instance
 export const Messages = new MessagesModel();
-

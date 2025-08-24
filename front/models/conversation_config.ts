@@ -32,15 +32,15 @@ export class ConversationConfigModel extends BaseModel<'conversation_config'> {
    */
   async updateTimeout(timeoutMinutes: number): Promise<ConversationConfig> {
     const current = await this.getCurrent();
-    
+
     if (current) {
       return this.update(current.id, {
         timeout_minutes: timeoutMinutes,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       } as ConversationConfigUpdate);
     } else {
       return this.create({
-        timeout_minutes: timeoutMinutes
+        timeout_minutes: timeoutMinutes,
       } as ConversationConfigInsert);
     }
   }

@@ -21,7 +21,9 @@ export function UserAvatar({ className, iconClassName, size, src, alt }: UserAva
 
   return (
     <Avatar className={className} style={style}>
-      {src ? <AvatarImage src={src} alt={alt || 'Profile picture'} className="object-cover" /> : null}
+      {src ? (
+        <AvatarImage src={src} alt={alt || 'Profile picture'} className="object-cover" />
+      ) : null}
       <AvatarFallback>
         <UserIcon className={fallbackIconClassName} />
       </AvatarFallback>

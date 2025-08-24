@@ -58,11 +58,14 @@ export class TherapistPatientAssignmentsModel extends BaseModel<'therapist_patie
   /**
    * Create a new assignment
    */
-  async createAssignment(therapistId: string, patientId: string): Promise<TherapistPatientAssignment> {
+  async createAssignment(
+    therapistId: string,
+    patientId: string,
+  ): Promise<TherapistPatientAssignment> {
     return this.create({
       therapist_id: therapistId,
       patient_id: patientId,
-      status: 'active'
+      status: 'active',
     } as TherapistPatientAssignmentInsert);
   }
 

@@ -3,7 +3,13 @@ import { UserAvatar } from './user-avatar';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, AlertTriangle, Heart } from 'lucide-react';
 import { LoadingSpinner } from './loading-spinner';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { RISK_LEVEL_COLORS } from '@/types/constants';

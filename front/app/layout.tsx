@@ -17,23 +17,15 @@ export const metadata: Metadata = {
     default: 'Amelia - AI Therapy Assistant',
     template: '%s • Amelia',
   },
-  description: 'AI-powered therapy assistant and insights dashboard for psychologists and patients.',
-  keywords: [
-    'Amelia',
-    'therapy',
-    'mental health',
-    'psychology',
-    'AI assistant',
-    'dashboard',
-  ],
+  description:
+    'AI-powered therapy assistant and insights dashboard for psychologists and patients.',
+  keywords: ['Amelia', 'therapy', 'mental health', 'psychology', 'AI assistant', 'dashboard'],
   authors: [{ name: 'Amelia Team' }],
   creator: 'Amelia Team',
   publisher: 'Amelia',
   generator: 'nextjs',
   icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     apple: [{ url: '/logo.png' }],
     shortcut: ['/favicon.svg'],
   },
