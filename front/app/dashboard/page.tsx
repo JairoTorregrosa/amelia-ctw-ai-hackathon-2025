@@ -174,12 +174,7 @@ export default function DashboardPage() {
       );
       if (!res.ok) throw new Error('Failed to fetch summary');
       const json = await res.json();
-      return (json?.general_summary ?? null) as {
-        psychological_summary?: string;
-        events_summary?: string;
-        suggested_questions?: string[];
-        suggested_tasks?: string[];
-      } | null;
+      return (json.key_insights ?? null) as string[] | null;
     },
     retry: 0,
   });
@@ -190,6 +185,11 @@ export default function DashboardPage() {
     // Simulate summary recompute
     setTimeout(() => setIsLoadingSummary(false), 800);
   };
+
+  // Minimal inline markdown formatter for **bold** segments used in key_insights
+  const formatInlineMarkdown = (text: string): string => {
+    return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  }
 
   return (
     <div className="bg-background flex min-h-screen">
@@ -330,7 +330,7 @@ export default function DashboardPage() {
                       <div className="flex items-center gap-3">
                         <LoadingSpinner size="sm" />
                         <div className="text-muted-foreground text-xs">
-                          Generating summary… This may take up to a minute. Please stay on this
+                          Generating insights... This may take up to a minute. Please stay on this
                           page.
                         </div>
                       </div>
@@ -343,35 +343,13 @@ export default function DashboardPage() {
                       </div>
                     ) : generalSummary ? (
                       <div className="space-y-3">
-                        {generalSummary.psychological_summary ? (
-                          <p className="text-muted-foreground text-sm">
-                            {generalSummary.psychological_summary}
-                          </p>
-                        ) : null}
-                        {generalSummary.events_summary ? (
-                          <p className="text-muted-foreground text-xs">
-                            {generalSummary.events_summary}
-                          </p>
-                        ) : null}
-                        {Array.isArray(generalSummary.suggested_questions) &&
-                        generalSummary.suggested_questions.length > 0 ? (
+                        {Array.isArray(generalSummary) && generalSummary.length > 0 ? (
                           <div>
-                            <div className="mb-1 text-xs font-medium">Suggested Questions</div>
                             <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
-                              {generalSummary.suggested_questions.map((q, i) => (
-                                <li key={i}>{q}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        ) : null}
-                        {Array.isArray(generalSummary.suggested_tasks) &&
-                        generalSummary.suggested_tasks.length > 0 ? (
-                          <div>
-                            <div className="mb-1 text-xs font-medium">Suggested Tasks</div>
-                            <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
-                              {generalSummary.suggested_tasks.map((t, i) => (
-                                <li key={i}>{t}</li>
-                              ))}
+                              {generalSummary.map((k, i) => {
+                                const html = formatInlineMarkdown(k)
+                                return <li key={i} dangerouslySetInnerHTML={{ __html: html }} />
+                              })}
                             </ul>
                           </div>
                         ) : null}
