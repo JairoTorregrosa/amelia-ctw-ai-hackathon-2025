@@ -73,6 +73,7 @@ BEGIN
   SET 
     status = 'completed',
     content = result_content,
+    completed = true,
     updated_at = now()
   WHERE id = insight_id;
   
