@@ -1,0 +1,484 @@
+
+{
+  "name": "General Summary",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "general-summary",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -32,
+        0
+      ],
+      "id": "dd708079-3666-434d-b300-f5d06bf47c60",
+      "name": "Webhook",
+      "webhookId": "5365259c-bb72-4e1a-8c64-db6f2de99265"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e214b4b4-7d60-4565-92db-2d14d43fa73d",
+              "name": "query.start_date",
+              "value": "={{ $json.query.start_date }}",
+              "type": "string"
+            },
+            {
+              "id": "54b9d9d1-c5d5-4e23-9c3a-44a4a780dbc0",
+              "name": "query.end_date",
+              "value": "={{ $json.query.end_date }}",
+              "type": "string"
+            },
+            {
+              "id": "e2da8cca-cf08-416f-aada-fde4d7137555",
+              "name": "query.patient_id",
+              "value": "={{ $json.query.patient_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "05bba38b-91a0-42ec-baff-779033e4c833",
+      "name": "Get params"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "conversations",
+        "limit": 20,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "last_message_at",
+              "condition": "gte",
+              "keyValue": "={{ $('Get params').item.json.query.start_date }}"
+            },
+            {
+              "keyName": "last_message_at",
+              "condition": "lte",
+              "keyValue": "={{ $('Get params').item.json.query.end_date }}"
+            },
+            {
+              "keyName": "patient_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Get params').item.json.query.patient_id }}"
+            },
+            {
+              "keyName": "status",
+              "condition": "eq",
+              "keyValue": "completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        0
+      ],
+      "id": "af3e51fe-74a7-4ccb-b0db-ef0c11c4c908",
+      "name": "Get Conversations",
+      "executeOnce": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5",
+        "options": {
+          "temperature": "={{ 0.1 }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        2112,
+        224
+      ],
+      "id": "42b14236-7a06-411f-a0cd-dc86afbc8370",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "he0XLAOTf8UOA0bH",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "JairoTorregrosa",
+          "mode": "list",
+          "cachedResultName": "JairoTorregrosa",
+          "cachedResultUrl": "https://github.com/JairoTorregrosa"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "amelia-ctw-ai-hackathon-2025",
+          "mode": "list",
+          "cachedResultName": "amelia-ctw-ai-hackathon-2025",
+          "cachedResultUrl": "https://github.com/JairoTorregrosa/amelia-ctw-ai-hackathon-2025"
+        },
+        "filePath": "=workflows/features/general_summary/prompt.md",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "40ee2b19-0fce-4cce-b6fe-8d4fe7c5d913",
+      "name": "Get a file",
+      "webhookId": "a5b6e460-9be2-444e-841c-560b918d0d41",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "fwX3eYnG4UF10XAb",
+          "name": "GitHub account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        640,
+        0
+      ],
+      "id": "957ed353-26e3-413e-a10d-30bc37903a97",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"key_insights\": [\n        \"**Moderate anxiety** averaging 6.5 fear intensity, improving with coping skills\",\n        \"**Major life changes** - new job after unemployment, moved with parents, breakup\", \n        \"**Mother's cancer diagnosis** creating additional health anxiety and family stress\",\n        \"**Positive therapy engagement** with gradual mood improvement trend\"\n    ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2464,
+        240
+      ],
+      "id": "ab07b253-845f-4928-9cf5-a487ca05faa3",
+      "name": "General Summary Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Extract from File').item.json.data }}\n\n{{ $json.concatenated_content_key_events }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        2208,
+        0
+      ],
+      "id": "074ce4f4-fd93-4439-b339-17ff8aca98b9",
+      "name": "General Summary",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "conversation_insights",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "conversation_id",
+              "keyValue": "={{ $json.id }}"
+            },
+            {
+              "keyName": "completed",
+              "keyValue": "true"
+            },
+            {
+              "keyName": "insight_type_id",
+              "keyValue": "5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        0
+      ],
+      "id": "44ff6d36-3131-4d5d-82cd-e39ee66b1742",
+      "name": "Get Summary",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "insight_types",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        864,
+        0
+      ],
+      "id": "5a33562c-43fb-42cd-aa23-becf971dc70b",
+      "name": "Get many rows",
+      "executeOnce": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "content.key_events",
+              "separateBy": "\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        0
+      ],
+      "id": "88ae89bb-4e59-41b5-bc8e-33e3997b95ec",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "074d9e59-3382-4b91-9c76-6b2f3410c059",
+              "leftValue": "={{ $json.content.key_events }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1664,
+        0
+      ],
+      "id": "9ff4b18b-f542-46a8-ac4f-724d0fa9ccdb",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2560,
+        0
+      ],
+      "id": "b0396fea-1ac5-4c1f-be2e-a04be60a29a7",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get params": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Conversations": {
+      "main": [
+        [
+          {
+            "node": "Get Summary",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "General Summary",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "General Summary Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "General Summary",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Summary": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Get Conversations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "General Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "General Summary": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1c7a73af-9ea7-4769-ab45-38db81a08f9e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9656e11bb25a54fc018b33ad2fc31a568c09ed50ad3594c2ea9a850290b3d384"
+  },
+  "id": "4KCAP2czvqCrIWfh",
+  "tags": []
+}

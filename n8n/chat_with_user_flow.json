@@ -1,0 +1,612 @@
+{
+  "name": "User workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp User Input').item.json.metadata.phone_number_id }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        880,
+        -320
+      ],
+      "id": "ca779b49-93c6-41ea-babe-8bb50d7b635d",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-chat",
+        "options": {
+          "temperature": "={{ 0.8 }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -320
+      ],
+      "id": "426f407f-d19d-4bdf-9a15-adbf45bd7bde",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "he0XLAOTf8UOA0bH",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "profiles",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "phone",
+              "keyValue": "={{ $json.messages[0].from }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -944,
+        -528
+      ],
+      "id": "204b06cd-4423-48b3-a23c-1cd7af22b508",
+      "name": "Get profiles row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": []
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1232,
+        -528
+      ],
+      "id": "127d80ec-ca5b-4db8-aa18-80227bf6979d",
+      "name": "WhatsApp User Input",
+      "webhookId": "4cb85bde-33e6-4825-925c-86fa283abf77",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "rJ0JcWDr6xWaL5JL",
+          "name": "Wpp Input OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.amelia_user_flow }}\n{{ $('WhatsApp User Input').item.json.messages[0].text.body }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        -528
+      ],
+      "id": "ce1fdd8f-60b2-46e7-8ae3-60fae6241e15",
+      "name": "Amelia Bot"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "749415168258483",
+        "recipientPhoneNumber": "={{ $('WhatsApp User Input').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -528
+      ],
+      "id": "eb6972c9-fd14-4440-abb8-a1e5fb2a9e97",
+      "name": "Amelia Output",
+      "webhookId": "62d9613e-0d92-4264-9b7c-92c518ee1bc1",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "ydroZj6XNtdd1c0b",
+          "name": "Wpp Output OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "JairoTorregrosa",
+          "mode": "list",
+          "cachedResultName": "JairoTorregrosa",
+          "cachedResultUrl": "https://github.com/JairoTorregrosa"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "amelia-ctw-ai-hackathon-2025",
+          "mode": "list",
+          "cachedResultName": "amelia-ctw-ai-hackathon-2025",
+          "cachedResultUrl": "https://github.com/JairoTorregrosa/amelia-ctw-ai-hackathon-2025"
+        },
+        "filePath": "=prompts/amelia_user_flow.md",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        -528
+      ],
+      "id": "abff0764-3184-4653-b24d-1f1fe16bc778",
+      "name": "Get a file",
+      "webhookId": "a5b6e460-9be2-444e-841c-560b918d0d41",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "fwX3eYnG4UF10XAb",
+          "name": "GitHub account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        -528
+      ],
+      "id": "b88f93e1-6943-407c-bad8-beaa1c678f29",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39d44a8c-d175-4a75-980c-63806ba1d1b3",
+              "name": "amelia_user_flow",
+              "value": "={{ $json.amelia_user_flow.replace(\"\\{\\{USER_PROFILE\\}\\}\", JSON.stringify($(\"GET patient context\").item.json.triage_info)) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        -528
+      ],
+      "id": "44972f1f-594d-45fe-8b3a-7a1af5da54e6",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "tableId": "messages",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "sender",
+              "fieldValue": "patient"
+            },
+            {
+              "fieldId": "patient_id",
+              "fieldValue": "={{ $json.patient_id }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ new Date(Number($('WhatsApp User Input').item.json.messages[0].timestamp) * 1000).toISOString()}}"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $('WhatsApp User Input').item.json.messages[0].text.body }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        -528
+      ],
+      "id": "41c57269-676a-4abf-a516-c088147e81ef",
+      "name": "Create patient message",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "messages",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "sender",
+              "fieldValue": "agent"
+            },
+            {
+              "fieldId": "patient_id",
+              "fieldValue": "={{ $('Create patient message').item.json.patient_id }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ new Date().toISOString()}}"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $('Amelia Bot').item.json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1488,
+        -528
+      ],
+      "id": "1d1b238f-eab0-428f-876a-501102225057",
+      "name": "Create agent message",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Extract patient data",
+        "height": 256,
+        "width": 752
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1040,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "11847661-d55f-4b8d-a917-2bb98f9ecca9",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Prompt engineering",
+        "height": 256,
+        "width": 736,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "a5803f29-01d0-4754-b394-c765b899bbf9",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Agent execution",
+        "height": 432,
+        "width": 656,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "9ea9a24b-66fa-40f9-937b-d001fdbbe1c3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Input",
+        "height": 256,
+        "width": 272,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1312,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "0b3fdf3d-96e6-4e49-bafe-a1d248de8f68",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Output",
+        "height": 256,
+        "width": 208,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1136,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "76b443ae-5bf7-4f50-8416-502b918809c7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Extract agent data",
+        "height": 256,
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1360,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "a8b341c2-9ebf-43d1-98c2-54db4b17a822",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8626699a-4b9d-47b8-9393-a6e8961ff744",
+              "name": "amelia_user_flow",
+              "value": "={{ $json.data.replace(\"\\{\\{INTERACTION_MODE\\}\\}\", \"therapist\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        -528
+      ],
+      "id": "b40797ae-1f08-4cf2-bd18-78066b4f93e1",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "patient_context",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "patient_id",
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -528
+      ],
+      "id": "a27af920-c89c-4e8d-a6de-291e170bc4ef",
+      "name": "GET patient context",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39d44a8c-d175-4a75-980c-63806ba1d1b3",
+              "name": "amelia_user_flow",
+              "value": "={{ $json.amelia_user_flow.replace(\"\\{\\{PATIENT_SUMMARIES\\}\\}\", JSON.stringify( $(\"GET patient context\").item.json.conversation_summaries) )}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        -528
+      ],
+      "id": "439b749f-a026-4f39-8f4c-22a7b91237a4",
+      "name": "Edit Fields2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Amelia Bot",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Amelia Bot",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get profiles row": {
+      "main": [
+        [
+          {
+            "node": "GET patient context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp User Input": {
+      "main": [
+        [
+          {
+            "node": "Get profiles row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Amelia Bot": {
+      "main": [
+        [
+          {
+            "node": "Amelia Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Amelia Output": {
+      "main": [
+        [
+          {
+            "node": "Create agent message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Amelia Bot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create patient message": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET patient context": {
+      "main": [
+        [
+          {
+            "node": "Create patient message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "771fc420-9de3-4ec6-8743-18b19cbf0913",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9656e11bb25a54fc018b33ad2fc31a568c09ed50ad3594c2ea9a850290b3d384"
+  },
+  "id": "DT284uTzaseU8AUE",
+  "tags": []
+}

@@ -1,0 +1,1637 @@
+{
+  "name": "Insights",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "conversation_insights",
+        "limit": 19,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "completed",
+              "condition": "eq",
+              "keyValue": "false"
+            },
+            {
+              "keyName": "insight_type_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        800,
+        0
+      ],
+      "id": "0e4e8ae7-c60f-4d11-9015-8a8ee6c7f151",
+      "name": "Get tasks",
+      "alwaysOutputData": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "messages",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "conversation_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.conversation_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        0
+      ],
+      "id": "8ef3e065-1fa3-4e95-bff9-0184ff13cf1d",
+      "name": "Get messages",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cc5ad2a9-172e-4a7b-a420-dc1bdbda6c10",
+              "name": "task_id",
+              "value": "={{ $('Get tasks').item.json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "6e078ad6-bea0-4ff8-bfdc-6e90eb522b4f",
+              "name": "conversation_id",
+              "value": "={{ $json.conversation_id }}",
+              "type": "number"
+            },
+            {
+              "id": "d259d366-8b80-43eb-89af-c6fcc74c91b0",
+              "name": "message",
+              "value": "={\n  \"role\":{{ $json.sender }},\n  \"content\":{{ $json.content }}\n}",
+              "type": "string"
+            },
+            {
+              "id": "f91f180e-18ca-4e22-9767-26c18aece2a1",
+              "name": "type_key",
+              "value": "={{ $('Get many rows').item.json.type_key }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1472,
+        0
+      ],
+      "id": "a8cbd620-d874-4e83-92a2-1dac49792b7f",
+      "name": "Map"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "append",
+              "field": "message"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "conversation_id, task_id, type_key",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        0
+      ],
+      "id": "0f31dfea-73f9-41e7-a9ca-8a4755421a8c",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "JairoTorregrosa",
+          "mode": "list",
+          "cachedResultName": "JairoTorregrosa",
+          "cachedResultUrl": "https://github.com/JairoTorregrosa"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "amelia-ctw-ai-hackathon-2025",
+          "mode": "list",
+          "cachedResultName": "amelia-ctw-ai-hackathon-2025",
+          "cachedResultUrl": "https://github.com/JairoTorregrosa/amelia-ctw-ai-hackathon-2025"
+        },
+        "filePath": "=workflows/raw_insights/{{ $json.type_key }}/prompt.md",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        128,
+        0
+      ],
+      "id": "1d6d932b-3a07-4868-97d4-4b2f424b6300",
+      "name": "Get a file",
+      "webhookId": "a5b6e460-9be2-444e-841c-560b918d0d41",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "fwX3eYnG4UF10XAb",
+          "name": "GitHub account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "bd7cfa1e-4bc2-4678-8fa4-7677e82e8195",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {
+          "temperature": "={{ 0.2 }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3088,
+        -304
+      ],
+      "id": "4a8a663c-14b3-4502-84b6-eaf00a24c1d5",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "he0XLAOTf8UOA0bH",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "created_at"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "af24ec7c-bc07-4997-b986-981ed07a79e0",
+      "name": "Sort"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "insight_types",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "5751a2b7-643e-4b8b-be33-bf8c06df9347",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "useCustomSchema": true,
+        "operation": "getAll",
+        "tableId": "insight_types",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "type_key",
+              "condition": "eq",
+              "keyValue": "={{ $('Get many rows').item.json.type_key }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        576,
+        0
+      ],
+      "id": "840bc67f-bea7-4483-b3b2-967b6cc02cd1",
+      "name": "Get insights ids",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type_key }}",
+                    "rightValue": "primary_emotions",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b74eb6d1-fede-4de9-872b-eefa7702018a"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "91761852-3f5d-44dc-810f-1d1917b226e5",
+                    "leftValue": "={{ $json.type_key }}",
+                    "rightValue": "conversational_summary",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "62b82782-5703-4ac0-8975-284c56361521",
+                    "leftValue": "={{ $json.type_key }}",
+                    "rightValue": "mood_classification",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c80a3f1a-765b-4960-9b51-fd5d2cce9924",
+                    "leftValue": "={{ $json.type_key }}",
+                    "rightValue": "crisis_classification",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1952,
+        0
+      ],
+      "id": "964eb3b7-fe01-4054-970a-4236c089740b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {
+          "temperature": "={{ 0.2 }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3072,
+        80
+      ],
+      "id": "05cf48ce-f348-47ee-aabe-bc60c96a9334",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "he0XLAOTf8UOA0bH",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Extract from File').item.json.data }}\n\n{{ $json.appended_message }}",
+        "hasOutputParser": true,
+        "options": {
+          "batching": {
+            "batchSize": 10
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3104,
+        -128
+      ],
+      "id": "b12fbc5b-b147-4560-b2d8-f8b2791b3ffb",
+      "name": "Summary Content",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Extract from File').item.json.data }}\n\n{{ $json.appended_message }}",
+        "hasOutputParser": true,
+        "options": {
+          "batching": {
+            "batchSize": 10
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3088,
+        -512
+      ],
+      "id": "49f78e2a-2af1-431e-8823-ce65d2eef3c2",
+      "name": "Primary Emotions",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {
+          "temperature": "={{ 0.2 }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3072,
+        432
+      ],
+      "id": "b7049996-9b3c-4a04-a31b-5cf7e66938df",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "he0XLAOTf8UOA0bH",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Extract from File').item.json.data }}\n\n{{ $json.appended_message }}",
+        "hasOutputParser": true,
+        "options": {
+          "batching": {
+            "batchSize": 10
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3104,
+        224
+      ],
+      "id": "96431497-c16e-43e4-9d0e-607705da216e",
+      "name": "Mood Classification",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"mood_score\": 6,\n    \"classification_type\": \"inferred\",\n    \"context\": \"Patient showed mixed indicators: mentioned sleeping better and engaging with friends (positive), but also described ongoing work stress and some anxiety about upcoming changes (negative). Overall functioning appears stable with manageable distress levels.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3200,
+        432
+      ],
+      "id": "caf3c957-6e6d-436b-a041-56c17d03027b",
+      "name": "Parser de Mood Classification"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {
+          "temperature": "={{ 0.2 }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3024,
+        848
+      ],
+      "id": "d424186e-fc21-4d60-822f-ab8e75216f0a",
+      "name": "OpenRouter Chat Model3",
+      "credentials": {
+        "openRouterApi": {
+          "id": "he0XLAOTf8UOA0bH",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Extract from File').item.json.data }}\n\n{{ $json.appended_message }}",
+        "hasOutputParser": true,
+        "options": {
+          "batching": {
+            "batchSize": 10
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3056,
+        640
+      ],
+      "id": "8a452653-16c8-4225-a904-d2f7e9669562",
+      "name": "Crisis Clasification",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"is_crisis\": true,\n    \"crisis_severity\": \"high\",\n    \"activator\": \"Lost job yesterday after 10 years, wife threatened divorce this morning, facing foreclosure next month\",\n    \"belief\": \"My life is completely over, I'm a total failure as a husband and provider, there's no way to recover from this\",\n    \"consequence\": \"Having thoughts of suicide, stopped eating for two days, isolated from family and friends, considering taking all my sleeping pills\",\n    \"context\": \"Patient experiencing multiple major life stressors simultaneously with active suicidal ideation and specific means considered. Complete breakdown of coping mechanisms with social isolation and self-neglect. Requires immediate professional intervention due to high suicide risk and inability to function.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3152,
+        848
+      ],
+      "id": "415cb06c-9cfa-482e-8142-d151a7782bda",
+      "name": "Parser de Crisis Classification"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"key_events\": [\n        {\n            \"event\": \"Started new job at marketing agency after 3 months of unemployment\",\n            \"importance\": \"Major career transition that provides financial stability and new professional opportunities\"\n        },\n        {\n            \"event\": \"Moved back in with parents to save money during job transition\",\n            \"importance\": \"Significant change in living situation that affects independence and family dynamics\"\n        },\n        {\n            \"event\": \"Ended 2-year relationship due to different life goals\",\n            \"importance\": \"Major relationship change that impacts emotional support system and life direction\"\n        },\n        {\n            \"event\": \"Completed first therapy session with new therapist\",\n            \"importance\": \"Beginning of new mental health treatment approach to address ongoing challenges\"\n        },\n        {\n            \"event\": \"Received promotion offer at current company\",\n            \"importance\": \"Career advancement opportunity that could change work responsibilities and income\"\n        }\n    ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3200,
+        80
+      ],
+      "id": "433811d5-1a0e-4bf6-b01b-ee93f9557c35",
+      "name": "Summary Parser"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"primary_emotions\": [\n        {\n            \"emotion\": \"fear\",\n            \"intensity\": 6,\n            \"context\": \"Patient expressed worry about losing their job due to recent company layoffs and feeling unable to control the situation\",\n            \"trigger\": \"Company restructuring and layoff announcements\"\n        },\n        {\n            \"emotion\": \"sadness\",\n            \"intensity\": 8,\n            \"context\": \"Patient became emotional when discussing the distance from family and feeling isolated during difficult times\",\n            \"trigger\": \"Living far from family support system\"\n        },\n        {\n            \"emotion\": \"anger\",\n            \"intensity\": 3,\n            \"context\": \"Patient showed mild frustration when describing their manager's lack of communication about job security\",\n            \"trigger\": \"Poor communication from supervisor\"\n        },\n        {\n            \"emotion\": \"surprise\",\n            \"intensity\": 5,\n            \"context\": \"Patient was genuinely surprised to realize how much their sleep patterns had improved after implementing the suggested routine\",\n            \"trigger\": \"Unexpected positive changes in sleep quality\"\n        },\n        {\n            \"emotion\": \"joy\",\n            \"intensity\": 4,\n            \"context\": \"Patient expressed small moments of happiness when talking about their pet's recovery from illness\",\n            \"trigger\": \"Pet's improved health condition\"\n        }\n    ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3216,
+        -304
+      ],
+      "id": "b90a4ecf-b820-4baf-8d1d-216c2a24be7f",
+      "name": "Primary Emmotions Parser"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "conversation_insights",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.task_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3632,
+        656
+      ],
+      "id": "971851cf-665b-4a02-85ad-7729ac273378",
+      "name": "Crisis update",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "conversation_insights",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.task_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3680,
+        240
+      ],
+      "id": "630f98a2-2858-4663-9395-258a95747e48",
+      "name": "Mood update",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "conversation_insights",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.task_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3680,
+        -112
+      ],
+      "id": "b83a6115-7867-4f5f-a9cf-2ba163f0780b",
+      "name": "Content Summary Update",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "conversation_insights",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.task_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3648,
+        -512
+      ],
+      "id": "03e4444b-4283-4450-9bfb-3359adc8e809",
+      "name": "Primary Emotions Update",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1c4708e-d9cd-4441-a9f6-3ba6ffb3225c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "object"
+            },
+            {
+              "id": "d4442e46-6689-49c8-afbf-dc50e1db829f",
+              "name": "task_id",
+              "value": "={{ $('Summarize').item.json.task_id }}",
+              "type": "number"
+            },
+            {
+              "id": "54e8e2be-ae97-4dfb-88ef-8dcad53d04dc",
+              "name": "conversation_id",
+              "value": "={{ $('Summarize').item.json.conversation_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3456,
+        -112
+      ],
+      "id": "d619bf6e-b89f-45e3-a814-292c5179ff93",
+      "name": "Join Summary"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1c4708e-d9cd-4441-a9f6-3ba6ffb3225c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "object"
+            },
+            {
+              "id": "d4442e46-6689-49c8-afbf-dc50e1db829f",
+              "name": "task_id",
+              "value": "={{ $('Summarize').item.json.task_id }}",
+              "type": "number"
+            },
+            {
+              "id": "54e8e2be-ae97-4dfb-88ef-8dcad53d04dc",
+              "name": "conversation_id",
+              "value": "={{ $('Summarize').item.json.conversation_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3408,
+        -512
+      ],
+      "id": "967c1bb1-2995-45f6-b01b-eac418969205",
+      "name": "Join Emotions"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1c4708e-d9cd-4441-a9f6-3ba6ffb3225c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "object"
+            },
+            {
+              "id": "d4442e46-6689-49c8-afbf-dc50e1db829f",
+              "name": "task_id",
+              "value": "={{ $('Summarize').item.json.task_id }}",
+              "type": "number"
+            },
+            {
+              "id": "54e8e2be-ae97-4dfb-88ef-8dcad53d04dc",
+              "name": "conversation_id",
+              "value": "={{ $('Summarize').item.json.conversation_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3456,
+        240
+      ],
+      "id": "e9dcda3c-8b16-47f5-ac3f-13c13c3c5f31",
+      "name": "Join Mood Classification"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1c4708e-d9cd-4441-a9f6-3ba6ffb3225c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "object"
+            },
+            {
+              "id": "d4442e46-6689-49c8-afbf-dc50e1db829f",
+              "name": "task_id",
+              "value": "={{ $('Summarize').item.json.task_id }}",
+              "type": "number"
+            },
+            {
+              "id": "54e8e2be-ae97-4dfb-88ef-8dcad53d04dc",
+              "name": "conversation_id",
+              "value": "={{ $('Summarize').item.json.conversation_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3408,
+        656
+      ],
+      "id": "23924cb8-b8d8-4541-8970-58fab7551314",
+      "name": "Join Crisis Update"
+    },
+    {
+      "parameters": {
+        "amount": 61
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2448,
+        -272
+      ],
+      "id": "d904136b-118d-42e1-a0f6-0cfe706af78b",
+      "name": "Wait",
+      "webhookId": "896e5889-733e-4d22-ab02-5357205c0496"
+    },
+    {
+      "parameters": {
+        "amount": 61
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2448,
+        -64
+      ],
+      "id": "93deaa47-5f12-415a-951a-f58861619f51",
+      "name": "Wait1",
+      "webhookId": "fa4db695-f013-40fb-a75b-5649f651b884"
+    },
+    {
+      "parameters": {
+        "amount": 61
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2448,
+        144
+      ],
+      "id": "6ba53889-1610-47e7-8b68-46617feb2b1f",
+      "name": "Wait2",
+      "webhookId": "a346977a-8f49-4f5e-99c3-4426f142aded"
+    },
+    {
+      "parameters": {
+        "amount": 61
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2448,
+        336
+      ],
+      "id": "48c835fb-f0f8-4d9a-a6e8-77425daf3a2c",
+      "name": "Wait3",
+      "webhookId": "649682ff-a1c1-4524-bd83-135cb3c2b40a"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        0
+      ],
+      "id": "4193e57e-1246-4f3d-8357-d81c10d28b1a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2b64a1c3-0df3-4443-9a2d-01d6c5dd1f85",
+              "name": "conversation_id",
+              "value": "={{ $json.conversation_id }}",
+              "type": "number"
+            },
+            {
+              "id": "52b4ee39-d1d1-4656-a08f-a5791e4fe219",
+              "name": "content",
+              "value": "={{ $json.content }}",
+              "type": "object"
+            },
+            {
+              "id": "c31c9c94-9a1b-46f7-bf6f-c102d0679dbd",
+              "name": "created_at",
+              "value": "={{ $json.created_at }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3920,
+        -96
+      ],
+      "id": "43503e6d-a99a-452d-9493-20b4de1ab530",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5e781d07-167b-40a2-a47a-dbfcc0d3f2d7",
+              "leftValue": "={{ $json.content.key_events }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        4128,
+        -96
+      ],
+      "id": "03feaac9-676e-4d73-afa4-f36551ee71e3",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "conversations",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $json.conversation_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        4336,
+        -96
+      ],
+      "id": "c9600ff7-3f11-4778-b1af-86b628573e5a",
+      "name": "Get Conversation",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "patient_context",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "patient_id",
+              "keyValue": "={{ $json.patient_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        4544,
+        -96
+      ],
+      "id": "87ad327c-8671-4fc6-9d75-7a9208314c3e",
+      "name": "Get Context",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "06b26a72-a39c-4a2e-8ba6-c2e56c3b8cf2",
+              "name": "patient_id",
+              "value": "={{ $json.patient_id }}",
+              "type": "string"
+            },
+            {
+              "id": "ebb6dfed-a1a8-4bf4-a6f8-8b25e7c300a7",
+              "name": "conversation_summaries",
+              "value": "={{ $json.conversation_summaries }}",
+              "type": "array"
+            },
+            {
+              "id": "22e7c8d7-01d5-4e4a-9b1b-342f639fe938",
+              "name": "new_conversation",
+              "value": "={{ { date: $('Filter').item.json.created_at, key_events: $('Filter').item.json.content.key_events } }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4752,
+        -96
+      ],
+      "id": "5ab8f341-de10-4581-905d-9fe547c97dff",
+      "name": "Get Parameters"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83bbe4c6-f817-48db-916b-d5089a9cc888",
+              "name": "patient_id",
+              "value": "={{ $json.patient_id }}",
+              "type": "string"
+            },
+            {
+              "id": "33c45cf7-5b11-4a18-9a45-503c4d74b3d4",
+              "name": "conversation_summaries",
+              "value": "={{ [...$json.conversation_summaries,$json.new_conversation ]}}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4960,
+        -96
+      ],
+      "id": "d21e043c-7e28-4c0c-aa12-520a0113a7c8",
+      "name": "Join Conversation"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "patient_context",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "patient_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.patient_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "conversation_summaries",
+              "fieldValue": "={{ $json.conversation_summaries }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        5168,
+        -96
+      ],
+      "id": "0f431c4f-38af-4739-af31-1ea42884c6d5",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "495C1OYYh0g3EPe3",
+          "name": "Supabase key"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get tasks": {
+      "main": [
+        [
+          {
+            "node": "Get messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get messages": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Get insights ids",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Primary Emotions",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get insights ids": {
+      "main": [
+        [
+          {
+            "node": "Get tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summary Content",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summary Content": {
+      "main": [
+        [
+          {
+            "node": "Join Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primary Emotions": {
+      "main": [
+        [
+          {
+            "node": "Join Emotions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Mood Classification",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mood Classification": {
+      "main": [
+        [
+          {
+            "node": "Join Mood Classification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser de Mood Classification": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Mood Classification",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Crisis Clasification",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crisis Clasification": {
+      "main": [
+        [
+          {
+            "node": "Join Crisis Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser de Crisis Classification": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Crisis Clasification",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summary Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summary Content",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primary Emmotions Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Primary Emotions",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join Summary": {
+      "main": [
+        [
+          {
+            "node": "Content Summary Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join Emotions": {
+      "main": [
+        [
+          {
+            "node": "Primary Emotions Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join Mood Classification": {
+      "main": [
+        [
+          {
+            "node": "Mood update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join Crisis Update": {
+      "main": [
+        [
+          {
+            "node": "Crisis update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Primary Emotions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Summary Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Mood Classification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Crisis Clasification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Summary Update": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Get Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Conversation": {
+      "main": [
+        [
+          {
+            "node": "Get Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Context": {
+      "main": [
+        [
+          {
+            "node": "Get Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Parameters": {
+      "main": [
+        [
+          {
+            "node": "Join Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join Conversation": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ec2ac427-1af9-4c91-b217-aa77f7223d6f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9656e11bb25a54fc018b33ad2fc31a568c09ed50ad3594c2ea9a850290b3d384"
+  },
+  "id": "z95UIIOiRbmrJjnW",
+  "tags": []
+}
