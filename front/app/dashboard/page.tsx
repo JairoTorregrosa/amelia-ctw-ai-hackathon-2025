@@ -200,6 +200,9 @@ export default function DashboardPage() {
           triageInfo={triageInfo}
           lastUpdatedIso={lastUpdatedIso}
           isLoading={isLoadingPatientData}
+          patients={patients || []}
+          selectedPatientId={selectedPatientId}
+          onPatientChange={handlePatientChange}
         />
       ) : (
         <PatientSidebar
@@ -214,6 +217,9 @@ export default function DashboardPage() {
             role: 'patient',
           }}
           isLoading={true}
+          patients={patients || []}
+          selectedPatientId={selectedPatientId}
+          onPatientChange={handlePatientChange}
         />
       )}
 
@@ -223,21 +229,6 @@ export default function DashboardPage() {
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h1 className="text-foreground text-2xl font-semibold">Insights</h1>
-            <Select value={selectedPatientId ?? ''} onValueChange={handlePatientChange}>
-              <SelectTrigger className="w-64">
-                <SelectValue placeholder="Select patient" />
-              </SelectTrigger>
-              <SelectContent>
-                {(patients || []).map((patient) => (
-                  <SelectItem key={patient.id} value={patient.id}>
-                    <div className="flex items-center gap-2">
-                      <UserAvatar className="h-6 w-6" src={patient.profile_picture_url ?? undefined} alt={patient.full_name} />
-                      {patient.full_name}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           {/* Psychologist Profile */}

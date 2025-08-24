@@ -3,6 +3,7 @@ import { UserAvatar } from './user-avatar';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, AlertTriangle, Heart } from 'lucide-react';
 import { LoadingSpinner } from './loading-spinner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { RISK_LEVEL_COLORS } from '@/types/constants';
@@ -13,6 +14,9 @@ interface PatientSidebarProps {
   triageInfo?: TriageInfo | null;
   lastUpdatedIso?: string | null;
   isLoading?: boolean;
+  patients?: Profile[];
+  selectedPatientId?: string | null;
+  onPatientChange?: (patientId: string) => void;
 }
 
 export function PatientSidebar({
@@ -20,6 +24,9 @@ export function PatientSidebar({
   triageInfo,
   lastUpdatedIso,
   isLoading = false,
+  patients,
+  selectedPatientId,
+  onPatientChange,
 }: PatientSidebarProps) {
   const getRiskColor = (level?: string) => {
     const normalized = (level || '').toLowerCase();
@@ -64,6 +71,22 @@ export function PatientSidebar({
 
   return (
     <div className="bg-sidebar border-sidebar-border w-80 border-r p-6">
+      {Array.isArray(patients) && typeof onPatientChange === 'function' ? (
+        <div className="mb-4">
+          <Select value={selectedPatientId ?? ''} onValueChange={onPatientChange}>
+            <SelectTrigger className="w-full bg-white text-black dark:bg-white dark:text-black">
+              <SelectValue placeholder="Select patient" />
+            </SelectTrigger>
+            <SelectContent>
+              {patients.map((p) => (
+                <SelectItem key={p.id} value={p.id}>
+                  {p.full_name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      ) : null}
       <Card className="bg-card border-border">
         {isLoading ? (
           <div className="p-8">
