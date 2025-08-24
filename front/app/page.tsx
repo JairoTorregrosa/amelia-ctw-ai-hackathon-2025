@@ -49,17 +49,15 @@ export default function LandingPage() {
             </div>
             <div className="flex justify-center">
               <div className="relative">
-                <div className="w-80 h-80 bg-psychology-lavender/30 rounded-full flex items-center justify-center">
+                <div className="w-100 h-100 rounded-full flex items-center justify-center">
                   <img
-                    src="/therapist-illustration.png"
+                    src="/amelia.png"
                     alt="AI Therapy Assistant"
-                    className="w-64 h-64 object-contain"
+                    className="object-contain amelia-image"
+                    style={{
+                      maxWidth: "600px",
+                    }}
                   />
-                </div>
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-psychology-lavender rounded-full flex items-center justify-center">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                    <div className="w-4 h-4 bg-psychology-lavender rounded-full"></div>
-                  </div>
                 </div>
               </div>
             </div>
