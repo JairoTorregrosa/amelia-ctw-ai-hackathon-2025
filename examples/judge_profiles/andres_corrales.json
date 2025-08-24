@@ -1,0 +1,22 @@
+{
+    "name": "Andrés Corrales",
+    "title": "Organizador",
+    "company": "IA Hackathon LATAM",
+    "biography": "Andrés Corrales es un entusiasta de la tecnología con interés especial en inteligencia artificial y blockchain. Ha desempeñado roles tanto técnicos como de liderazgo comunitario; fue co-organizador del IA Hackathon LATAM 2025, un evento internacional que reunió a desarrolladores para crear soluciones de IA innovadoras:contentReference[oaicite:31]{index=31}:contentReference[oaicite:32]{index=32}. En el ámbito técnico, Andrés ha colaborado en proyectos Web3 como \"NeuroSync\", integrando pagos cripto y trading automatizado con ayuda de inteligencia artificial (proyecto de hackathon). Su formación académica está vinculada a la ingeniería de sistemas (dato no verificable), lo que le ha permitido adquirir bases sólidas en desarrollo de software. Andrés se caracteriza por su actitud proactiva y curiosidad intelectual; es reconocido por aprender rápidamente nuevas tecnologías y por fomentar la colaboración en los equipos con los que trabaja, buscando siempre enfoques creativos para resolver problemas.",
+    "skills": [
+        "Desarrollo de software full-stack",
+        "Inteligencia Artificial y Machine Learning",
+        "Blockchain y criptoactivos",
+        "Organización de eventos tecnológicos"
+    ],
+    "experience": [
+        "Co-organizador del IA Hackathon LATAM 2025, coordinando un concurso de 10 días con decenas de equipos internacionales enfocados en IA:contentReference[oaicite:33]{index=33}:contentReference[oaicite:34]{index=34}.",
+        "Desarrollador en proyectos Web3 como NeuroSync (2025), plataforma que combina pagos cripto y trading algorítmico mediante IA (proyecto destacado en DoraHacks, dato no verificable).",
+        "Experiencia en desarrollo de aplicaciones web y móviles a través de proyectos independientes y colaborativos, aplicando buenas prácticas de código y metodologías ágiles.",
+        "Participación activa en comunidades de tecnología, aportando conocimientos y guiando a otros desarrolladores en temas de IA y blockchain."
+    ],
+    "notable_achievements": [
+        "Lideró la organización de un hackathon regional de IA con más de 100 participantes, impulsando la colaboración entre talentos de distintos países:contentReference[oaicite:35]{index=35}.",
+        "Reconocido por su espíritu colaborativo y capacidad de integrar tecnologías emergentes en proyectos reales (dato no verificable)."
+    ]
+}

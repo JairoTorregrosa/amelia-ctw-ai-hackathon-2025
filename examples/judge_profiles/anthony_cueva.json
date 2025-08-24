@@ -1,0 +1,22 @@
+{
+    "name": "Anthony Cueva",
+    "title": "Cofundador",
+    "company": "Crafter Station",
+    "biography": "Anthony Cueva es un ingeniero de software peruano orientado a la creación de productos impulsados por IA. Como cofundador de Crafter Station, ha desarrollado herramientas open-source que mejoran la experiencia de desarrolladores, destacándose por ganar el hackathon global de Next.js 2025 con su editor de texto inteligente \"text0\":contentReference[oaicite:7]{index=7}. Su formación abarca el desarrollo full-stack y el aprendizaje automático, combinando habilidades en backend y en modelos de machine learning para construir aplicaciones innovadoras. Anthony se caracteriza por su creatividad y pasión por resolver problemas reales a través de la tecnología, manteniendo un enfoque centrado en el usuario final. Comprometido con la comunidad, comparte sus proyectos y conocimientos de forma abierta, reflejando una mentalidad colaborativa y emprendedora.",
+    "skills": [
+        "Desarrollo full-stack (web)",
+        "Inteligencia Artificial aplicada",
+        "Programación en Python, JavaScript y Rust",
+        "Creación de proyectos open-source"
+    ],
+    "experience": [
+        "Cofundador y AI Engineer en Crafter Station (2020-presente), liderando el desarrollo de productos basados en IA y experiencias de usuario mejoradas:contentReference[oaicite:8]{index=8}.",
+        "Desarrollador del proyecto \"text0\" (2025), un editor de texto con autocompletado inteligente personalizable, ganador del Next.js Global Hackathon 2025:contentReference[oaicite:9]{index=9}.",
+        "Finalista del IA Hackathon LATAM 2025 con \"GitHunter\", plataforma para descubrir repositorios y desarrolladores usando inteligencia artificial:contentReference[oaicite:10]{index=10}.",
+        "Creador de plataformas open-source como \"Tinte\" (generador de temas multiplataforma) y \"Gradual\" (plataforma integral de aprendizaje), demostrando su versatilidad técnica:contentReference[oaicite:11]{index=11}."
+    ],
+    "notable_achievements": [
+        "Ganó el primer lugar en el Next.js Global Hackathon 2025 (Vercel) por el proyecto de autocompletado inteligente \"text0\":contentReference[oaicite:12]{index=12}.",
+        "Reconocido en la comunidad de desarrolladores por sus contribuciones open-source y la creación de herramientas innovadoras (dato no verificable)."
+    ]
+}

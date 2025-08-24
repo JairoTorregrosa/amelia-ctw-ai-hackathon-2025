@@ -1,0 +1,21 @@
+{
+    "name": "Cristian Camilo Correa",
+    "title": "Emprendedor y Data Engineer",
+    "company": "Independiente",
+    "biography": "Cristian Camilo Correa es un ingeniero de datos colombiano con más de 6 años de experiencia en analítica y BI:contentReference[oaicite:0]{index=0}. Formado como Ingeniero de Sistemas y Estadístico:contentReference[oaicite:1]{index=1}, ha liderado la implementación de soluciones de datos en empresas tecnológicas, diseñando modelos robustos y optimizando procesos ETL para generar métricas clave de negocio. Antes de emprender proyectos propios, contribuyó al crecimiento de startups de educación en línea y delivery, aplicando análisis de cohortes, LTV, CAC y otras métricas para impulsar decisiones estratégicas:contentReference[oaicite:2]{index=2}. Apasionado por la IA y la mentoría, Cristian se destaca por su enfoque analítico y su habilidad para comunicar hallazgos complejos de forma clara. Busca constantemente innovar a través de los datos, combinando rigor técnico con una actitud colaborativa para empoderar a equipos y comunidades.",
+    "skills": [
+        "Analítica de datos y BI",
+        "Arquitectura de datos (ETL/ELT)",
+        "SQL, Python y herramientas cloud",
+        "Mentoría técnica"
+    ],
+    "experience": [
+        "Consultor de datos, apoyando a empresas emergentes en volverse data-driven mediante arquitecturas modernas en la nube (ej. Snowflake, DBT, Airflow):contentReference[oaicite:3]{index=3}.",
+        "Data & Analytics Engineer en Platzi (2022-2023), liderando proyectos de modelado de datos y entrenamiento del equipo en nuevas herramientas analíticas, logrando mejorar la eficiencia en un 20%:contentReference[oaicite:4]{index=4}.",
+        "Business Intelligence Analyst en Rappi (2020-2022), estructurando fuentes de datos desde cero para crear dashboards y algoritmos que redujeron la tasa de churn en un 50%:contentReference[oaicite:5]{index=5}."
+    ],
+    "notable_achievements": [
+        "Co-organizador del IA Hackathon LATAM 2025, evento regional enfocado en impulsar la innovación en inteligencia artificial:contentReference[oaicite:6]{index=6}.",
+        "Panelista invitado en el SAS Forum 2024 sobre IA generativa, compartiendo su experiencia en estrategias de datos (reconocimiento en el sector, dato no verificable)."
+    ]
+}

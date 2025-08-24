@@ -1,0 +1,22 @@
+{
+    "name": "Railly Hugo",
+    "title": "Cofundador",
+    "company": "Crafter Station",
+    "biography": "Railly Hugo es un ingeniero de diseño peruano enfocado en la intersección entre la experiencia de usuario y la tecnología. Actualmente trabaja como Design Engineer en The Agile Monkeys, donde integra prototipos de IA en proyectos de vanguardia:contentReference[oaicite:13]{index=13}. Como cofundador de Crafter Station, Railly lideró el diseño del producto \"text0\", obteniendo el galardón Overall Winner en el primer Next.js Global Hackathon de 2025:contentReference[oaicite:14]{index=14}. Además, ha participado activamente en la comunidad tecnológica hispana, logrando el 3er lugar en el hackathon Vercel × Midudev 2024 con su proyecto de generador de temas \"Tinte\":contentReference[oaicite:15]{index=15}:contentReference[oaicite:16]{index=16}. Railly combina una fuerte sensibilidad de diseño UX/UI con sólidas habilidades de desarrollo frontend, lo que le permite crear interfaces intuitivas y herramientas que impulsan la productividad de otros desarrolladores. Su vocación docente lo ha llevado a colaborar en la Universidad Nacional Mayor de San Marcos como investigador y mentor, demostrando una actitud abierta y creativa para compartir conocimientos.",
+    "skills": [
+        "Diseño UX/UI",
+        "Desarrollo frontend (React, JavaScript)",
+        "Prototipado e ingeniería de producto",
+        "Herramientas open-source para desarrolladores"
+    ],
+    "experience": [
+        "Design Engineer en The Agile Monkeys (unidad de prototipado con IA), creando experiencias de usuario innovadoras con tecnología de punta:contentReference[oaicite:17]{index=17}:contentReference[oaicite:18]{index=18}.",
+        "Cofundador y Design Lead en Crafter Station (2020-presente), responsable del diseño de productos ganadores de hackathon como \"text0\" (Next.js Global Hackathon 2025):contentReference[oaicite:19]{index=19}.",
+        "Ganador del 3er lugar en el hackathon Vercel × Midudev 2024 con \"Tinte\", un generador de temas multiplataforma que demuestra su enfoque creativo en desarrollo de herramientas:contentReference[oaicite:20]{index=20}:contentReference[oaicite:21]{index=21}.",
+        "Investigador y profesor en UNMSM, contribuyendo a la formación de nuevos talentos en tecnología mediante proyectos académicos y mentorías:contentReference[oaicite:22]{index=22}."
+    ],
+    "notable_achievements": [
+        "Overall Winner del Next.js Global Hackathon 2025 (Vercel) por el proyecto \"text0\":contentReference[oaicite:23]{index=23}.",
+        "Reconocido como un joven líder innovador en la comunidad tech peruana por sus logros en hackathones internacionales (dato no verificable)."
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Tomás Calle",
+    "title": "Cofundador",
+    "company": "Nilho",
+    "biography": "Tomás Calle es un ingeniero de software colombiano y emprendedor en serie dentro del sector fintech. Es cofundador de la startup Nilho (lanzada en 2023) y fundador de Croma (2025), iniciativas enfocadas en infraestructura financiera y soluciones blockchain para pagos y servicios digitales:contentReference[oaicite:24]{index=24}. Graduado de Ingeniería de Sistemas de la Universidad EAFIT, Tomás comenzó su carrera en 2022 y rápidamente asumió roles de liderazgo técnico. Fue Lead Software Engineer en SureFX (2024), donde dirigió el desarrollo de plataformas de pagos, y previamente trabajó en proyectos de innovación blockchain en Blockchain eX - Innovation Center:contentReference[oaicite:25]{index=25}:contentReference[oaicite:26]{index=26}. Tomás destaca por su visión innovadora y capacidad para construir equipos ágiles, aplicando sus conocimientos en criptomonedas y desarrollo de software para crear productos escalables. Su perfil humano se caracteriza por la proactividad y la orientación a resultados, mostrando liderazgo desde etapas tempranas de su carrera.",
+    "skills": [
+        "Desarrollo de software backend",
+        "Blockchain y tecnologías Web3",
+        "Liderazgo y gestión de equipos",
+        "Innovación en fintech"
+    ],
+    "experience": [
+        "Cofundador de Nilho (2023-presente), impulsando una plataforma de servicios financieros basados en tecnología blockchain (Web3):contentReference[oaicite:27]{index=27}.",
+        "Fundador de Croma (2025-presente), enfocada en ofrecer herramientas de infraestructura para proveedores de servicios de pago (off-ramp) a través de APIs:contentReference[oaicite:28]{index=28}:contentReference[oaicite:29]{index=29}.",
+        "Lead Software Engineer en SureFX (2024), lideró el equipo de desarrollo de \"Zabio\" integrando soluciones de pagos digitales y cumplimiento regulatorio.",
+        "Ingeniero de Software en Blockchain eX - Innovation Center (2022), participó en proyectos de I+D orientados a tecnologías descentralizadas."
+    ],
+    "notable_achievements": [
+        "Ha cofundado dos startups tecnológicas antes de cumplir 25 años (Nilho y Croma), demostrando un espíritu emprendedor precoz:contentReference[oaicite:30]{index=30}.",
+        "Seleccionado para programas de formación de líderes tecnológicos en Latinoamérica, resaltando su potencial en el ecosistema startup (dato no verificable)."
+    ]
+}
