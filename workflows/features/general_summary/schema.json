@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "General Summary Schema",
+    "description": "Schema for comprehensive psychological summary based on all raw insights",
+    "type": "object",
+    "properties": {
+        "general_summary": {
+            "type": "object",
+            "properties": {
+                "psychological_summary": {
+                    "type": "string",
+                    "description": "Comprehensive narrative that thoroughly analyzes the psychological impact of ALL events mentioned",
+                    "minLength": 500,
+                    "maxLength": 800
+                },
+                "events_summary": {
+                    "type": "string",
+                    "description": "Detailed narrative that comprehensively covers ALL events and developments mentioned across conversations",
+                    "minLength": 400,
+                    "maxLength": 700
+                },
+                "suggested_questions": {
+                    "type": "array",
+                    "description": "Comprehensive therapeutic questions that address multiple events and their interconnections",
+                    "items": {
+                        "type": "string",
+                        "minLength": 50,
+                        "maxLength": 150
+                    },
+                    "minItems": 6,
+                    "maxItems": 8
+                },
+                "suggested_tasks": {
+                    "type": "array",
+                    "description": "Comprehensive therapeutic activities that address the full scope of events mentioned",
+                    "items": {
+                        "type": "string",
+                        "minLength": 50,
+                        "maxLength": 200
+                    },
+                    "minItems": 4,
+                    "maxItems": 6
+                }
+            },
+            "required": [
+                "psychological_summary",
+                "events_summary",
+                "suggested_questions",
+                "suggested_tasks"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "general_summary"
+    ],
+    "additionalProperties": false
+}

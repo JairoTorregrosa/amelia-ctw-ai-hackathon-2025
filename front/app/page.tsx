@@ -10,24 +10,24 @@ export default function LandingPage() {
         <nav className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="text-2xl font-bold text-slate-800">Amelia</div>
           <div className="flex items-center gap-8">
-            <Link href="#" className="text-slate-700 hover:text-slate-900 font-medium">
+            <Link href="#home" className="text-slate-700 hover:text-slate-900 font-medium">
               Home
             </Link>
-            <Link href="#" className="text-slate-700 hover:text-slate-900 font-medium">
+            <Link href="#about" className="text-slate-700 hover:text-slate-900 font-medium">
               About
             </Link>
-            <Link href="#" className="text-slate-700 hover:text-slate-900 font-medium">
+            <Link href="#contact" className="text-slate-700 hover:text-slate-900 font-medium">
               Contact
             </Link>
-            <Button className="bg-psychology-blue hover:bg-psychology-blue/90 text-white px-6 py-2 rounded-lg">
+            <Link href="/dashboard" className="bg-psychology-blue hover:bg-psychology-blue/90 text-white px-6 py-2 rounded-lg">
               Login
-            </Button>
+            </Link>
           </div>
         </nav>
       </header>
 
       {/* Hero Section */}
-      <section className="px-6 py-16 bg-slate-100">
+      <section className="px-6 py-16 bg-slate-100" id="home">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -41,10 +41,8 @@ export default function LandingPage() {
                 <br />
                 continuous care for mental health.
               </p>
-              <Link href="/dashboard">
-                <Button className="bg-psychology-blue hover:bg-psychology-blue/90 text-white px-8 py-3 text-lg rounded-lg">
-                  Get Started
-                </Button>
+              <Link className="bg-psychology-blue hover:bg-psychology-blue/90 text-white px-8 py-3 text-lg rounded-lg" href="/dashboard">
+                Get Started
               </Link>
             </div>
             <div className="flex justify-center">
@@ -63,7 +61,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="px-6 py-16 bg-white">
+      <section className="px-6 py-16 bg-white" id="about">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -150,7 +148,7 @@ export default function LandingPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="px-6 py-16 bg-white">
+      <section className="px-6 py-16 bg-white" id="contact">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -158,9 +156,9 @@ export default function LandingPage() {
               <p className="text-xl text-slate-600 leading-relaxed">For inquiries and support</p>
             </div>
             <div className="flex justify-center">
-              <Button className="bg-psychology-mint hover:bg-psychology-mint/90 text-slate-800 px-12 py-4 text-lg rounded-lg">
+              <Link className="bg-psychology-mint hover:bg-psychology-mint/90 text-slate-800 px-12 py-4 text-lg rounded-lg" target="_blank" rel="noopener noreferrer" href="https://wa.me/573112853261?text=I'm interested in your services">
                 Submit
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

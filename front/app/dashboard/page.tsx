@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button"
 import { UserAvatar } from "@/components/user-avatar"
 import { Brain, HelpCircle } from "lucide-react"
+import Link from "next/link"
 import { PatientSidebar } from "@/components/patient-sidebar"
 import { InsightCharts } from "@/components/insight-charts"
 import { DateRangePicker } from "@/components/date-range-picker"
@@ -188,8 +189,8 @@ export default function DashboardPage() {
           <div className="flex items-center gap-3">
             <UserAvatar />
             <span className="text-sm font-medium">{therapist?.full_name || 'Therapist'}</span>
-            <Button variant="outline" size="sm">
-              Logout
+            <Button asChild variant="outline" size="sm">
+              <Link href="/">Logout</Link>
             </Button>
           </div>
         </div>

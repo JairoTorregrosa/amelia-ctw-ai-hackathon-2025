@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
-import { ReactQueryProvider } from "@/lib/react-query"
+import { ReactQueryProvider } from "@/libraries/react-query"
 
 const poppins = Poppins({
   subsets: ["latin"],

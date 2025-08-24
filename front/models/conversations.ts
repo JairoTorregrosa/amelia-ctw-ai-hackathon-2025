@@ -1,6 +1,6 @@
 import { makeRepository } from './base'
 import type { Row, Insert, Update } from './base'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/libraries/supabase'
 
 export const Conversations = makeRepository('conversations')
 
