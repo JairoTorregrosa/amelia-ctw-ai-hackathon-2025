@@ -13,6 +13,9 @@ import { LoadingSpinner } from "@/components/loading-spinner"
 import { useQuery } from "@tanstack/react-query"
 import { PatientContext, Profiles } from "@/models"
 import { fetchMessageTimestampsByPatientRange } from "@/models/messages"
+import { fetchMoodClassificationByPatientRange } from "@/models/conversation_insights"
+import { fetchCrisisClassificationByPatientRange } from "@/models/conversation_insights"
+import { fetchConversationsByPatientRange } from "@/models/conversations"
 import type { Profile } from "@/models/profiles"
 import type { TriageInfo } from "@/models/patient_context"
 import { format, parseISO, isValid as isValidDate } from "date-fns"
@@ -87,6 +90,50 @@ export default function DashboardPage() {
       const diffDays = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1)
       const pct = Math.round((days.size / diffDays) * 100)
       return pct
+    },
+  })
+
+  const { data: avgMood } = useQuery({
+    queryKey: ["avgMood", selectedPatientId, dateRange.from, dateRange.to],
+    enabled: Boolean(selectedPatientId),
+    queryFn: async () => {
+      const rows = await fetchMoodClassificationByPatientRange({
+        patientId: selectedPatientId as string,
+        fromIso: `${dateRange.from}T00:00:00`,
+        toIso: `${dateRange.to}T23:59:59`,
+      })
+      const scores: number[] = rows
+        .map((row: any) => row?.content?.mood_score)
+        .filter((n: any) => typeof n === 'number' && n >= 0 && n <= 10)
+      if (scores.length === 0) return null
+      const avg = scores.reduce((a, n) => a + n, 0) / scores.length
+      return Math.round(avg * 10) / 10
+    },
+  })
+
+  const { data: crisisCount } = useQuery({
+    queryKey: ["crisisCount", selectedPatientId, dateRange.from, dateRange.to],
+    enabled: Boolean(selectedPatientId),
+    queryFn: async () => {
+      const rows = await fetchCrisisClassificationByPatientRange({
+        patientId: selectedPatientId as string,
+        fromIso: `${dateRange.from}T00:00:00`,
+        toIso: `${dateRange.to}T23:59:59`,
+      })
+      return rows.filter((r: any) => Boolean(r?.content?.is_crisis)).length
+    },
+  })
+
+  const { data: totalConversations } = useQuery({
+    queryKey: ["totalConversations", selectedPatientId, dateRange.from, dateRange.to],
+    enabled: Boolean(selectedPatientId),
+    queryFn: async () => {
+      const convos = await fetchConversationsByPatientRange({
+        patientId: selectedPatientId as string,
+        fromIso: `${dateRange.from}T00:00:00`,
+        toIso: `${dateRange.to}T23:59:59`,
+      })
+      return convos.length
     },
   })
 
@@ -171,16 +218,16 @@ export default function DashboardPage() {
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="text-center p-4 bg-primary/10 rounded-lg">
-                      <div className="text-2xl font-bold text-primary">12</div>
-                      <div className="text-sm text-muted-foreground">Total Sessions</div>
+                      <div className="text-2xl font-bold text-primary">{totalConversations ?? 0}</div>
+                      <div className="text-sm text-muted-foreground">Total Conversations</div>
                     </div>
                     <div className="text-center p-4 bg-secondary/10 rounded-lg">
-                      <div className="text-2xl font-bold text-secondary">3</div>
+                      <div className="text-2xl font-bold text-secondary">{crisisCount ?? 0}</div>
                       <div className="text-sm text-muted-foreground">Crisis Events</div>
                     </div>
                     <div className="text-center p-4 bg-accent/10 rounded-lg">
-                      <div className="text-2xl font-bold text-accent">7.2</div>
-                      <div className="text-sm text-muted-foreground">Avg Mood Score</div>
+                      <div className="text-2xl font-bold text-accent">{avgMood ?? '—'}</div>
+                      <div className="text-sm text-muted-foreground">Average Mood</div>
                     </div>
                     <div className="text-center p-4 bg-green-100 rounded-lg">
                       <div className="text-2xl font-bold text-green-600">{engagementPct ?? 0}%</div>
