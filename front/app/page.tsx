@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { User, Send } from 'lucide-react';
+import { MessageCircle, ListChecks, Shield, BarChart3 } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -72,68 +71,51 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section className="bg-white px-6 py-16" id="about">
         <div className="mx-auto max-w-6xl">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <h2 className="mb-6 text-4xl font-bold text-slate-800">How It Works</h2>
-              <p className="text-xl leading-relaxed text-slate-600">
-                Learn more about how Amelia can
-                <br />
-                assist you on your mental health
-              </p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 p-8">
-              {/* Chat Interface Mockup */}
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="bg-psychology-lavender flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full">
-                    <User className="h-4 w-4 text-white" />
+          <div className="grid items-start gap-12 lg:gap-24 lg:grid-cols-2">
+            <div className="max-w-xl lg:pr-8">
+              <h2 className="mb-2 text-4xl font-bold text-slate-800">How It Works</h2>
+              <p className="text-slate-600">Care on WhatsApp, insights for your therapist.</p>
+              <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                      <MessageCircle className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-semibold text-slate-800">Reach out anytime</h3>
                   </div>
-                  <div className="bg-psychology-lavender max-w-xs rounded-2xl rounded-tl-sm px-4 py-3 text-white">
-                    Hello! I'm here for you. How can I assist you today?
+                  <p className="mt-2 text-sm text-slate-600">Message Amelia on WhatsApp for warm, instant support.</p>
+                </div>
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                      <ListChecks className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-semibold text-slate-800">Choose your flow</h3>
                   </div>
+                  <p className="mt-2 text-sm text-slate-600">Chat freely or do a 2‑minute guided check‑in.</p>
                 </div>
-                <div className="flex items-start justify-end gap-3">
-                  <div className="bg-psychology-mint max-w-xs rounded-2xl rounded-tr-sm px-4 py-3 text-slate-800">
-                    I've been feeling overwhelmed recently.
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                      <Shield className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-semibold text-slate-800">Private by design</h3>
                   </div>
+                  <p className="mt-2 text-sm text-slate-600">Your reflections are stored securely.</p>
                 </div>
-                <div className="flex items-center justify-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="Send a message..."
-                    className="focus:ring-psychology-blue flex-1 rounded-full border border-slate-200 px-4 py-2 focus:ring-2 focus:outline-none"
-                  />
-                  <Button
-                    size="sm"
-                    className="bg-psychology-blue hover:bg-psychology-blue/90 rounded-full p-2"
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="flex justify-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full bg-transparent text-xs"
-                  >
-                    Crisis support
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full bg-transparent text-xs"
-                  >
-                    Coping strategies
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full bg-transparent text-xs"
-                  >
-                    Mood tracking
-                  </Button>
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-md bg-psychology-blue/10 p-2 text-psychology-blue">
+                      <BarChart3 className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-semibold text-slate-800">Insight for your care</h3>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-600">Summaries and trends help your therapist see progress.</p>
                 </div>
               </div>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-8 md:p-12 shadow-sm">
+              <img src="/whatsapp_picture.jpg" alt="Chat Interface" className="h-auto w-full" />
             </div>
           </div>
         </div>
