@@ -49,14 +49,11 @@ export default function LandingPage() {
             </div>
             <div className="flex justify-center">
               <div className="relative">
-                <div className="w-100 h-100 rounded-full flex items-center justify-center">
+                <div className="flex items-center justify-center">
                   <img
                     src="/amelia.png"
                     alt="AI Therapy Assistant"
-                    className="object-contain amelia-image"
-                    style={{
-                      maxWidth: "600px",
-                    }}
+                    className="object-contain amelia-image w-full md:w-[500px] md:max-w-none h-auto"
                   />
                 </div>
               </div>
