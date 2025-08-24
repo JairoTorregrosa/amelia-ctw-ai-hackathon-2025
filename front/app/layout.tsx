@@ -12,9 +12,35 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Psychology Dashboard',
-  description: 'AI-powered therapy insights dashboard for psychologists',
-  generator: 'v0.app',
+  applicationName: 'Amelia',
+  title: {
+    default: 'Amelia - AI Therapy Assistant',
+    template: '%s • Amelia',
+  },
+  description: 'AI-powered therapy assistant and insights dashboard for psychologists and patients.',
+  keywords: [
+    'Amelia',
+    'therapy',
+    'mental health',
+    'psychology',
+    'AI assistant',
+    'dashboard',
+  ],
+  authors: [{ name: 'Amelia Team' }],
+  creator: 'Amelia Team',
+  publisher: 'Amelia',
+  generator: 'nextjs',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [{ url: '/logo.png' }],
+    shortcut: ['/favicon.svg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
