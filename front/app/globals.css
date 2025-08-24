@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -128,7 +128,7 @@
   --color-psychology-white: var(--psychology-white);
 
   /* Added Poppins font family */
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {

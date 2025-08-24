@@ -1,11 +1,11 @@
-import type React from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LoadingSpinner } from "./loading-spinner"
+import type React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from './loading-spinner';
 
 interface ChartLoadingSkeletonProps {
-  title: string
-  icon: React.ReactNode
-  height?: number
+  title: string;
+  icon: React.ReactNode;
+  height?: number;
 }
 
 export function ChartLoadingSkeleton({ title, icon, height = 250 }: ChartLoadingSkeletonProps) {
@@ -18,10 +18,13 @@ export function ChartLoadingSkeleton({ title, icon, height = 250 }: ChartLoading
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-center bg-muted/30 rounded-lg" style={{ height: `${height}px` }}>
+        <div
+          className="bg-muted/30 flex items-center justify-center rounded-lg"
+          style={{ height: `${height}px` }}
+        >
           <LoadingSpinner size="lg" text="Loading chart data..." />
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

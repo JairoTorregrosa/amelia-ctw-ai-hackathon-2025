@@ -1,80 +1,87 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { UserAvatar } from "@/components/user-avatar"
-import { Brain, HelpCircle } from "lucide-react"
-import Link from "next/link"
-import { PatientSidebar } from "@/components/patient-sidebar"
-import { InsightCharts } from "@/components/insight-charts"
-import { DateRangePicker } from "@/components/date-range-picker"
-import { LoadingSpinner } from "@/components/loading-spinner"
-import { useQuery } from "@tanstack/react-query"
-import { PatientContext, Profiles } from "@/models"
-import { fetchMessageTimestampsByPatientRange } from "@/models/messages"
-import { fetchMoodClassificationByPatientRange } from "@/models/conversation_insights"
-import { fetchCrisisClassificationByPatientRange } from "@/models/conversation_insights"
-import { fetchConversationsByPatientRange } from "@/models/conversations"
-import type { Profile } from "@/models/profiles"
-import type { TriageInfo } from "@/models/patient_context"
-import { format, parseISO, isValid as isValidDate } from "date-fns"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { UserAvatar } from '@/components/user-avatar';
+import { Brain, HelpCircle } from 'lucide-react';
+import Link from 'next/link';
+import { PatientSidebar } from '@/components/patient-sidebar';
+import { InsightCharts } from '@/components/insight-charts';
+import { DateRangePicker } from '@/components/date-range-picker';
+import { LoadingSpinner } from '@/components/loading-spinner';
+import { useQuery } from '@tanstack/react-query';
+import { PatientContext, Profiles } from '@/models';
+import { fetchMessageTimestampsByPatientRange } from '@/models/messages';
+import { fetchMoodClassificationByPatientRange } from '@/models/conversation_insights';
+import { fetchCrisisClassificationByPatientRange } from '@/models/conversation_insights';
+import { fetchConversationsByPatientRange } from '@/models/conversations';
+import type { Profile } from '@/models/profiles';
+import type { TriageInfo } from '@/models/patient_context';
+import { format, parseISO, isValid as isValidDate } from 'date-fns';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 export default function DashboardPage() {
-  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null)
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
   const [dateRange, setDateRange] = useState({
-    from: "2025-08-15",
-    to: "2025-08-29",
-  })
-  const [isLoadingSummary, setIsLoadingSummary] = useState(false)
-  const [engagementHelpOpen, setEngagementHelpOpen] = useState(false)
+    from: '2025-08-15',
+    to: '2025-08-29',
+  });
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
+  const [engagementHelpOpen, setEngagementHelpOpen] = useState(false);
 
   const { data: patients, isLoading: loadingPatients } = useQuery({
-    queryKey: ["patients"],
+    queryKey: ['patients'],
     queryFn: () =>
       Profiles.list({
-        filters: { role: "patient" },
-        order: { column: "full_name", ascending: true },
+        filters: { role: 'patient' },
+        order: { column: 'full_name', ascending: true },
       }),
-  })
+  });
 
   const { data: therapist } = useQuery({
-    queryKey: ["therapist"],
+    queryKey: ['therapist'],
     queryFn: async () => {
-      const result = await Profiles.list({ filters: { role: "therapist" }, limit: 1 })
-      return result[0] ?? null
+      const result = await Profiles.list({ filters: { role: 'therapist' }, limit: 1 });
+      return result[0] ?? null;
     },
-  })
+  });
 
   useEffect(() => {
     if (!selectedPatientId && patients && patients.length > 0) {
-      setSelectedPatientId(patients[0].id)
+      setSelectedPatientId(patients[0].id);
     }
-  }, [patients, selectedPatientId])
+  }, [patients, selectedPatientId]);
 
-  const selectedPatient: Profile | undefined = patients?.find((p) => p.id === selectedPatientId)
+  const selectedPatient: Profile | undefined = patients?.find((p) => p.id === selectedPatientId);
 
-  const {
-    data: patientContext,
-    isLoading: loadingPatientContext,
-  } = useQuery({
-    queryKey: ["patientContext", selectedPatientId],
+  const { data: patientContext, isLoading: loadingPatientContext } = useQuery({
+    queryKey: ['patientContext', selectedPatientId],
     enabled: !!selectedPatientId,
     queryFn: async () => {
-      const result = await PatientContext.list({ filters: { patient_id: selectedPatientId as string }, limit: 1 })
-      return result[0] ?? null
+      const result = await PatientContext.list({
+        filters: { patient_id: selectedPatientId as string },
+        limit: 1,
+      });
+      return result[0] ?? null;
     },
-  })
+  });
 
-  const triageInfo: TriageInfo | null = (patientContext?.triage_info as unknown as TriageInfo) || null
-  const lastUpdatedIso = patientContext?.last_updated_at ?? null
+  const triageInfo: TriageInfo | null =
+    (patientContext?.triage_info as unknown as TriageInfo) || null;
+  const lastUpdatedIso = patientContext?.last_updated_at ?? null;
 
-  const isLoadingPatientData = loadingPatients || loadingPatientContext
+  const isLoadingPatientData = loadingPatients || loadingPatientContext;
 
   const { data: engagementPct } = useQuery({
-    queryKey: ["engagement", selectedPatientId, dateRange.from, dateRange.to],
+    queryKey: ['engagement', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
       const timestamps = await fetchMessageTimestampsByPatientRange({
@@ -82,71 +89,74 @@ export default function DashboardPage() {
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
         sender: 'patient',
-      })
+      });
       const days = new Set(
-        timestamps.map((iso) => iso.slice(0, 10)) // YYYY-MM-DD
-      )
-      const start = new Date(`${dateRange.from}T00:00:00`)
-      const end = new Date(`${dateRange.to}T00:00:00`)
-      const diffDays = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1)
-      const pct = Math.round((days.size / diffDays) * 100)
-      return pct
+        timestamps.map((iso) => iso.slice(0, 10)), // YYYY-MM-DD
+      );
+      const start = new Date(`${dateRange.from}T00:00:00`);
+      const end = new Date(`${dateRange.to}T00:00:00`);
+      const diffDays = Math.max(
+        1,
+        Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1,
+      );
+      const pct = Math.round((days.size / diffDays) * 100);
+      return pct;
     },
-  })
+  });
 
   const { data: avgMood } = useQuery({
-    queryKey: ["avgMood", selectedPatientId, dateRange.from, dateRange.to],
+    queryKey: ['avgMood', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
       const rows = await fetchMoodClassificationByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
-      })
+      });
       const scores: number[] = rows
         .map((row: any) => row?.content?.mood_score)
-        .filter((n: any) => typeof n === 'number' && n >= 0 && n <= 10)
-      if (scores.length === 0) return null
-      const avg = scores.reduce((a, n) => a + n, 0) / scores.length
-      return Math.round(avg * 10) / 10
+        .filter((n: any) => typeof n === 'number' && n >= 0 && n <= 10);
+      if (scores.length === 0) return null;
+      const avg = scores.reduce((a, n) => a + n, 0) / scores.length;
+      return Math.round(avg * 10) / 10;
     },
-  })
+  });
 
   const { data: crisisCount } = useQuery({
-    queryKey: ["crisisCount", selectedPatientId, dateRange.from, dateRange.to],
+    queryKey: ['crisisCount', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
       const rows = await fetchCrisisClassificationByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
-      })
-      return rows.filter((r: any) => Boolean(r?.content?.is_crisis)).length
+      });
+      return rows.filter((r: any) => Boolean(r?.content?.is_crisis)).length;
     },
-  })
+  });
 
   const { data: totalConversations } = useQuery({
-    queryKey: ["totalConversations", selectedPatientId, dateRange.from, dateRange.to],
+    queryKey: ['totalConversations', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
       const convos = await fetchConversationsByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
-      })
-      return convos.length
+      });
+      return convos.length;
     },
-  })
+  });
 
   const handlePatientChange = (patientId: string) => {
-    setSelectedPatientId(patientId)
-    setIsLoadingSummary(true)
+    setSelectedPatientId(patientId);
+    setIsLoadingSummary(true);
     // Simulate summary recompute
-    setTimeout(() => setIsLoadingSummary(false), 800)
-  }
+    setTimeout(() => setIsLoadingSummary(false), 800);
+  };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="bg-background flex min-h-screen">
       {/* Left Sidebar - Patient Info */}
       {selectedPatient ? (
         <PatientSidebar
@@ -157,7 +167,15 @@ export default function DashboardPage() {
         />
       ) : (
         <PatientSidebar
-          profile={{ id: "", created_at: "", updated_at: null, email: "", full_name: "Loading...", phone: null, role: "patient" }}
+          profile={{
+            id: '',
+            created_at: '',
+            updated_at: null,
+            email: '',
+            full_name: 'Loading...',
+            phone: null,
+            role: 'patient',
+          }}
           isLoading={true}
         />
       )}
@@ -165,10 +183,10 @@ export default function DashboardPage() {
       {/* Main Content Area */}
       <div className="flex-1 p-6">
         {/* Top Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-semibold text-foreground">Insights</h1>
-            <Select value={selectedPatientId ?? ""} onValueChange={handlePatientChange}>
+            <h1 className="text-foreground text-2xl font-semibold">Insights</h1>
+            <Select value={selectedPatientId ?? ''} onValueChange={handlePatientChange}>
               <SelectTrigger className="w-64">
                 <SelectValue placeholder="Select patient" />
               </SelectTrigger>
@@ -201,13 +219,14 @@ export default function DashboardPage() {
         </div>
 
         {/* Insights Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Summary Card - Full Width */}
-          <Card className="lg:col-span-2 bg-card border-border">
+          <Card className="bg-card border-border lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Brain className="h-5 w-5 text-primary" />
-                Patient Summary ({format(parseISO(dateRange.from), 'MMM d, yyyy')} - {format(parseISO(dateRange.to), 'MMM d, yyyy')})
+                <Brain className="text-primary h-5 w-5" />
+                Patient Summary ({format(parseISO(dateRange.from), 'MMM d, yyyy')} -{' '}
+                {format(parseISO(dateRange.to), 'MMM d, yyyy')})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -217,27 +236,29 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="text-center p-4 bg-primary/10 rounded-lg">
-                      <div className="text-2xl font-bold text-primary">{totalConversations ?? 0}</div>
-                      <div className="text-sm text-muted-foreground">Total Conversations</div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+                    <div className="bg-primary/10 rounded-lg p-4 text-center">
+                      <div className="text-primary text-2xl font-bold">
+                        {totalConversations ?? 0}
+                      </div>
+                      <div className="text-muted-foreground text-sm">Total Conversations</div>
                     </div>
-                    <div className="text-center p-4 bg-secondary/10 rounded-lg">
-                      <div className="text-2xl font-bold text-secondary">{crisisCount ?? 0}</div>
-                      <div className="text-sm text-muted-foreground">Crisis Events</div>
+                    <div className="bg-secondary/10 rounded-lg p-4 text-center">
+                      <div className="text-secondary text-2xl font-bold">{crisisCount ?? 0}</div>
+                      <div className="text-muted-foreground text-sm">Crisis Events</div>
                     </div>
-                    <div className="text-center p-4 bg-accent/10 rounded-lg">
-                      <div className="text-2xl font-bold text-accent">{avgMood ?? '—'}</div>
-                      <div className="text-sm text-muted-foreground">Average Mood</div>
+                    <div className="bg-accent/10 rounded-lg p-4 text-center">
+                      <div className="text-accent text-2xl font-bold">{avgMood ?? '—'}</div>
+                      <div className="text-muted-foreground text-sm">Average Mood</div>
                     </div>
-                    <div className="text-center p-4 bg-green-100 rounded-lg">
+                    <div className="rounded-lg bg-green-100 p-4 text-center">
                       <div className="text-2xl font-bold text-green-600">{engagementPct ?? 0}%</div>
-                      <div className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+                      <div className="text-muted-foreground flex items-center justify-center gap-1 text-sm">
                         Engagement Rate
                         <Popover open={engagementHelpOpen} onOpenChange={setEngagementHelpOpen}>
                           <PopoverTrigger
                             aria-label="What is engagement rate?"
-                            className="inline-flex items-center text-muted-foreground hover:text-foreground"
+                            className="text-muted-foreground hover:text-foreground inline-flex items-center"
                             onMouseEnter={() => setEngagementHelpOpen(true)}
                             onMouseLeave={() => setEngagementHelpOpen(false)}
                           >
@@ -250,17 +271,19 @@ export default function DashboardPage() {
                             onMouseEnter={() => setEngagementHelpOpen(true)}
                             onMouseLeave={() => setEngagementHelpOpen(false)}
                           >
-                            Percentage of days in the selected period when the patient sent at least one message to the bot.
+                            Percentage of days in the selected period when the patient sent at least
+                            one message to the bot.
                           </PopoverContent>
                         </Popover>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 p-4 bg-muted rounded-lg">
-                    <p className="text-sm text-muted-foreground">
-                      <strong>Key Insights:</strong> Patient shows significant improvement in anxiety management. Mood
-                      scores have increased by 15% compared to previous period. Recommended to continue current therapy
-                      approach with focus on coping strategies.
+                  <div className="bg-muted mt-4 rounded-lg p-4">
+                    <p className="text-muted-foreground text-sm">
+                      <strong>Key Insights:</strong> Patient shows significant improvement in
+                      anxiety management. Mood scores have increased by 15% compared to previous
+                      period. Recommended to continue current therapy approach with focus on coping
+                      strategies.
                     </p>
                   </div>
                 </>
@@ -277,5 +300,5 @@ export default function DashboardPage() {
         />
       </div>
     </div>
-  )
+  );
 }
