@@ -88,26 +88,33 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
   });
 
   const moodDaily = useMemo(() => {
-    // Expected content shape: { context: string, mood_score: number, classification_type: string }
-    // Group by created_at day and average mood_score
-    const items: { date: string; score: number }[] = [];
+    // Build list of valid mood scores keyed by day, preferring conversations.started_at over created_at
+    const items: { dateKey: string; score: number }[] = [];
     for (const row of moodRows || []) {
-      const content = row?.content as { mood_score?: number } | undefined;
+      const content = row?.content as
+        | { mood_score?: number; classification_type?: string }
+        | undefined;
       if (!content) continue;
-      const rawScore = content?.mood_score;
-      const derived =
-        typeof rawScore === 'number' && rawScore >= 0 && rawScore <= 10 ? rawScore : undefined;
-      if (derived == null) continue;
-      const ts: string | undefined = row?.created_at;
-      if (!ts) continue;
-      const day = ts.slice(0, 10);
-      items.push({ date: day, score: derived });
+
+      const classificationType = content.classification_type;
+      if (classificationType !== 'explicit' && classificationType !== 'inferred') continue;
+
+      const rawScore = content.mood_score;
+      const isValidScore = typeof rawScore === 'number' && Number.isFinite(rawScore);
+      if (!isValidScore || rawScore < 0 || rawScore > 10) continue;
+
+      const startedAt: string | undefined = (row as any)?.conversations?.started_at;
+      const createdAt: string | undefined = (row as any)?.created_at;
+      const isoDate = (startedAt || createdAt || '').slice(0, 10);
+      if (!isoDate) continue;
+
+      items.push({ dateKey: isoDate, score: rawScore });
     }
 
     const byDay = new Map<string, number[]>();
     for (const it of items) {
-      if (!byDay.has(it.date)) byDay.set(it.date, []);
-      byDay.get(it.date)!.push(it.score);
+      if (!byDay.has(it.dateKey)) byDay.set(it.dateKey, []);
+      byDay.get(it.dateKey)!.push(it.score);
     }
 
     const days = eachDayOfInterval({
@@ -276,6 +283,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                 <Line
                   type="monotone"
                   dataKey="mood"
+                  connectNulls
                   stroke="#6CAEDD"
                   strokeWidth={3}
                   dot={{ fill: '#6CAEDD', strokeWidth: 2, r: 4 }}
