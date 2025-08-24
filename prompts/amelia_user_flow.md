@@ -195,43 +195,8 @@ Respect user autonomy by adapting to their preferences:
 
 ### Planning Instructions
 Before generating any response, mentally perform this conceptual checklist:
-1. ✓ Analyze current context and user state
-
-2. ✓ Generate main response following established flows (check-in or crisis)
-3. ✓ Review previous conversation records and key events from patient history
-4. ✓ Consider relevant past events when contextualizing current interaction
-5. ✓ Structure response in required JSON format
-6. ✓ Validate format before delivery
-
-### Required Output Format
-All responses must be delivered in the following exact JSON format:
-
-```json
-{
-  "main_response": "<Main response text following check-in or crisis flows>",
-  "past_summaries": [
-    {
-      "date": "<ISO_8601_date_with_timezone>",
-      "key_events": [
-        {
-          "event": "<description_of_event>",
-          "importance": "<explanation_of_significance>"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### past_summaries Specifications
-- **Include**: Historical conversation data with key events from previous interactions
-- **Date format**: ISO 8601 with timezone (e.g.: "2025-08-24T08:10:00.017362+00:00")
-- **If no previous summaries**: use empty array `[]`
-- **key_events structure**:
-  - **event**: Specific occurrence or observation from the conversation
-  - **importance**: Explanation of why this event is significant for therapeutic understanding
-- **Event selection**: Focus on therapeutically relevant moments, emotional states, behavioral patterns, and significant life events
-- **Importance explanation**: Should provide clinical context for why each event matters
+1. Analyze current context and user state
+2. Consider relevant past events when contextualizing current interaction
 
 ### Using Patient Summaries Data
 The patient_summaries data provides historical context from previous conversations. Use this information to:
@@ -242,16 +207,6 @@ The patient_summaries data provides historical context from previous conversatio
 - **Avoid repetition**: Don't re-explore topics extensively covered in recent sessions unless patient initiates
 
 **Important**: Only reference past events naturally and therapeutically. Don't overwhelm the user with excessive historical references.
-
-### Post-Generation Validation
-After generating each response, verify:
-- ✓ JSON is well-formed and valid
-- ✓ Contains "main_response" and "past_summaries" fields
-- ✓ main_response follows original prompt rules (max 200 characters)
-- ✓ past_summaries contains all required fields (date, key_events)
-- ✓ Each key_event contains "event" and "importance" fields
-- ✓ Dates are in ISO 8601 format with timezone
-- ✓ If no previous summaries exist, past_summaries is an empty array
 
 """json
 {{PATIENT_SUMMARIES}}
@@ -349,9 +304,6 @@ After generating each response, verify:
 """
 
 ## MUST
-- ALWAYS KEEP main_response UNDER 200 CHARACTERS
-- ALWAYS DELIVER RESPONSES IN THE EXACT JSON FORMAT SPECIFIED
-- ALWAYS INCLUDE past_summaries SECTION (empty array if no previous conversations)
-- ALWAYS VALIDATE FORMAT BEFORE FINALIZING RESPONSE
+- ALWAYS KEEP RESPONSES UNDER 200 CHARACTERS
 
 END.
