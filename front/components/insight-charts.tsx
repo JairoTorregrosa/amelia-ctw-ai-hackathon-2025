@@ -22,6 +22,8 @@ import { CrisisEmotionModal, getCrisisDetails } from "./crisis-emotion-modal"
 import { useQuery } from "@tanstack/react-query"
 import { fetchPrimaryEmotionInsightsByPatient, type PrimaryEmotionItem } from "@/models/conversation_insights"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { fetchConversationsByPatientRange } from "@/models/conversations"
+import { format, eachDayOfInterval } from "date-fns"
 
 // Mock data for charts
 const moodData = [
@@ -109,6 +111,35 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
         patientId: patientId as string,
         fromIso: `${dateRange!.from}T00:00:00`,
         toIso: `${dateRange!.to}T23:59:59`,
+      })
+    },
+  })
+
+  const { data: dailyConversations } = useQuery({
+    queryKey: ["dailyConversations", patientId, dateRange?.from, dateRange?.to],
+    enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
+    queryFn: async () => {
+      const convos = await fetchConversationsByPatientRange({
+        patientId: patientId as string,
+        fromIso: `${dateRange!.from}T00:00:00`,
+        toIso: `${dateRange!.to}T23:59:59`,
+      })
+
+      const byDay = new Map<string, number>()
+      for (const c of convos) {
+        const startedDay = (c.started_at || '').slice(0, 10)
+        if (!startedDay) continue
+        byDay.set(startedDay, (byDay.get(startedDay) || 0) + 1)
+      }
+
+      const days = eachDayOfInterval({ start: new Date(`${dateRange!.from}T00:00:00`), end: new Date(`${dateRange!.to}T00:00:00`) })
+      return days.map((d) => {
+        const key = format(d, 'yyyy-MM-dd')
+        return {
+          day: format(d, 'EEE'),
+          date: format(d, 'MM/dd'),
+          sessions: byDay.get(key) || 0,
+        }
       })
     },
   })
@@ -222,19 +253,19 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
           </CardContent>
         </Card>
 
-        {/* Session Activity Chart */}
+        {/* Daily Conversation Activity */}
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MessageSquare className="h-5 w-5 text-secondary" />
-              Weekly Session Activity
+              Daily Conversation Activity
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={sessionData}>
+              <BarChart data={dailyConversations || []}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="day" stroke="#6b7280" fontSize={12} />
+                <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
                 <YAxis stroke="#6b7280" fontSize={12} />
                 <Tooltip
                   contentStyle={{
@@ -243,7 +274,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                     borderRadius: "8px",
                   }}
                 />
-                <Bar dataKey="sessions" fill="#A5E3D0" radius={[4, 4, 0, 0]} name="Sessions" />
+                <Bar dataKey="sessions" fill="#A5E3D0" radius={[4, 4, 0, 0]} name="Conversations" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
