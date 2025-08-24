@@ -75,4 +75,34 @@ export async function fetchMoodClassificationByPatientRange(params: {
   return (data || []) as unknown as MoodClassificationRow[]
 }
 
+// Crisis classification
+export type CrisisClassificationRow = {
+  created_at: string
+  content: any
+  conversations?: { started_at?: string | null; last_message_at?: string | null } | null
+}
+
+export async function fetchCrisisClassificationByPatientRange(params: {
+  patientId: string
+  fromIso: string
+  toIso: string
+}): Promise<CrisisClassificationRow[]> {
+  const { patientId, fromIso, toIso } = params
+  const { data, error } = await supabase
+    .from('conversation_insights')
+    .select([
+      'created_at,content',
+      'conversations!inner(started_at,last_message_at,patient_id)',
+      'insight_types!inner(type_key)'
+    ].join(','))
+    .eq('completed', true)
+    .eq('conversations.patient_id', patientId)
+    .gte('conversations.started_at', fromIso)
+    .lte('conversations.last_message_at', toIso)
+    .eq('insight_types.type_key', 'crisis_classification')
+
+  if (error) throw error
+  return (data || []) as unknown as CrisisClassificationRow[]
+}
+
 

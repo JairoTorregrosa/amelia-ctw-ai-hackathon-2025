@@ -18,9 +18,8 @@ import {
 } from "recharts"
 import { TrendingUp, MessageSquare, AlertTriangle, Activity } from "lucide-react"
 import { ChartLoadingSkeleton } from "./chart-loading-skeleton"
-import { CrisisEmotionModal, getCrisisDetails } from "./crisis-emotion-modal"
 import { useQuery } from "@tanstack/react-query"
-import { fetchPrimaryEmotionInsightsByPatient, type PrimaryEmotionItem, fetchMoodClassificationByPatientRange } from "@/models/conversation_insights"
+import { fetchPrimaryEmotionInsightsByPatient, type PrimaryEmotionItem, fetchMoodClassificationByPatientRange, fetchCrisisClassificationByPatientRange } from "@/models/conversation_insights"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { fetchConversationsByPatientRange } from "@/models/conversations"
 import { format, eachDayOfInterval } from "date-fns"
@@ -81,17 +80,14 @@ const ALLOWED_EMOTIONS = new Set(["joy", "sadness", "anger", "fear", "surprise",
 
 export function InsightCharts({ isLoading = false, patientId, dateRange }: InsightChartsProps) {
   const [modalOpen, setModalOpen] = useState(false)
-  const [modalType, setModalType] = useState<"crisis" | "emotion">("crisis")
+  const [modalType, setModalType] = useState<"emotion" | "crisis-classification">("emotion")
   const [modalData, setModalData] = useState<any>(null)
   const [selectedEmotion, setSelectedEmotion] = useState<AggregatedEmotion | null>(null)
 
-  const handleCrisisClick = (crisisIndex: number) => {
-    const crisisDetails = getCrisisDetails(crisisIndex)
-    if (crisisDetails) {
-      setModalType("crisis")
-      setModalData(crisisDetails)
-      setModalOpen(true)
-    }
+  const handleCrisisClassificationClick = (item: any) => {
+    setModalType("crisis-classification")
+    setModalData(item)
+    setModalOpen(true)
   }
 
   const handleEmotionClick = (emotionName: string) => {
@@ -233,6 +229,34 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     })
   }, [primaryEmotionContents])
 
+  const { data: crisisRows } = useQuery({
+    queryKey: ["crisisClassification", patientId, dateRange?.from, dateRange?.to],
+    enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
+    queryFn: async () => {
+      return fetchCrisisClassificationByPatientRange({
+        patientId: patientId as string,
+        fromIso: `${dateRange!.from}T00:00:00`,
+        toIso: `${dateRange!.to}T23:59:59`,
+      })
+    },
+  })
+
+  const crisisItems = useMemo(() => {
+    const list = (crisisRows || [])
+      .map((r: any) => ({
+        created_at: r?.created_at as string,
+        is_crisis: Boolean(r?.content?.is_crisis),
+        crisis_severity: r?.content?.crisis_severity || '',
+        activator: r?.content?.activator || '',
+        belief: r?.content?.belief || '',
+        consequence: r?.content?.consequence || '',
+        context: r?.content?.context || '',
+      }))
+      .filter((x) => x.is_crisis)
+      .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+    return list
+  }, [crisisRows])
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -372,42 +396,39 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
           </CardContent>
         </Card>
 
-        {/* Crisis Events */}
+        {/* Crisis Classifications */}
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-red-500" />
-              Crisis Events
+              Crisis Classifications
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {crisisData.map((crisis, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200 cursor-pointer hover:bg-red-100 transition-colors"
-                  onClick={() => handleCrisisClick(index)}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-red-500 rounded-full" />
-                    <div>
-                      <div className="text-sm font-medium text-red-800">Crisis at {crisis.time}</div>
-                      <div className="text-xs text-red-600">Duration: {crisis.duration} minutes</div>
+            {crisisItems.length === 0 ? (
+              <div className="text-sm text-muted-foreground">No crisis detected in the selected period.</div>
+            ) : (
+              <div className="space-y-3">
+                {crisisItems.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3 rounded-lg border cursor-pointer hover:bg-red-50 transition-colors"
+                    onClick={() => handleCrisisClassificationClick(item)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium">{format(new Date(item.created_at), 'MMM d, yyyy HH:mm')}</div>
+                      <div className="text-xs px-2 py-0.5 rounded bg-red-100 text-red-700">
+                        {item.crisis_severity || 'unspecified'}
+                      </div>
                     </div>
+                    <div className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.context}</div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm font-bold text-red-800">{crisis.intensity}/10</div>
-                    <div className="text-xs text-red-600">Intensity</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
-
-      {/* Existing modal for mock crisis data */}
-      <CrisisEmotionModal isOpen={modalOpen && modalType === 'crisis'} onClose={() => setModalOpen(false)} type={modalType} data={modalData} />
 
       {/* Primary Emotion Details Modal */}
       <Dialog open={modalOpen && modalType === 'emotion'} onOpenChange={() => setModalOpen(false)}>
@@ -450,6 +471,56 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                   <span className="text-xs text-muted-foreground">No contexts</span>
                 )}
               </ul>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Crisis Classification Details Modal */}
+      <Dialog open={modalOpen && modalType === 'crisis-classification'} onOpenChange={() => setModalOpen(false)}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+              Crisis Classification
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div>
+                <div className="text-xs text-muted-foreground">Detected At</div>
+                <div className="font-medium">{modalData?.created_at ? format(new Date(modalData.created_at), 'PPpp') : '—'}</div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Severity</div>
+                <div className="font-medium capitalize">{modalData?.crisis_severity || 'unspecified'}</div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Is Crisis</div>
+                <div className="font-medium">{modalData?.is_crisis ? 'Yes' : 'No'}</div>
+              </div>
+            </div>
+            {modalData?.activator ? (
+              <div>
+                <div className="text-sm font-medium">Activator</div>
+                <div className="text-sm text-muted-foreground">{modalData.activator}</div>
+              </div>
+            ) : null}
+            {modalData?.belief ? (
+              <div>
+                <div className="text-sm font-medium">Belief</div>
+                <div className="text-sm text-muted-foreground">{modalData.belief}</div>
+              </div>
+            ) : null}
+            {modalData?.consequence ? (
+              <div>
+                <div className="text-sm font-medium">Consequence</div>
+                <div className="text-sm text-muted-foreground">{modalData.consequence}</div>
+              </div>
+            ) : null}
+            <div>
+              <div className="text-sm font-medium">Context</div>
+              <div className="text-sm text-muted-foreground whitespace-pre-wrap">{modalData?.context || '—'}</div>
             </div>
           </div>
         </DialogContent>
