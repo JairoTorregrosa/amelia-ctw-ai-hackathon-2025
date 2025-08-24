@@ -159,7 +159,8 @@ export default function LandingPage() {
                 enhance patient care.
               </p>
               <p className="mt-4 text-sm text-slate-600">
-                View mood trends, conversation activity, emotion distribution, crisis alerts, and key insights at a glance.
+                View mood trends, conversation activity, emotion distribution, crisis alerts, and
+                key insights at a glance.
               </p>
             </div>
           </div>

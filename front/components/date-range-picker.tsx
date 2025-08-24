@@ -17,10 +17,6 @@ interface DateRangePickerProps {
 
 export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const today = new Date();
-  const todayStr = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-    .toISOString()
-    .slice(0, 10);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
