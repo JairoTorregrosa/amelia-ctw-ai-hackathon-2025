@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserAvatar } from "@/components/user-avatar"
 import { Brain } from "lucide-react"
 import { PatientSidebar } from "@/components/patient-sidebar"
 import { InsightCharts } from "@/components/insight-charts"
@@ -90,15 +90,7 @@ export default function DashboardPage() {
                 {mockPatients.map((patient) => (
                   <SelectItem key={patient.id} value={patient.id}>
                     <div className="flex items-center gap-2">
-                      <Avatar className="h-6 w-6">
-                        <AvatarImage src={patient.avatar || "/placeholder.svg"} />
-                        <AvatarFallback>
-                          {patient.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
+                      <UserAvatar className="h-6 w-6" />
                       {patient.name}
                     </div>
                   </SelectItem>
@@ -109,10 +101,7 @@ export default function DashboardPage() {
 
           {/* Psychologist Profile */}
           <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src={mockPsychologist.avatar || "/placeholder.svg"} />
-              <AvatarFallback>DW</AvatarFallback>
-            </Avatar>
+            <UserAvatar />
             <span className="text-sm font-medium">{mockPsychologist.name}</span>
             <Button variant="outline" size="sm">
               Logout

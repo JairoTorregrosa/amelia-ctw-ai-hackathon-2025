@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserAvatar } from "./user-avatar"
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, AlertTriangle, Heart } from "lucide-react"
 import { LoadingSpinner } from "./loading-spinner"
@@ -44,15 +44,7 @@ export function PatientSidebar({ patient, isLoading = false }: PatientSidebarPro
           <>
             <CardHeader className="text-center pb-4">
               <div className="flex flex-col items-center gap-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={patient.avatar || "/placeholder.svg"} />
-                  <AvatarFallback className="text-lg">
-                    {patient.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
+                <UserAvatar size={96} />
                 <div>
                   <h2 className="text-xl font-semibold text-card-foreground">{patient.name}</h2>
                   <p className="text-sm text-muted-foreground">Age: {patient.age}</p>
