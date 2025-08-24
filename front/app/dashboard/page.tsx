@@ -20,13 +20,14 @@ import { LoadingSpinner } from '@/components/loading-spinner';
 import { useQuery } from '@tanstack/react-query';
 import { PatientContext, Profiles } from '@/models';
 import { fetchMessageTimestampsByPatientRange } from '@/models/messages';
-import { fetchMoodClassificationByPatientRange } from '@/models/conversation_insights';
+import { CrisisClassificationRow, fetchMoodClassificationByPatientRange } from '@/models/conversation_insights';
 import { fetchCrisisClassificationByPatientRange } from '@/models/conversation_insights';
 import { fetchConversationsByPatientRange } from '@/models/conversations';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
-import { format, parseISO, isValid as isValidDate } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { MoodClassificationRow } from '@/models/conversation_insights';
 
 export default function DashboardPage() {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
@@ -114,8 +115,8 @@ export default function DashboardPage() {
         toIso: `${dateRange.to}T23:59:59`,
       });
       const scores: number[] = rows
-        .map((row: any) => row?.content?.mood_score)
-        .filter((n: any) => typeof n === 'number' && n >= 0 && n <= 10);
+        .map((row: MoodClassificationRow) => row?.content?.mood_score)
+        .filter((n: number | undefined) => typeof n === 'number' && n >= 0 && n <= 10);
       if (scores.length === 0) return null;
       const avg = scores.reduce((a, n) => a + n, 0) / scores.length;
       return Math.round(avg * 10) / 10;
@@ -131,7 +132,7 @@ export default function DashboardPage() {
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
       });
-      return rows.filter((r: any) => Boolean(r?.content?.is_crisis)).length;
+      return rows.filter((r: CrisisClassificationRow) => Boolean(r?.content?.is_crisis)).length;
     },
   });
 
@@ -161,22 +162,25 @@ export default function DashboardPage() {
         start_date: `${dateRange.from}T00:00:00`,
         end_date: `${dateRange.to}T23:59:59`,
         patient_id: selectedPatientId as string,
-      })
-      const res = await fetch(`https://imontoyah05.app.n8n.cloud/webhook/general-summary?${qs.toString()}`, {
-        method: 'GET',
-        cache: 'no-store',
-      })
-      if (!res.ok) throw new Error('Failed to fetch summary')
-      const json = await res.json()
+      });
+      const res = await fetch(
+        `https://imontoyah05.app.n8n.cloud/webhook/general-summary?${qs.toString()}`,
+        {
+          method: 'GET',
+          cache: 'no-store',
+        },
+      );
+      if (!res.ok) throw new Error('Failed to fetch summary');
+      const json = await res.json();
       return (json?.general_summary ?? null) as {
-        psychological_summary?: string
-        events_summary?: string
-        suggested_questions?: string[]
-        suggested_tasks?: string[]
-      } | null
+        psychological_summary?: string;
+        events_summary?: string;
+        suggested_questions?: string[];
+        suggested_tasks?: string[];
+      } | null;
     },
     retry: 0,
-  })
+  });
 
   const handlePatientChange = (patientId: string) => {
     setSelectedPatientId(patientId);
@@ -308,13 +312,14 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-muted mt-4 rounded-lg p-4 space-y-2">
+                  <div className="bg-muted mt-4 space-y-2 rounded-lg p-4">
                     <div className="text-sm font-medium">Key Insights</div>
                     {loadingGeneralSummary ? (
                       <div className="flex items-center gap-3">
                         <LoadingSpinner size="sm" />
-                        <div className="text-xs text-muted-foreground">
-                          Generating summary… This may take up to a minute. Please stay on this page.
+                        <div className="text-muted-foreground text-xs">
+                          Generating summary… This may take up to a minute. Please stay on this
+                          page.
                         </div>
                       </div>
                     ) : generalSummaryError ? (
@@ -327,27 +332,31 @@ export default function DashboardPage() {
                     ) : generalSummary ? (
                       <div className="space-y-3">
                         {generalSummary.psychological_summary ? (
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             {generalSummary.psychological_summary}
                           </p>
                         ) : null}
                         {generalSummary.events_summary ? (
-                          <p className="text-xs text-muted-foreground">{generalSummary.events_summary}</p>
+                          <p className="text-muted-foreground text-xs">
+                            {generalSummary.events_summary}
+                          </p>
                         ) : null}
-                        {Array.isArray(generalSummary.suggested_questions) && generalSummary.suggested_questions.length > 0 ? (
+                        {Array.isArray(generalSummary.suggested_questions) &&
+                        generalSummary.suggested_questions.length > 0 ? (
                           <div>
-                            <div className="text-xs font-medium mb-1">Suggested Questions</div>
-                            <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
+                            <div className="mb-1 text-xs font-medium">Suggested Questions</div>
+                            <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
                               {generalSummary.suggested_questions.map((q, i) => (
                                 <li key={i}>{q}</li>
                               ))}
                             </ul>
                           </div>
                         ) : null}
-                        {Array.isArray(generalSummary.suggested_tasks) && generalSummary.suggested_tasks.length > 0 ? (
+                        {Array.isArray(generalSummary.suggested_tasks) &&
+                        generalSummary.suggested_tasks.length > 0 ? (
                           <div>
-                            <div className="text-xs font-medium mb-1">Suggested Tasks</div>
-                            <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
+                            <div className="mb-1 text-xs font-medium">Suggested Tasks</div>
+                            <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
                               {generalSummary.suggested_tasks.map((t, i) => (
                                 <li key={i}>{t}</li>
                               ))}
@@ -356,7 +365,7 @@ export default function DashboardPage() {
                         ) : null}
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground">No summary available.</p>
+                      <p className="text-muted-foreground text-sm">No summary available.</p>
                     )}
                   </div>
                 </>

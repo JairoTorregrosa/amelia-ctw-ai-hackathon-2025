@@ -56,7 +56,7 @@ export function PatientSidebar({
     try {
       const date = parseISO(value);
       if (isValidDate(date)) return format(date, 'MMM d, yyyy');
-    } catch (_err) {
+    } catch {
       return value;
     }
     return value;
@@ -72,7 +72,6 @@ export function PatientSidebar({
 
   const displayName = triageInfo?.usuario?.nombre_preferido || profile.full_name;
   const age = triageInfo?.usuario?.edad;
-  const diagnosis = triageInfo?.motivo_consulta?.descripcion_breve;
   const risk = triageInfo?.riesgo?.nivel_riesgo_global;
   const lastSession = formatDateString(
     lastUpdatedIso || triageInfo?.metadata?.fecha_registro_iso8601,

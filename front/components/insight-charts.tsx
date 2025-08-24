@@ -29,34 +29,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { fetchConversationsByPatientRange } from '@/models/conversations';
 import { format, eachDayOfInterval } from 'date-fns';
 
-// Mock data for charts
-const moodData = [
-  { date: '07/15', mood: 6.2, anxiety: 7.1 },
-  { date: '07/16', mood: 6.8, anxiety: 6.5 },
-  { date: '07/17', mood: 7.2, anxiety: 6.0 },
-  { date: '07/18', mood: 6.9, anxiety: 6.8 },
-  { date: '07/19', mood: 7.5, anxiety: 5.5 },
-  { date: '07/20', mood: 7.8, anxiety: 5.2 },
-  { date: '07/21', mood: 7.3, anxiety: 5.8 },
-  { date: '07/22', mood: 7.6, anxiety: 5.1 },
-];
-
-const sessionData = [
-  { day: 'Mon', sessions: 2, engagement: 85 },
-  { day: 'Tue', sessions: 1, engagement: 92 },
-  { day: 'Wed', sessions: 3, engagement: 78 },
-  { day: 'Thu', sessions: 2, engagement: 88 },
-  { day: 'Fri', sessions: 1, engagement: 95 },
-  { day: 'Sat', sessions: 0, engagement: 0 },
-  { day: 'Sun', sessions: 1, engagement: 82 },
-];
-
-const crisisData = [
-  { time: '09:30', intensity: 8, duration: 15 },
-  { time: '14:20', intensity: 6, duration: 8 },
-  { time: '19:45', intensity: 9, duration: 22 },
-];
-
 interface InsightChartsProps {
   isLoading?: boolean;
   patientId?: string;
@@ -161,7 +133,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
       const avg = arr.length ? arr.reduce((a, n) => a + n, 0) / arr.length : null;
       return { date: format(d, 'MM/dd'), mood: avg };
     });
-  }, [moodRows, dateRange?.from, dateRange?.to]);
+  }, [moodRows, dateRange]);
 
   const { data: dailyConversations } = useQuery({
     queryKey: ['dailyConversations', patientId, dateRange?.from, dateRange?.to],
