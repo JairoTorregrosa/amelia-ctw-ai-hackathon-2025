@@ -136,11 +136,13 @@ export default function LandingPage() {
             <div className="flex justify-center">
               <div className="relative">
                 <div className="-rotate-2 transform rounded-lg bg-white p-4 shadow-lg">
-                  <img
-                    src="/dashboard-mockup.png"
-                    alt="Professional Dashboard"
-                    className="h-64 w-96 rounded object-cover"
-                  />
+                  <picture>
+                    <img
+                      src="/dashboard.png"
+                      alt="Professional Dashboard"
+                      className="h-64 w-96 rounded object-cover"
+                    />
+                  </picture>
                 </div>
                 <div className="bg-psychology-lavender/20 absolute -right-4 -bottom-4 h-16 w-24 rounded-lg"></div>
               </div>
@@ -155,6 +157,9 @@ export default function LandingPage() {
                 Access tools and insights to
                 <br />
                 enhance patient care.
+              </p>
+              <p className="mt-4 text-sm text-slate-600">
+                View mood trends, conversation activity, emotion distribution, crisis alerts, and key insights at a glance.
               </p>
             </div>
           </div>
