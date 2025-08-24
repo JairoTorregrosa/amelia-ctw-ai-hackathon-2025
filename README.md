@@ -48,6 +48,17 @@ It functions as a digital companion that supports the work of therapists by coll
 </div>
 
 
+### ⚠️ **Important Notice**
+
+**If Amelia is not responding to your messages, please contact us on LinkedIn:**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Contact_Support-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/torregrosaj/)
+
+**Why?** Users need to be registered in our system for Amelia to function properly. We can't register everyone automatically, so if you're not getting a response, reach out to us and we'll help you get set up!
+
+
+
+
 ---
 
 
