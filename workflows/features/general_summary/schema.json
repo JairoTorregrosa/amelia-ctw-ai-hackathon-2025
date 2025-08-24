@@ -9,37 +9,37 @@
             "properties": {
                 "psychological_summary": {
                     "type": "string",
-                    "description": "Comprehensive narrative summary of patient's psychological state, emotions, and mood patterns",
-                    "minLength": 400,
-                    "maxLength": 700
+                    "description": "Comprehensive narrative that thoroughly analyzes the psychological impact of ALL events mentioned",
+                    "minLength": 500,
+                    "maxLength": 800
                 },
                 "events_summary": {
                     "type": "string",
-                    "description": "Narrative summary of the most important events, situations, and developments mentioned",
-                    "minLength": 300,
-                    "maxLength": 600
+                    "description": "Detailed narrative that comprehensively covers ALL events and developments mentioned across conversations",
+                    "minLength": 400,
+                    "maxLength": 700
                 },
                 "suggested_questions": {
                     "type": "array",
-                    "description": "Therapeutic questions for future sessions",
+                    "description": "Comprehensive therapeutic questions that address multiple events and their interconnections",
                     "items": {
                         "type": "string",
                         "minLength": 50,
                         "maxLength": 150
                     },
-                    "minItems": 5,
-                    "maxItems": 7
+                    "minItems": 6,
+                    "maxItems": 8
                 },
                 "suggested_tasks": {
                     "type": "array",
-                    "description": "Suggested therapeutic activities and homework",
+                    "description": "Comprehensive therapeutic activities that address the full scope of events mentioned",
                     "items": {
                         "type": "string",
                         "minLength": 50,
                         "maxLength": 200
                     },
-                    "minItems": 3,
-                    "maxItems": 5
+                    "minItems": 4,
+                    "maxItems": 6
                 }
             },
             "required": [
