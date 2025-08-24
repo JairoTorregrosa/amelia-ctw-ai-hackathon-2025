@@ -1,0 +1,34 @@
+{
+    "primary_emotions": [
+        {
+            "emotion": "fear",
+            "intensity": 6,
+            "context": "Patient expressed worry about losing their job due to recent company layoffs and feeling unable to control the situation",
+            "trigger": "Company restructuring and layoff announcements"
+        },
+        {
+            "emotion": "sadness",
+            "intensity": 8,
+            "context": "Patient became emotional when discussing the distance from family and feeling isolated during difficult times",
+            "trigger": "Living far from family support system"
+        },
+        {
+            "emotion": "anger",
+            "intensity": 3,
+            "context": "Patient showed mild frustration when describing their manager's lack of communication about job security",
+            "trigger": "Poor communication from supervisor"
+        },
+        {
+            "emotion": "surprise",
+            "intensity": 5,
+            "context": "Patient was genuinely surprised to realize how much their sleep patterns had improved after implementing the suggested routine",
+            "trigger": "Unexpected positive changes in sleep quality"
+        },
+        {
+            "emotion": "joy",
+            "intensity": 4,
+            "context": "Patient expressed small moments of happiness when talking about their pet's recovery from illness",
+            "trigger": "Pet's improved health condition"
+        }
+    ]
+}
