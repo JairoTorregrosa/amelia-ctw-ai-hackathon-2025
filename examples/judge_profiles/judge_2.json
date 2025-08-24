@@ -1,0 +1,19 @@
+{
+    "name": "Lewis Black",
+    "title": "Cofounder and CEO",
+    "company": "GoodRec",
+    "biography": "Lewis Black es cofundador y CEO de GoodRec, una empresa fundada en 2021 que ofrece soluciones innovadoras en el ámbito deportivo y recreativo. Bajo su liderazgo, GoodRec ha mostrado un crecimiento acelerado, expandiendo su equipo y su comunidad de usuarios entusiastas del deporte. Antes de GoodRec, Lewis cofundó CeleBreak, donde se desempeñó como CTO de 2017 a 2020, impulsando el desarrollo tecnológico de una plataforma para jugadores de fútbol amateur. Su trayectoria combina la pasión por el deporte con la experiencia en desarrollo de software y gestión de startups, lo que le ha permitido crear productos digitales que conectan a las personas con actividades deportivas. Lewis se destaca por su espíritu emprendedor y su capacidad para liderar equipos multidisciplinarios hacia la innovación en la industria del deporte.",
+    "skills": [
+        "Emprendimiento tecnológico",
+        "Tecnología deportiva",
+        "Liderazgo de producto"
+    ],
+    "experience": [
+        "CEO de GoodRec, liderando la estrategia de negocio y crecimiento de la plataforma desde 2021.",
+        "Cofundador y ex-CTO de CeleBreak (2017-2020), donde dirigió el desarrollo de una aplicación para fútbol amateur.",
+        "Amplia experiencia integrando tecnología y deporte para construir comunidades activas de usuarios."
+    ],
+    "notable_achievements": [
+        "GoodRec superó el millón de usuarios registrados bajo su liderazgo en 2024 (dato no verificable)."
+    ]
+}

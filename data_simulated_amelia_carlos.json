@@ -1,0 +1,767 @@
+[
+    {
+        "idx": 1,
+        "id": 201,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Hola Carlos! ¿Cómo te va hoy? Te escucho.",
+        "created_at": "2025-08-26 09:15:00+00"
+    },
+    {
+        "idx": 2,
+        "id": 202,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Desperté muy temprano otra vez, como a las 5am. No pude volver a dormir.",
+        "created_at": "2025-08-26 09:18:22+00"
+    },
+    {
+        "idx": 3,
+        "id": 203,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Uff, despertar tan temprano y no poder volver a dormir es agotador. Por cómo lo describes, suena como que empezaste el día pesado, ¿como un 7?",
+        "created_at": "2025-08-26 09:19:15+00"
+    },
+    {
+        "idx": 4,
+        "id": 204,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, exacto. Un 7. Me quedé en la cama pensando en el trabajo y en si debería llamar a mi hijo.",
+        "created_at": "2025-08-26 09:21:45+00"
+    },
+    {
+        "idx": 5,
+        "id": 205,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Claro, esos pensamientos matutinos pueden ser intensos. ¿Cuál fue el mejor momento de tu día hasta ahora?",
+        "created_at": "2025-08-26 09:22:30+00"
+    },
+    {
+        "idx": 6,
+        "id": 206,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Mmm, cuando me hice un café y pude ver el amanecer desde la ventana. Fue tranquilo.",
+        "created_at": "2025-08-26 09:24:12+00"
+    },
+    {
+        "idx": 7,
+        "id": 207,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Ah qué lindo eso del amanecer. Oye, ¿hiciste algo hoy que te hiciera sentir que vas por buen camino?",
+        "created_at": "2025-08-26 09:25:00+00"
+    },
+    {
+        "idx": 8,
+        "id": 208,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Bueno, no tomé alcohol anoche. Eso es algo, ¿no?",
+        "created_at": "2025-08-26 09:26:33+00"
+    },
+    {
+        "idx": 9,
+        "id": 209,
+        "conversation_id": 14,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Por supuesto que es algo! Es cuidarte y elegir lo que te ayuda. Esa es tu fortaleza, Carlos.",
+        "created_at": "2025-08-26 09:27:15+00"
+    },
+    {
+        "idx": 10,
+        "id": 210,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Hola Carlos! ¿Cómo andás hoy?",
+        "created_at": "2025-08-28 16:30:00+00"
+    },
+    {
+        "idx": 11,
+        "id": 211,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Tuve un día complicado en el trabajo. Mi jefe me pidió que me quede hasta tarde otra vez.",
+        "created_at": "2025-08-28 16:35:22+00"
+    },
+    {
+        "idx": 12,
+        "id": 212,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Vaya, otra vez quedarte tarde... eso suena agotador después de todo lo que has estado manejando. ¿Cómo te sentís con eso?",
+        "created_at": "2025-08-28 16:36:45+00"
+    },
+    {
+        "idx": 13,
+        "id": 213,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Frustrado. Y culpable porque iba a llamar a mi hijo pero ya es muy tarde.",
+        "created_at": "2025-08-28 16:38:15+00"
+    },
+    {
+        "idx": 14,
+        "id": 214,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Uff, esa frustración y culpa se sienten pesadas. Por lo que describes, suena como un 6-7 hoy. ¿Te resuena?",
+        "created_at": "2025-08-28 16:39:00+00"
+    },
+    {
+        "idx": 15,
+        "id": 215,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, un 6. Pero al menos no bebí cuando llegué a casa, aunque tenía ganas.",
+        "created_at": "2025-08-28 16:41:30+00"
+    },
+    {
+        "idx": 16,
+        "id": 216,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Carlos, eso es enorme. Tener ganas y elegir no hacerlo es un acto de cuidado hacia vos mismo. ¿Qué hiciste en lugar de beber?",
+        "created_at": "2025-08-28 16:42:15+00"
+    },
+    {
+        "idx": 17,
+        "id": 217,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Me hice un té y me puse a ver una serie. Nada del otro mundo, pero me distrajo.",
+        "created_at": "2025-08-28 16:44:00+00"
+    },
+    {
+        "idx": 18,
+        "id": 218,
+        "conversation_id": 15,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "\"Nada del otro mundo\" pero fue exactamente lo que necesitabas. Reconocer eso y actuar es tu fortaleza trabajando.",
+        "created_at": "2025-08-28 16:45:00+00"
+    },
+    {
+        "idx": 19,
+        "id": 219,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Amelia, necesito registrar algo que pasó ayer por la noche.",
+        "created_at": "2025-08-30 10:15:00+00"
+    },
+    {
+        "idx": 20,
+        "id": 220,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Lamento que estés pasando por un momento tan difícil. Estoy aquí para ayudarte a ponerlo en palabras. Registrar esto es un paso muy valioso. Recuerda, si sientes que no puedes mantenerte a salvo, es importante que contactes a tu línea de emergencia local o a un servicio de crisis.",
+        "created_at": "2025-08-30 10:16:00+00"
+    },
+    {
+        "idx": 21,
+        "id": 221,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, quiero registrarlo. Fue intenso pero estoy bien ahora.",
+        "created_at": "2025-08-30 10:17:30+00"
+    },
+    {
+        "idx": 22,
+        "id": 222,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¿Qué estaba pasando justo antes de que la crisis comenzara? Describe el lugar, las personas, la hora, cualquier detalle que recuerdes.",
+        "created_at": "2025-08-30 10:18:00+00"
+    },
+    {
+        "idx": 23,
+        "id": 223,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Eran como las 9pm, estaba en mi departamento solo. Había intentado llamar a mi hijo pero no me contestó. Vi que había estado en línea en WhatsApp pero no me respondió.",
+        "created_at": "2025-08-30 10:20:15+00"
+    },
+    {
+        "idx": 24,
+        "id": 224,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¿Qué pensamientos exactos pasaron por tu mente en ese instante? Intenta recordar las palabras o imágenes que aparecieron.",
+        "created_at": "2025-08-30 10:21:00+00"
+    },
+    {
+        "idx": 25,
+        "id": 225,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "\"Ya no me quiere\", \"soy un mal padre\", \"lo perdí para siempre\", \"debería desaparecer\". Y me imaginé que él estaba mejor sin mí.",
+        "created_at": "2025-08-30 10:23:45+00"
+    },
+    {
+        "idx": 26,
+        "id": 226,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Por esos pensamientos tan duros contigo mismo, suena como tristeza profunda y desesperanza. ¿Te resuena? ¿Cómo las puntuarías del 0 al 10?",
+        "created_at": "2025-08-30 10:24:30+00"
+    },
+    {
+        "idx": 27,
+        "id": 227,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, tristeza como 9 y desesperanza como 8. Fue muy fuerte.",
+        "created_at": "2025-08-30 10:26:00+00"
+    },
+    {
+        "idx": 28,
+        "id": 228,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¿Qué hiciste inmediatamente después? ¿Cuál fue tu reacción?",
+        "created_at": "2025-08-30 10:26:45+00"
+    },
+    {
+        "idx": 29,
+        "id": 229,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Me fui directo a la cocina y abrí una botella de vino. Me la tomé casi toda mientras miraba fotos viejas de cuando éramos una familia.",
+        "created_at": "2025-08-30 10:28:30+00"
+    },
+    {
+        "idx": 30,
+        "id": 230,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¿Qué notaste en tu cuerpo? (ej. corazón acelerado, dificultad para respirar, nudo en el estómago)",
+        "created_at": "2025-08-30 10:29:15+00"
+    },
+    {
+        "idx": 31,
+        "id": 231,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Nudo en el estómago muy fuerte, como si me hubieran golpeado. Respiración entrecortada y las manos me temblaban.",
+        "created_at": "2025-08-30 10:31:00+00"
+    },
+    {
+        "idx": 32,
+        "id": 232,
+        "conversation_id": 16,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Gracias por compartir todo esto. Registrar esto es un paso muy valiente y útil. Tu terapeuta podrá revisarlo. El proceso de registro está ahora completo.",
+        "created_at": "2025-08-30 10:32:00+00"
+    },
+    {
+        "idx": 33,
+        "id": 233,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Hola Carlos, ¿cómo te va después de ayer?",
+        "created_at": "2025-09-01 11:00:00+00"
+    },
+    {
+        "idx": 34,
+        "id": 234,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Mejor que ayer, gracias por preguntar. Dormí un poco más y no tengo resaca.",
+        "created_at": "2025-09-01 11:05:22+00"
+    },
+    {
+        "idx": 35,
+        "id": 235,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Me alegra escuchar eso. Dormir mejor y sentirte más despejado es un buen comienzo. ¿Cómo te sentís hoy, como un 5-6?",
+        "created_at": "2025-09-01 11:06:15+00"
+    },
+    {
+        "idx": 36,
+        "id": 236,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, como un 5. Neutro, digamos. Y mi hijo me escribió esta mañana.",
+        "created_at": "2025-09-01 11:08:45+00"
+    },
+    {
+        "idx": 37,
+        "id": 237,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Ah! Eso debe haber sido un alivio después de anoche. ¿Qué te escribió?",
+        "created_at": "2025-09-01 11:09:30+00"
+    },
+    {
+        "idx": 38,
+        "id": 238,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Solo me dijo \"hola pa, perdón por no contestar ayer, estaba estudiando\". Pero me hizo sentir mejor.",
+        "created_at": "2025-09-01 11:11:15+00"
+    },
+    {
+        "idx": 39,
+        "id": 239,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Claro, esas palabras simples pueden cambiar todo el panorama. ¿Le respondiste?",
+        "created_at": "2025-09-01 11:12:00+00"
+    },
+    {
+        "idx": 40,
+        "id": 240,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, le dije que no se preocupe y que estoy orgulloso de que estudie. Fue una conversación corta pero buena.",
+        "created_at": "2025-09-01 11:14:30+00"
+    },
+    {
+        "idx": 41,
+        "id": 241,
+        "conversation_id": 17,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Qué lindo, Carlos. Esa conexión con tu hijo, aunque sea breve, es valiosa. Se nota que te importa mucho.",
+        "created_at": "2025-09-01 11:15:15+00"
+    },
+    {
+        "idx": 42,
+        "id": 242,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Hola Carlos! ¿Cómo andás?",
+        "created_at": "2025-09-03 14:20:00+00"
+    },
+    {
+        "idx": 43,
+        "id": 243,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Hoy fue un día raro. Tuve una reunión importante en el trabajo y salió mejor de lo que esperaba.",
+        "created_at": "2025-09-03 14:25:33+00"
+    },
+    {
+        "idx": 44,
+        "id": 244,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Qué bueno! Suena como que te sorprendiste a vos mismo. ¿Cómo te sentís después de eso?",
+        "created_at": "2025-09-03 14:26:15+00"
+    },
+    {
+        "idx": 45,
+        "id": 245,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Bien, como un 4. Más tranquilo. Pero también confundido porque no esperaba sentirme capaz.",
+        "created_at": "2025-09-03 14:28:22+00"
+    },
+    {
+        "idx": 46,
+        "id": 246,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Ah, esa confusión tiene sentido. A veces cuando estamos acostumbrados a sentirnos mal, lo bueno nos descoloca. ¿Qué fue lo mejor de la reunión?",
+        "created_at": "2025-09-03 14:29:00+00"
+    },
+    {
+        "idx": 47,
+        "id": 247,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Que pude explicar mi proyecto claramente y mi jefe dijo que era una buena propuesta. Hace meses que no me sentía útil en el trabajo.",
+        "created_at": "2025-09-03 14:31:45+00"
+    },
+    {
+        "idx": 48,
+        "id": 248,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Carlos, eso es enorme. Sentirte útil y reconocido después de tanto tiempo... ¿hiciste algo para celebrarlo?",
+        "created_at": "2025-09-03 14:32:30+00"
+    },
+    {
+        "idx": 49,
+        "id": 249,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Me compré un café bueno en lugar del de la máquina. Pequeño, pero fue mi forma de reconocerlo.",
+        "created_at": "2025-09-03 14:34:15+00"
+    },
+    {
+        "idx": 50,
+        "id": 250,
+        "conversation_id": 18,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Perfecto. Reconocer los logros, aunque sean pequeños, es cuidarte. Ese café fue tu forma de decir \"bien hecho\".",
+        "created_at": "2025-09-03 14:35:00+00"
+    },
+    {
+        "idx": 51,
+        "id": 251,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Hola Carlos, ¿cómo te va?",
+        "created_at": "2025-09-05 16:45:00+00"
+    },
+    {
+        "idx": 52,
+        "id": 252,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Hoy fue un día difícil otra vez. Volví a casa muy cansado y con ganas de tomar.",
+        "created_at": "2025-09-05 16:50:22+00"
+    },
+    {
+        "idx": 53,
+        "id": 253,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Uff, esos días pesados donde las ganas aparecen fuerte. ¿Cómo te sentís ahora, como un 6-7?",
+        "created_at": "2025-09-05 16:51:15+00"
+    },
+    {
+        "idx": 54,
+        "id": 254,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Un 6. Pero esta vez hice algo diferente. Salí a caminar antes de entrar a casa.",
+        "created_at": "2025-09-05 16:53:45+00"
+    },
+    {
+        "idx": 55,
+        "id": 255,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Carlos! Eso es brillante. Reconocer el momento difícil y cambiar la rutina antes de llegar a casa. ¿Cómo te ayudó la caminata?",
+        "created_at": "2025-09-05 16:54:30+00"
+    },
+    {
+        "idx": 56,
+        "id": 256,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Me despejó un poco. Cuando llegué a casa ya no tenía esas ganas tan intensas. Pude hacer la cena sin pensar en el alcohol.",
+        "created_at": "2025-09-05 16:56:15+00"
+    },
+    {
+        "idx": 57,
+        "id": 257,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Eso es autocuidado en acción. Encontraste una herramienta que funciona para vos. ¿Cómo te sentís con ese logro?",
+        "created_at": "2025-09-05 16:57:00+00"
+    },
+    {
+        "idx": 58,
+        "id": 258,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Bien, como que puedo tener algo de control. No todo está perdido.",
+        "created_at": "2025-09-05 16:58:30+00"
+    },
+    {
+        "idx": 59,
+        "id": 259,
+        "conversation_id": 19,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Exacto, Carlos. Tenés más control del que creés. Cada vez que elegís la caminata, elegís cuidarte.",
+        "created_at": "2025-09-05 16:59:15+00"
+    },
+    {
+        "idx": 60,
+        "id": 260,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Amelia, quería contarte algo bueno que pasó.",
+        "created_at": "2025-09-07 12:30:00+00"
+    },
+    {
+        "idx": 61,
+        "id": 261,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Hola Carlos! Me encanta cuando empezás con algo bueno. Contame.",
+        "created_at": "2025-09-07 12:31:00+00"
+    },
+    {
+        "idx": 62,
+        "id": 262,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Mi hijo me llamó ayer por la noche. Hablamos como media hora sobre sus estudios y sus planes.",
+        "created_at": "2025-09-07 12:33:22+00"
+    },
+    {
+        "idx": 63,
+        "id": 263,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Qué hermoso, Carlos! Media hora de conversación real con tu hijo. ¿Cómo te sentiste durante la llamada?",
+        "created_at": "2025-09-07 12:34:15+00"
+    },
+    {
+        "idx": 64,
+        "id": 264,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Tranquilo, conectado. Como un 3. Hacía mucho que no me sentía tan... presente con él.",
+        "created_at": "2025-09-07 12:36:45+00"
+    },
+    {
+        "idx": 65,
+        "id": 265,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "\"Presente\" es una palabra preciosa. ¿Qué fue lo que más te gustó de la conversación?",
+        "created_at": "2025-09-07 12:37:30+00"
+    },
+    {
+        "idx": 66,
+        "id": 266,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Que me pidió consejo sobre una materia. Se sintió como que todavía soy su papá, ¿sabés?",
+        "created_at": "2025-09-07 12:39:15+00"
+    },
+    {
+        "idx": 67,
+        "id": 267,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Por supuesto que sos su papá, Carlos. Y él lo sabe. Pedirte consejo es su forma de decirte que confía en vos.",
+        "created_at": "2025-09-07 12:40:00+00"
+    },
+    {
+        "idx": 68,
+        "id": 268,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Sí, eso me hizo sentir bien. Y quedamos en hablar más seguido.",
+        "created_at": "2025-09-07 12:41:30+00"
+    },
+    {
+        "idx": 69,
+        "id": 269,
+        "conversation_id": 20,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Qué lindo plan, Carlos. Esa conexión con tu hijo es una de tus fortalezas más grandes.",
+        "created_at": "2025-09-07 12:42:15+00"
+    },
+    {
+        "idx": 70,
+        "id": 270,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Hola Carlos, ¿cómo te va hoy?",
+        "created_at": "2025-09-09 10:00:00+00"
+    },
+    {
+        "idx": 71,
+        "id": 271,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Hoy me desperté pensando en esa decisión de Canadá otra vez. No puedo sacármela de la cabeza.",
+        "created_at": "2025-09-09 10:05:22+00"
+    },
+    {
+        "idx": 72,
+        "id": 272,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Ah, esa decisión grande que mencionaste antes. Suena como que está ocupando mucho espacio en tu mente. ¿Cómo te sentís con eso hoy?",
+        "created_at": "2025-09-09 10:06:15+00"
+    },
+    {
+        "idx": 73,
+        "id": 273,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Ansioso, como un 6. Especialmente después de hablar tan bien con mi hijo. Ahora me cuesta más pensar en irme.",
+        "created_at": "2025-09-09 10:08:45+00"
+    },
+    {
+        "idx": 74,
+        "id": 274,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Claro, esa conversación cambió algo en la ecuación. ¿Qué es lo que más te genera ansiedad de la decisión?",
+        "created_at": "2025-09-09 10:09:30+00"
+    },
+    {
+        "idx": 75,
+        "id": 275,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "El miedo de arrepentirme. Si me voy y pierdo la oportunidad de estar cerca de él, o si me quedo y pierdo la chance de empezar de nuevo.",
+        "created_at": "2025-09-09 10:11:15+00"
+    },
+    {
+        "idx": 76,
+        "id": 276,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Uff, ese miedo al arrepentimiento es pesado. Tómate un momento para escanear tu cuerpo. ¿Hay alguna sensación física que predomine con esta ansiedad?",
+        "created_at": "2025-09-09 10:12:00+00"
+    },
+    {
+        "idx": 77,
+        "id": 277,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Tensión en los hombros y como un nudo en el pecho. Y las manos un poco inquietas.",
+        "created_at": "2025-09-09 10:13:30+00"
+    },
+    {
+        "idx": 78,
+        "id": 278,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Sí, esa ansiedad se siente muy real en tu cuerpo. ¿Hay algo pequeño que podrías hacer hoy para aflojarte un poco?",
+        "created_at": "2025-09-09 10:14:15+00"
+    },
+    {
+        "idx": 79,
+        "id": 279,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Tal vez salir a caminar otra vez. Me ayudó el otro día.",
+        "created_at": "2025-09-09 10:15:45+00"
+    },
+    {
+        "idx": 80,
+        "id": 280,
+        "conversation_id": 21,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Perfecto, Carlos. Ya sabés qué te ayuda. La caminata puede darte un respiro de esos pensamientos que dan vueltas.",
+        "created_at": "2025-09-09 10:16:30+00"
+    },
+    {
+        "idx": 81,
+        "id": 281,
+        "conversation_id": 22,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Hola Carlos, ¿cómo andás después de estos días?",
+        "created_at": "2025-09-11 15:30:00+00"
+    },
+    {
+        "idx": 82,
+        "id": 282,
+        "conversation_id": 22,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Hola Amelia. Mejor, creo. He estado caminando más y eso me ayuda. También hablé con mi terapeuta sobre la decisión de Canadá.",
+        "created_at": "2025-09-11 15:35:22+00"
+    },
+    {
+        "idx": 83,
+        "id": 283,
+        "conversation_id": 22,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "Qué bueno que pudiste hablarlo con tu terapeuta. Las caminatas se están convirtiendo en una herramienta importante para vos. ¿Cómo te sentís hoy?",
+        "created_at": "2025-09-11 15:36:15+00"
+    },
+    {
+        "idx": 84,
+        "id": 284,
+        "conversation_id": 22,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "patient",
+        "content": "Como un 4. Más estable. Y mi hijo me mandó una foto de su proyecto de la universidad. Me hizo sonreír.",
+        "created_at": "2025-09-11 15:38:45+00"
+    },
+    {
+        "idx": 85,
+        "id": 285,
+        "conversation_id": 22,
+        "patient_id": "550e8400-e29b-41d4-a716-446655440002",
+        "sender": "agent",
+        "content": "¡Qué lindo! Esas pequeñas conexiones con tu hijo son preciosas. Se nota que estás encontrando un equilibrio, Carlos.",
+        "created_at": "2025-09-11 15:39:30+00"
+    }
+]
