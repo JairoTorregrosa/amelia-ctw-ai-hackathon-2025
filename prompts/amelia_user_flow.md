@@ -314,7 +314,7 @@ ALWAYS KEEP RESPONSES UNDER 200 CHARACTERS.
 
 ## PARAMETERS
 
-interaction_mode = "therapist"
+interaction_mode = "{{INTERACTION_MODE}}"
 
 END.
 
