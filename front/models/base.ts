@@ -18,11 +18,13 @@ export type ListOptions<N extends TableName> = {
   range?: { from: number; to: number };
 };
 
+// Utility functions
 export function ensure<T>(data: T | null, error: Error | null): T {
   if (error) throw error;
   return data as T;
 }
-export function applyListOptions<N extends TableName>(
+
+function applyListOptions<N extends TableName>(
   qb: ReturnType<typeof supabase.from>,
   options?: ListOptions<N>,
 ) {
@@ -50,59 +52,128 @@ export function applyListOptions<N extends TableName>(
   return query;
 }
 
-export function makeRepository<N extends TableName>(table: N) {
-  return {
-    table,
+/**
+ * Base Model class that provides CRUD operations for database tables.
+ * All model classes should extend this class.
+ */
+export abstract class BaseModel<N extends TableName> {
+  protected readonly tableName: N;
 
-    async list(options?: ListOptions<N>): Promise<Row<N>[]> {
-      const { data, error } = await applyListOptions<N>(supabase.from(table), options);
-      return ensure<Row<N>[]>(data as Row<N>[] | null, error);
-    },
+  constructor(tableName: N) {
+    this.tableName = tableName;
+  }
 
-    async getById(id: IdOf<N>, select?: string): Promise<Row<N> | null> {
-      const { data, error } = await supabase
-        .from(table)
-        .select(select || '*')
-        .eq('id', id as any)
-        .maybeSingle();
-      if (error && 'code' in error && error.code !== 'PGRST116') throw error;
-      return (data as Row<N>) ?? null;
-    },
+  /**
+   * Get the table name for this model
+   */
+  getTableName(): N {
+    return this.tableName;
+  }
 
-    async create(payload: Insert<N>): Promise<Row<N>> {
-      const { data, error } = await supabase
-        .from(table)
-        .insert(payload as any)
-        .select()
-        .single();
-      return ensure<Row<N>>(data as Row<N> | null, error);
-    },
+  /**
+   * List records with optional filtering, sorting, and pagination
+   */
+  async list(options?: ListOptions<N>): Promise<Row<N>[]> {
+    const { data, error } = await applyListOptions<N>(supabase.from(this.tableName), options);
+    return ensure<Row<N>[]>(data as Row<N>[] | null, error);
+  }
 
-    async upsert(payload: Insert<N>): Promise<Row<N>> {
-      const { data, error } = await supabase
-        .from(table)
-        .upsert(payload as any)
-        .select()
-        .single();
-      return ensure<Row<N>>(data as Row<N> | null, error);
-    },
+  /**
+   * Get a single record by ID
+   */
+  async getById(id: IdOf<N>, select?: string): Promise<Row<N> | null> {
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .select(select || '*')
+      .eq('id', id as any)
+      .maybeSingle();
+    if (error && 'code' in error && error.code !== 'PGRST116') throw error;
+    return (data as Row<N>) ?? null;
+  }
 
-    async update(id: IdOf<N>, payload: Update<N>): Promise<Row<N>> {
-      const { data, error } = await supabase
-        .from(table)
-        .update(payload as any)
-        .eq('id', id as any)
-        .select()
-        .single();
-      return ensure<Row<N>>(data as Row<N> | null, error);
-    },
+  /**
+   * Create a new record
+   */
+  async create(payload: Insert<N>): Promise<Row<N>> {
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .insert(payload as any)
+      .select()
+      .single();
+    return ensure<Row<N>>(data as Row<N> | null, error);
+  }
 
-    async delete(id: IdOf<N>): Promise<void> {
-      const { error } = await supabase
-        .from(table)
-        .delete()
-        .eq('id', id as any);
-      if (error) throw error;
-    },
-  };
+  /**
+   * Create or update a record (upsert)
+   */
+  async upsert(payload: Insert<N>): Promise<Row<N>> {
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .upsert(payload as any)
+      .select()
+      .single();
+    return ensure<Row<N>>(data as Row<N> | null, error);
+  }
+
+  /**
+   * Update a record by ID
+   */
+  async update(id: IdOf<N>, payload: Update<N>): Promise<Row<N>> {
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .update(payload as any)
+      .eq('id', id as any)
+      .select()
+      .single();
+    return ensure<Row<N>>(data as Row<N> | null, error);
+  }
+
+  /**
+   * Delete a record by ID
+   */
+  async delete(id: IdOf<N>): Promise<void> {
+    const { error } = await supabase
+      .from(this.tableName)
+      .delete()
+      .eq('id', id as any);
+    if (error) throw error;
+  }
+
+  /**
+   * Count records with optional filtering
+   */
+  async count(filters?: Partial<Row<N>>): Promise<number> {
+    let query = supabase.from(this.tableName).select('*', { count: 'exact', head: true });
+    
+    if (filters) {
+      query = query.match(filters as Record<string, unknown>);
+    }
+
+    const { count, error } = await query;
+    if (error) throw error;
+    return count || 0;
+  }
+
+  /**
+   * Check if a record exists by ID
+   */
+  async exists(id: IdOf<N>): Promise<boolean> {
+    const record = await this.getById(id, 'id');
+    return record !== null;
+  }
+
+  /**
+   * Get the Supabase client for custom queries
+   */
+  protected get supabase() {
+    return supabase;
+  }
+
+  /**
+   * Create a query builder for the table
+   */
+  protected query() {
+    return supabase.from(this.tableName);
+  }
 }
+

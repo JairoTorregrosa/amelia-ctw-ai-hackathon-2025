@@ -19,11 +19,7 @@ import {
 import { TrendingUp, MessageSquare, AlertTriangle, Activity } from 'lucide-react';
 import { ChartLoadingSkeleton } from './chart-loading-skeleton';
 import { useQuery } from '@tanstack/react-query';
-import {
-  fetchPrimaryEmotionInsightsByPatient,
-  fetchMoodClassificationByPatientRange,
-  fetchCrisisClassificationByPatientRange,
-} from '@/models/conversation_insights';
+import { ConversationInsights } from '@/models/conversation_insights';
 import type {
   PrimaryEmotionItem,
   AggregatedEmotion,
@@ -31,7 +27,7 @@ import type {
 } from '@/types/insights';
 import { EMOTION_COLORS } from '@/types/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { fetchConversationsByPatientRange } from '@/models/conversations';
+import { Conversations } from '@/models/conversations';
 import { format, eachDayOfInterval } from 'date-fns';
 
 interface InsightChartsProps {
@@ -71,7 +67,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     queryKey: ['primaryEmotions', patientId, dateRange?.from, dateRange?.to],
     enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
     queryFn: async () => {
-      return fetchPrimaryEmotionInsightsByPatient({
+      return ConversationInsights.fetchPrimaryEmotionsByPatient({
         patientId: patientId as string,
         fromIso: `${dateRange!.from}T00:00:00`,
         toIso: `${dateRange!.to}T23:59:59`,
@@ -83,7 +79,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     queryKey: ['moodClassification', patientId, dateRange?.from, dateRange?.to],
     enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
     queryFn: async () => {
-      return fetchMoodClassificationByPatientRange({
+      return ConversationInsights.fetchMoodClassificationByPatientRange({
         patientId: patientId as string,
         fromIso: `${dateRange!.from}T00:00:00`,
         toIso: `${dateRange!.to}T23:59:59`,
@@ -130,7 +126,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     queryKey: ['dailyConversations', patientId, dateRange?.from, dateRange?.to],
     enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
     queryFn: async () => {
-      const convos = await fetchConversationsByPatientRange({
+      const convos = await Conversations.fetchByPatientRange({
         patientId: patientId as string,
         fromIso: `${dateRange!.from}T00:00:00`,
         toIso: `${dateRange!.to}T23:59:59`,
@@ -214,7 +210,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     queryKey: ['crisisClassification', patientId, dateRange?.from, dateRange?.to],
     enabled: Boolean(patientId && dateRange?.from && dateRange?.to),
     queryFn: async () => {
-      return fetchCrisisClassificationByPatientRange({
+      return ConversationInsights.fetchCrisisClassificationByPatientRange({
         patientId: patientId as string,
         fromIso: `${dateRange!.from}T00:00:00`,
         toIso: `${dateRange!.to}T23:59:59`,

@@ -19,12 +19,9 @@ import { DateRangePicker } from '@/components/date-range-picker';
 import { LoadingSpinner } from '@/components/loading-spinner';
 import { useQuery } from '@tanstack/react-query';
 import { PatientContext, Profiles } from '@/models';
-import { fetchMessageTimestampsByPatientRange } from '@/models/messages';
-import {
-  fetchMoodClassificationByPatientRange,
-  fetchCrisisClassificationByPatientRange,
-} from '@/models/conversation_insights';
-import { fetchConversationsByPatientRange } from '@/models/conversations';
+import { Messages } from '@/models/messages';
+import { ConversationInsights } from '@/models/conversation_insights';
+import { Conversations } from '@/models/conversations';
 import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { format, parseISO } from 'date-fns';
@@ -88,7 +85,7 @@ export default function DashboardPage() {
     queryKey: ['engagement', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
-      const timestamps = await fetchMessageTimestampsByPatientRange({
+      const timestamps = await Messages.fetchTimestampsByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
@@ -112,7 +109,7 @@ export default function DashboardPage() {
     queryKey: ['avgMood', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
-      const rows = await fetchMoodClassificationByPatientRange({
+      const rows = await ConversationInsights.fetchMoodClassificationByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
@@ -130,7 +127,7 @@ export default function DashboardPage() {
     queryKey: ['crisisCount', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
-      const rows = await fetchCrisisClassificationByPatientRange({
+      const rows = await ConversationInsights.fetchCrisisClassificationByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
@@ -143,7 +140,7 @@ export default function DashboardPage() {
     queryKey: ['totalConversations', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
     queryFn: async () => {
-      const convos = await fetchConversationsByPatientRange({
+      const convos = await Conversations.fetchByPatientRange({
         patientId: selectedPatientId as string,
         fromIso: `${dateRange.from}T00:00:00`,
         toIso: `${dateRange.to}T23:59:59`,
