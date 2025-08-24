@@ -1,0 +1,19 @@
+{
+    "name": "Esteban Suárez",
+    "title": "Developer Relations",
+    "company": "v0 by Vercel",
+    "biography": "DevRel en v0 (Vercel) enfocado en demos, workshops y contenido técnico sobre cómo construir apps con IA y v0/Next.js. Participa como speaker/jurado en eventos (p.ej., Colombia Tech Fest / IA Hackathon). Formación previa no pública (dato no verificable).",
+    "skills": [
+        "Developer Relations y evangelización técnica",
+        "Next.js, React y ecosistema Vercel",
+        "Prototipado de AI apps con v0",
+        "Contenido técnico y talleres"
+    ],
+    "experience": [
+        "DevRel, v0 by Vercel: programas con comunidad y creadores.",
+        "Actividades de divulgación en conferencias y hackathons."
+    ],
+    "notable_achievements": [
+        "Figura en comunicaciones oficiales (programas v0) y actividades de comunidad en LATAM."
+    ]
+}

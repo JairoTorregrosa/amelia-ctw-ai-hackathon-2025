@@ -1,0 +1,24 @@
+{
+    "name": "Adrián Mastronardi",
+    "title": "Chief Technology Officer (CTO)",
+    "company": "Habi",
+    "biography": "CTO en Habi desde 2023, enfocado en construir infraestructura de datos y modelos de pricing inmobiliario para mejorar la liquidez del mercado en LATAM. Antes lideró ingeniería fintech como VP Engineering (FinTech) en Delivery Hero y fue CTO de RappiPay; también ha sido advisor de Stämm Biotech. Perfil orientado a plataformas de datos, ML aplicado a valuación y escalamiento de equipos distribuidos. Formación académica no publicada (dato no verificable).",
+    "skills": [
+        "Plataformas de datos y analítica",
+        "Modelos de valuación (pricing) con ML",
+        "Arquitecturas cloud y microservicios",
+        "Fintech & pagos",
+        "Liderazgo de ingeniería y escalamiento de equipos",
+        "Marketplaces y proptech"
+    ],
+    "experience": [
+        "CTO, Habi (2023–presente): impulso a la base de datos de precios y productos de valuación.",
+        "VP Engineering, FinTech, Delivery Hero (2022–2023).",
+        "CTO, RappiPay (2020–2022).",
+        "Advisor, Stämm Biotech (2016–presente)."
+    ],
+    "notable_achievements": [
+        "Vocero sobre liquidez y transparencia de precios en real estate LATAM.",
+        "Participación en entrevistas/podcasts de tecnología aplicada a proptech."
+    ]
+}
