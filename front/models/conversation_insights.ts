@@ -34,6 +34,7 @@ export async function fetchPrimaryEmotionInsightsByPatient(params: {
         'insight_types!inner(type_key)'
       ].join(',')
     )
+    .eq('completed', true)
     .eq('conversations.patient_id', patientId)
     .gte('conversations.started_at', fromIso)
     .lte('conversations.last_message_at', toIso)
