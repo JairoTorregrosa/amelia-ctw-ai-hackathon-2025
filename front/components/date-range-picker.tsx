@@ -41,7 +41,6 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
                 value={dateRange.from}
                 onChange={(e) => onDateRangeChange({ ...dateRange, from: e.target.value })}
                 className="border-border mt-1 w-full rounded-md border px-3 py-2 text-sm"
-                max={todayStr}
               />
             </div>
             <div>
@@ -51,7 +50,6 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
                 value={dateRange.to}
                 onChange={(e) => onDateRangeChange({ ...dateRange, to: e.target.value })}
                 className="border-border mt-1 w-full rounded-md border px-3 py-2 text-sm"
-                max={todayStr}
               />
             </div>
           </div>
