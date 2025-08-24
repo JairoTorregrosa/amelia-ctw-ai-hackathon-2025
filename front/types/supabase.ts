@@ -62,30 +62,30 @@ export type Database = {
       }
       conversation_insights: {
         Row: {
+          completed: boolean
           content: Json | null
           conversation_id: number
           created_at: string
           id: number
           insight_type_id: number
-          status: string
           updated_at: string | null
         }
         Insert: {
+          completed?: boolean
           content?: Json | null
           conversation_id: number
           created_at?: string
           id?: number
           insight_type_id: number
-          status?: string
           updated_at?: string | null
         }
         Update: {
+          completed?: boolean
           content?: Json | null
           conversation_id?: number
           created_at?: string
           id?: number
           insight_type_id?: number
-          status?: string
           updated_at?: string | null
         }
         Relationships: [
@@ -324,36 +324,109 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_orphaned_insights: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      close_inactive_conversations: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          closed_conversation_id: number
+          insights_created: number
+        }[]
+      }
       complete_insight: {
         Args: { insight_id: number; result_content: Json }
         Returns: boolean
+      }
+      complete_insight_batch: {
+        Args: { insight_ids: number[]; result_contents: Json[] }
+        Returns: number
       }
       create_active_insights: {
         Args: { conv_id: number }
         Returns: number
       }
-      get_conversation_insights: {
+      get_completed_insights_for_conversation: {
         Args: { conv_id: number }
         Returns: {
+          completed_at: string
           content: Json
-          created_at: string
           display_name: string
-          status: string
-          type_key: string
+          insight_id: number
+          insight_type: string
         }[]
       }
       get_conversation_timeout_minutes: {
         Args: Record<PropertyKey, never>
         Returns: number
       }
+      get_insights_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          completed_insights: number
+          completion_rate: number
+          pending_insights: number
+          total_insights: number
+        }[]
+      }
+      get_oldest_pending_insights: {
+        Args: { limit_count?: number }
+        Returns: {
+          conversation_id: number
+          created_at: string
+          display_name: string
+          hours_pending: number
+          insight_id: number
+          insight_type: string
+          patient_id: string
+        }[]
+      }
+      get_patient_pending_insights: {
+        Args: { patient_uuid: string }
+        Returns: {
+          conversation_id: number
+          created_at: string
+          days_pending: number
+          display_name: string
+          insight_id: number
+          insight_type: string
+        }[]
+      }
       get_pending_insights: {
         Args: Record<PropertyKey, never>
         Returns: {
-          config: Json
           conversation_id: number
+          created_at: string
+          days_pending: number
           display_name: string
           insight_id: number
-          type_key: string
+          insight_type: string
+          patient_id: string
+        }[]
+      }
+      get_scheduled_jobs_status: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          active: boolean
+          command: string
+          jobname: string
+          schedule: string
+        }[]
+      }
+      pause_conversation_cleanup_job: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      resume_conversation_cleanup_job: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      run_conversation_cleanup_now: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          closed_conversation_id: number
+          insights_created: number
         }[]
       }
       set_conversation_timeout_minutes: {

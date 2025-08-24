@@ -1,0 +1,103 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Crisis Classification Insight Schema",
+    "description": "Schema for identifying psychological crisis situations and extracting ABC model components",
+    "type": "object",
+    "properties": {
+        "is_crisis": {
+            "type": "boolean",
+            "description": "Whether the conversation indicates a psychological crisis"
+        },
+        "crisis_severity": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "enum": [
+                "low",
+                "moderate",
+                "high",
+                "severe",
+                null
+            ],
+            "description": "Severity level of the crisis if detected"
+        },
+        "activator": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "The trigger event or situation that precipitated the crisis",
+            "minLength": 50,
+            "maxLength": 200
+        },
+        "belief": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "The patient's cognitive response or interpretation of the activator",
+            "minLength": 50,
+            "maxLength": 200
+        },
+        "consequence": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "The emotional and behavioral responses to the crisis",
+            "minLength": 50,
+            "maxLength": 200
+        },
+        "context": {
+            "type": "string",
+            "description": "Detailed explanation of why this is/isn't a crisis and supporting evidence",
+            "minLength": 100,
+            "maxLength": 500
+        }
+    },
+    "required": [
+        "is_crisis",
+        "crisis_severity",
+        "activator",
+        "belief",
+        "consequence",
+        "context"
+    ],
+    "additionalProperties": false,
+    "if": {
+        "properties": {
+            "is_crisis": {
+                "const": true
+            }
+        }
+    },
+    "then": {
+        "properties": {
+            "crisis_severity": {
+                "enum": [
+                    "low",
+                    "moderate",
+                    "high",
+                    "severe"
+                ]
+            }
+        }
+    },
+    "else": {
+        "properties": {
+            "crisis_severity": {
+                "type": "null"
+            },
+            "activator": {
+                "type": "null"
+            },
+            "belief": {
+                "type": "null"
+            },
+            "consequence": {
+                "type": "null"
+            }
+        }
+    }
+}

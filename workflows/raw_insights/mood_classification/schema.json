@@ -1,0 +1,66 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Mood Classification Insight Schema",
+    "description": "Schema for classifying patient mood on a 1-10 scale based on psychological distress indicators",
+    "type": "object",
+    "properties": {
+        "mood_score": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "description": "Mood rating from 1-10 (1=severe distress, 10=excellent mood) or null if insufficient information",
+            "minimum": 1,
+            "maximum": 10
+        },
+        "classification_type": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "enum": [
+                "explicit",
+                "inferred",
+                null
+            ],
+            "description": "Whether the mood was explicitly stated by patient or inferred from context"
+        },
+        "context": {
+            "type": "string",
+            "description": "Explanation of why this score was assigned and the evidence used",
+            "minLength": 50,
+            "maxLength": 300
+        }
+    },
+    "required": [
+        "mood_score",
+        "classification_type",
+        "context"
+    ],
+    "additionalProperties": false,
+    "anyOf": [
+        {
+            "properties": {
+                "mood_score": {
+                    "type": "null"
+                },
+                "classification_type": {
+                    "type": "null"
+                }
+            }
+        },
+        {
+            "properties": {
+                "mood_score": {
+                    "type": "integer"
+                },
+                "classification_type": {
+                    "enum": [
+                        "explicit",
+                        "inferred"
+                    ]
+                }
+            }
+        }
+    ]
+}
