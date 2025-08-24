@@ -73,7 +73,11 @@ export function PatientSidebar({
           <>
             <CardHeader className="pb-4 text-center">
               <div className="flex flex-col items-center gap-4">
-                <UserAvatar size={96} />
+                <UserAvatar
+                  size={96}
+                  src={profile.profile_picture_url ?? undefined}
+                  alt={displayName}
+                />
                 <div>
                   <h2 className="text-card-foreground text-center text-xl font-semibold break-words">
                     {displayName}

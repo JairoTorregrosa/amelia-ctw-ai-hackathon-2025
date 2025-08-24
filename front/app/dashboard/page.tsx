@@ -210,6 +210,7 @@ export default function DashboardPage() {
             email: '',
             full_name: 'Loading...',
             phone: null,
+            profile_picture_url: null,
             role: 'patient',
           }}
           isLoading={true}
@@ -230,7 +231,7 @@ export default function DashboardPage() {
                 {(patients || []).map((patient) => (
                   <SelectItem key={patient.id} value={patient.id}>
                     <div className="flex items-center gap-2">
-                      <UserAvatar className="h-6 w-6" />
+                      <UserAvatar className="h-6 w-6" src={patient.profile_picture_url ?? undefined} alt={patient.full_name} />
                       {patient.full_name}
                     </div>
                   </SelectItem>
@@ -241,7 +242,7 @@ export default function DashboardPage() {
 
           {/* Psychologist Profile */}
           <div className="flex items-center gap-3">
-            <UserAvatar />
+            <UserAvatar src={therapist?.profile_picture_url ?? undefined} alt={therapist?.full_name} />
             <span className="text-sm font-medium">{therapist?.full_name || 'Therapist'}</span>
             <Button asChild variant="outline" size="sm">
               <Link href="/">Logout</Link>

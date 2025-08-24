@@ -108,8 +108,11 @@ export class PatientContextModel extends BaseModel<'patient_context'> {
    * Update active tasks for a patient
    */
   async updateActiveTasks(patientId: string, activeTasks: any[]): Promise<PatientContextRow> {
+    const existing = await this.getByPatientId(patientId);
+    const summaries = (existing?.conversation_summaries as any) ?? {};
+    const updatedSummaries = { ...summaries, active_tasks: activeTasks };
     return this.updateByPatientId(patientId, {
-      active_tasks: activeTasks as any
+      conversation_summaries: updatedSummaries as any,
     });
   }
 
@@ -117,8 +120,11 @@ export class PatientContextModel extends BaseModel<'patient_context'> {
    * Update therapist notes summary for a patient
    */
   async updateTherapistNotes(patientId: string, notes: string): Promise<PatientContextRow> {
+    const existing = await this.getByPatientId(patientId);
+    const summaries = (existing?.conversation_summaries as any) ?? {};
+    const updatedSummaries = { ...summaries, therapist_notes_summary: notes };
     return this.updateByPatientId(patientId, {
-      therapist_notes_summary: notes
+      conversation_summaries: updatedSummaries as any,
     });
   }
 
@@ -135,7 +141,8 @@ export class PatientContextModel extends BaseModel<'patient_context'> {
    */
   async getActiveTasks(patientId: string): Promise<any[] | null> {
     const context = await this.getByPatientId(patientId);
-    return context?.active_tasks as any[] | null;
+    const summaries = (context?.conversation_summaries as any) ?? null;
+    return summaries?.active_tasks ?? null;
   }
 }
 
