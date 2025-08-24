@@ -63,10 +63,10 @@ Return a JSON object with the following structure:
 ```json
 {
     "key_insights": [
-        "Brief insight with **bold critical phrase** - actionable for therapist",
-        "Another insight with **bold key element** - essential for session prep",
-        "Third insight with **bold priority area** - impacts therapeutic approach",
-        "Fourth insight with **bold crucial detail** - informs session focus"
+        "Brief insight with critical phrase - actionable for therapist",
+        "Another insight with key element - essential for session prep",
+        "Third insight with priority area - impacts therapeutic approach",
+        "Fourth insight with crucial detail - informs session focus"
     ]
 }
 ```
@@ -76,7 +76,7 @@ Return a JSON object with the following structure:
 - Each insight: **30-80 characters**
 - **Bold the most critical phrase** in each point
 - Focus on information **essential for therapist preparation**
-- If insufficient data: Use single insight "No hay suficientes datos para concluir"
+- If insufficient data: Use single insight "There is no information to generate key insights"
 
 ### Examples
 
@@ -84,10 +84,22 @@ Return a JSON object with the following structure:
 ```json
 {
     "key_insights": [
-        "**Major depressive episode** currently affecting daily functioning",
-        "Recent **job loss** creating financial stress and identity crisis",
-        "Strong **family support system** available but underutilized",
-        "Previous **therapy experience** suggests good treatment engagement"
+        "Moderate anxiety with developing coping skills and avg mood 5.8/10",
+        "Multiple major transitions - new job, moved with parents, ended relationship",
+        "Three low-level crisis episodes from work stress and relationship conflicts", 
+        "Strong therapy engagement and active support system utilization"
+    ]
+}
+```
+
+**Example based on comprehensive patient data:**
+```json
+{
+    "key_insights": [
+        "Moderate anxiety averaging 6.5 fear intensity, improving with coping skills",
+        "Major life changes - new job after unemployment, moved with parents, breakup",
+        "Mother's cancer diagnosis creating additional health anxiety and family stress",
+        "Positive therapy engagement with gradual mood improvement trend"
     ]
 }
 ```
@@ -96,10 +108,10 @@ Return a JSON object with the following structure:
 ```json
 {
     "key_insights": [
-        "**Suicidal ideation** reported - immediate safety assessment needed",
-        "**Substance abuse** escalating as coping mechanism",
-        "**Social isolation** increasing - no current support contacts",
-        "**Work conflicts** triggering trauma responses from past abuse"
+        "Suicidal ideation reported - immediate safety assessment needed",
+        "Substance abuse escalating as coping mechanism",
+        "Social isolation increasing - no current support contacts",
+        "Work conflicts triggering trauma responses from past abuse"
     ]
 }
 ```
