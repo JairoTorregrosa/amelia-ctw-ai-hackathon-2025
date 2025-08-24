@@ -6,34 +6,19 @@ Esta carpeta contiene todos los workflows y configuraciones para el procesamient
 
 ```
 workflows/
-└── insights/
-    ├── conversational/
-    │   ├── prompt.md      ← Instrucciones para el LLM
-    │   └── schema.json    ← Schema de output esperado
-    ├── psychological/
-    │   ├── prompt.md      ← Instrucciones para el LLM
-    │   └── schema.json    ← Schema de output esperado
-    └── emotional/
+└── raw_insights/
+    └── primary_emotions/
         ├── prompt.md      ← Instrucciones para el LLM
-        └── schema.json    ← Schema de output esperado
+        ├── schema.json    ← Schema de output esperado
+        └── example.json   ← Ejemplo de output
 ```
 
 ## Tipos de Insights
 
-### 1. Conversational (Factual)
-**Propósito**: Resumen objetivo de hechos y temas discutidos
-**Enfoque**: Factual, sin interpretaciones psicológicas
-**Output**: Resumen, temas principales, tareas, eventos mencionados
-
-### 2. Psychological (Clínico)
-**Propósito**: Análisis psicológico profundo y recomendaciones
-**Enfoque**: Progreso terapéutico, patrones de comportamiento
-**Output**: Evaluación clínica, factores de riesgo, recomendaciones
-
-### 3. Emotional (Cuantitativo)
-**Propósito**: Extracción de datos emocionales y escalas
-**Enfoque**: Estado de ánimo, emociones, trayectoria emocional
-**Output**: Escala 1-10, emociones identificadas, triggers
+### Primary Emotions (Emociones Primarias)
+**Propósito**: Análisis de las emociones primarias identificadas en la conversación
+**Enfoque**: Identificación de las 6 emociones básicas de Ekman (alegría, tristeza, ira, miedo, sorpresa, disgusto)
+**Output**: Array de emociones con intensidad (1-10), contexto y evidencia textual
 
 ## Uso en Cron Jobs
 
@@ -45,10 +30,10 @@ workflows/
    ```
 
 2. **Para cada insight pendiente:**
-   - Leer el prompt correspondiente (`workflows/insights/{type}/prompt.md`)
+   - Leer el prompt correspondiente (`workflows/raw_insights/{type}/prompt.md`)
    - Obtener mensajes de la conversación
    - Enviar al LLM con el prompt + contexto
-   - Validar output contra schema (`workflows/insights/{type}/schema.json`)
+   - Validar output contra schema (`workflows/raw_insights/{type}/schema.json`)
    - Guardar resultado en base de datos
 
 3. **Completar Insight**
@@ -64,11 +49,11 @@ from pathlib import Path
 
 def process_insight(insight_id, conversation_id, type_key, config):
     # 1. Cargar prompt
-    prompt_path = Path(f"workflows/insights/{type_key}/prompt.md")
+    prompt_path = Path(f"workflows/raw_insights/{type_key}/prompt.md")
     prompt = prompt_path.read_text()
     
     # 2. Cargar schema
-    schema_path = Path(f"workflows/insights/{type_key}/schema.json")
+    schema_path = Path(f"workflows/raw_insights/{type_key}/schema.json")
     schema = json.loads(schema_path.read_text())
     
     # 3. Obtener mensajes de la conversación
@@ -91,7 +76,7 @@ SELECT type_key, display_name, is_active, config
 FROM insight_types;
 
 -- Activar/desactivar tipo
-SELECT toggle_insight_type('psychological', false);
+SELECT toggle_insight_type('primary_emotions', false);
 ```
 
 ## Personalización
@@ -108,10 +93,11 @@ SELECT toggle_insight_type('psychological', false);
 
 ### Agregar Nuevo Tipo de Insight
 
-1. Crear carpeta `workflows/insights/{nuevo_tipo}/`
+1. Crear carpeta `workflows/raw_insights/{nuevo_tipo}/`
 2. Crear `prompt.md` con instrucciones específicas
 3. Crear `schema.json` con estructura de output
-4. Agregar tipo a base de datos:
+4. Crear `example.json` con ejemplo de output
+5. Agregar tipo a base de datos:
    ```sql
    INSERT INTO insight_types (type_key, display_name, config) 
    VALUES ('nuevo_tipo', 'Nuevo Tipo', '{"description": "..."}');

@@ -107,10 +107,9 @@ Este documento detalla la arquitectura simplificada para el MVP del sistema de a
 
 ### Proceso Detallado (Pasos en N8n):
 
-1. **Obtener Contexto del Terapeuta:** Ejecuta un SELECT en `patient_context` para obtener `therapist_notes_summary` y `active_tasks`.
+1. **Obtener Contexto de Triage:** Ejecuta un SELECT en `patient_context` para obtener `triage_info`.
 2. **Obtener Resúmenes de Conversaciones:** Ejecuta un SELECT en `conversations` para obtener los `summary` de las últimas 3 conversaciones de ese paciente (`ORDER BY created_at DESC LIMIT 3`).
-3. **Obtener Contexto de Triage:** Ejecuta un SELECT en `patient_context` para obtener `triage_info`.
-4. **Ensamblar Contexto:** Un nodo de código o "Set" combina toda esta información en un único bloque de texto o JSON estructurado.
+3. **Ensamblar Contexto:** Un nodo de código o "Set" combina toda esta información en un único bloque de texto o JSON estructurado.
 
 **Output:** Un objeto JSON o un bloque de texto que contiene todo el contexto necesario, listo para ser inyectado en el prompt de un agente de IA.
 

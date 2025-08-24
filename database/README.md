@@ -69,7 +69,7 @@ SELECT set_conversation_timeout_minutes(30);
 ### Gestionar Insights
 ```sql
 -- Desactivar tipo de insight
-SELECT toggle_insight_type('psychological', false);
+SELECT toggle_insight_type('primary_emotions', false);
 
 -- Ver insights pendientes
 SELECT * FROM get_pending_insights();

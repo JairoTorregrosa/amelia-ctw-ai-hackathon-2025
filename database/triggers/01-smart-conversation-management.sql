@@ -1,13 +1,11 @@
 -- Trigger para auto-gestión inteligente de conversaciones
 
--- Función principal de gestión de conversaciones
+-- Función principal de gestión de conversaciones (sin cierre automático)
 CREATE OR REPLACE FUNCTION smart_conversation_management()
 RETURNS TRIGGER AS $$
 DECLARE
   active_conv_id BIGINT;
-  inactive_conv_id BIGINT;
   new_conv_id BIGINT;
-  insights_created INTEGER;
   timeout_minutes INTEGER;
   timeout_interval INTERVAL;
 BEGIN
@@ -17,38 +15,16 @@ BEGIN
   -- Construir intervalo dinámico
   timeout_interval := timeout_minutes * INTERVAL '1 minute';
   
-  -- 1. Buscar conversación activa del paciente
+  -- 1. Buscar conversación activa del paciente (que no haya expirado)
   SELECT id INTO active_conv_id
   FROM conversations 
   WHERE patient_id = NEW.patient_id 
     AND status = 'active'
     AND (last_message_at IS NULL OR last_message_at > now() - timeout_interval);
   
-  -- 2. Si no hay conversación activa, buscar inactiva para cerrar
+  -- 2. Si no hay conversación activa válida, crear nueva
   IF active_conv_id IS NULL THEN
-    SELECT id INTO inactive_conv_id
-    FROM conversations 
-    WHERE patient_id = NEW.patient_id 
-      AND status = 'active'
-      AND last_message_at IS NOT NULL 
-      AND last_message_at <= now() - timeout_interval;
-    
-    -- 2a. Cerrar conversación inactiva si existe
-    IF inactive_conv_id IS NOT NULL THEN
-      -- Marcar como completada
-      UPDATE conversations 
-      SET status = 'completed', 
-          updated_at = now()
-      WHERE id = inactive_conv_id;
-      
-      -- Crear insights activos para la conversación cerrada
-      SELECT create_active_insights(inactive_conv_id) INTO insights_created;
-      
-      RAISE NOTICE 'Conversación % cerrada. % insights creados.', 
-        inactive_conv_id, insights_created;
-    END IF;
-    
-    -- 2b. Crear nueva conversación activa
+    -- Crear nueva conversación activa
     INSERT INTO conversations (patient_id, status, started_at, last_message_at)
     VALUES (NEW.patient_id, 'active', now(), now())
     RETURNING id INTO new_conv_id;

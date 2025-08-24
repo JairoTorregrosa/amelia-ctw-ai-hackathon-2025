@@ -21,31 +21,12 @@ CREATE TABLE insight_types (
 -- Insertar los tipos de insights iniciales
 INSERT INTO insight_types (type_key, display_name, config) VALUES
 (
-  'conversational',
-  'Resumen Conversacional',
+  'primary_emotions',
+  'Emociones Primarias',
   '{
-    "description": "Resumen factual de los temas y eventos discutidos en la conversación",
-    "max_length": 500,
-    "focus": "facts_and_topics"
-  }'
-),
-(
-  'psychological',
-  'Análisis Psicológico',
-  '{
-    "description": "Análisis de patrones psicológicos, progreso terapéutico y recomendaciones",
-    "max_length": 800,
-    "focus": "therapeutic_progress",
-    "include_risk_assessment": true
-  }'
-),
-(
-  'emotional',
-  'Evaluación Emocional',
-  '{
-    "description": "Extracción de escalas emocionales y estados de ánimo reportados",
-    "mood_scale_range": [1, 10],
-    "extract_emotions": true
+    "description": "Analysis of primary emotions identified in the conversation based on Ekman''s 6 basic emotions",
+    "emotions": ["joy", "sadness", "anger", "fear", "surprise", "disgust"],
+    "intensity_scale": [1, 10]
   }'
 );
 

@@ -8,12 +8,5 @@ CREATE TABLE patient_context (
   -- JSONB allows flexible schema without DB migrations.
   triage_info JSONB,
   
-  -- The evolving summary of therapist notes, updated by Flow 5.
-  therapist_notes_summary TEXT,
-  
-  -- List of active tasks, managed by the therapist.
-  -- Using JSONB allows storing a list of objects with status, description, etc.
-  active_tasks JSONB,
-  
   last_updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

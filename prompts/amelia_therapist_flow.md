@@ -9,7 +9,7 @@ Your goal is, given a time range and a transcript of interactions {id, timestamp
 - patient_id: string
 - start_date, end_date: ISO-8601 format (required, valid)
 - transcript: list of objects {id: string, timestamp: ISO-8601, role: "patient"|"bot", message: string}. Required field; may be empty.
-- context: optional object {therapist_notes_summary?: string, triage_info?: string, active_tasks?: string}. Process with or without these fields, no errors if missing. If all are absent, proceed with transcript only.
+- context: optional object {triage_info?: string}. Process with or without this field, no errors if missing. If absent, proceed with transcript only.
 
 # Sequential Processing
 1. Cleaning and normalization:
