@@ -46,9 +46,9 @@ export function initializeSupabase() {
 
 // Get Supabase client info
 export function getSupabaseInfo() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const url = process.env.SUPABASE_URL
   const hasUrl = !!url
-  const hasKey = !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const hasKey = !!process.env.SUPABASE_ANON_KEY
   
   return {
     url: hasUrl ? url : 'Not configured',
