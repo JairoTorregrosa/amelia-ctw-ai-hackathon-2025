@@ -9,14 +9,14 @@
             "properties": {
                 "psychological_summary": {
                     "type": "string",
-                    "description": "Comprehensive narrative that thoroughly analyzes the psychological impact of ALL events mentioned",
-                    "minLength": 500,
+                    "description": "Comprehensive narrative that thoroughly analyzes the psychological impact of ALL events mentioned. Use 'No hay suficientes datos para concluir' when insufficient data is available.",
+                    "minLength": 30,
                     "maxLength": 800
                 },
                 "events_summary": {
                     "type": "string",
-                    "description": "Detailed narrative that comprehensively covers ALL events and developments mentioned across conversations",
-                    "minLength": 400,
+                    "description": "Detailed narrative that comprehensively covers ALL events and developments mentioned across conversations. Use 'No hay suficientes datos para concluir' when insufficient data is available.",
+                    "minLength": 30,
                     "maxLength": 700
                 },
                 "suggested_questions": {
