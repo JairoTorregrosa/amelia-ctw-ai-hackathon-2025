@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Conversational Summary Insight Schema",
+    "description": "Simple schema for extracting key events from patient-agent conversations",
+    "type": "object",
+    "properties": {
+        "key_events": {
+            "type": "array",
+            "description": "Array of significant events or developments mentioned in the conversation",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "event": {
+                        "type": "string",
+                        "description": "Brief description of what happened",
+                        "minLength": 10,
+                        "maxLength": 200
+                    },
+                    "importance": {
+                        "type": "string",
+                        "description": "Why this event is important or significant",
+                        "minLength": 10,
+                        "maxLength": 150
+                    }
+                },
+                "required": [
+                    "event",
+                    "importance"
+                ],
+                "additionalProperties": false
+            },
+            "maxItems": 10,
+            "minItems": 0
+        }
+    },
+    "required": [
+        "key_events"
+    ],
+    "additionalProperties": false
+}

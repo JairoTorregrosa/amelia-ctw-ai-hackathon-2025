@@ -1,0 +1,24 @@
+{
+    "key_events": [
+        {
+            "event": "Started new job at marketing agency after 3 months of unemployment",
+            "importance": "Major career transition that provides financial stability and new professional opportunities"
+        },
+        {
+            "event": "Moved back in with parents to save money during job transition",
+            "importance": "Significant change in living situation that affects independence and family dynamics"
+        },
+        {
+            "event": "Ended 2-year relationship due to different life goals",
+            "importance": "Major relationship change that impacts emotional support system and life direction"
+        },
+        {
+            "event": "Completed first therapy session with new therapist",
+            "importance": "Beginning of new mental health treatment approach to address ongoing challenges"
+        },
+        {
+            "event": "Received promotion offer at current company",
+            "importance": "Career advancement opportunity that could change work responsibilities and income"
+        }
+    ]
+}
