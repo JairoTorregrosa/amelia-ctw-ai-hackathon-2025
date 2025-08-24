@@ -19,7 +19,7 @@ BEGIN
     it.config
   FROM conversation_insights ci
   JOIN insight_types it ON ci.insight_type_id = it.id
-  WHERE ci.status = 'pending'
+  WHERE ci.completed = false
   ORDER BY ci.created_at ASC;
 END;
 $$ LANGUAGE plpgsql;
@@ -29,7 +29,7 @@ CREATE OR REPLACE FUNCTION get_conversation_insights(conv_id BIGINT)
 RETURNS TABLE(
   type_key TEXT,
   display_name TEXT,
-  status TEXT,
+  completed BOOLEAN,
   content JSONB,
   created_at TIMESTAMPTZ
 ) AS $$
@@ -38,7 +38,7 @@ BEGIN
   SELECT 
     it.type_key,
     it.display_name,
-    ci.status,
+    ci.completed,
     ci.content,
     ci.created_at
   FROM conversation_insights ci

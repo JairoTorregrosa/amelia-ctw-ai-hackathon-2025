@@ -13,16 +13,16 @@ BEGIN
     FROM insight_types 
     WHERE is_active = true 
   LOOP
-    -- Insertar insight en estado pending
+    -- Insertar insight en estado no completado
     INSERT INTO conversation_insights (
       conversation_id,
       insight_type_id,
-      status,
+      completed,
       created_at
     ) VALUES (
       conv_id,
       insight_type_record.id,
-      'pending',
+      false,
       now()
     )
     ON CONFLICT (conversation_id, insight_type_id) DO NOTHING;
@@ -71,7 +71,6 @@ DECLARE
 BEGIN
   UPDATE conversation_insights 
   SET 
-    status = 'completed',
     content = result_content,
     completed = true,
     updated_at = now()
