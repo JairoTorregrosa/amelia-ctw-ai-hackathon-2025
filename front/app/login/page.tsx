@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,13 +8,21 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Phone, ArrowLeft, Loader2 } from 'lucide-react';
-import { Profiles } from '@/models';
+import { useAuth } from '@/contexts/auth-context';
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, authLoading, router]);
 
   const formatPhoneNumber = (value: string) => {
     // Remove all non-digits
@@ -62,22 +70,12 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Search for user by phone number
-      const digits = phoneNumber.replace(/\D/g, '');
-      const formattedPhone = digits.length === 10 ? `+1${digits}` : `+${digits}`;
+      const result = await login(phoneNumber);
       
-      // Get all profiles and filter by phone number
-      const profiles = await Profiles.list({});
-      const user = profiles.find(profile => 
-        profile.phone && profile.phone.replace(/\D/g, '') === digits
-      );
-
-      if (user) {
-        // User found, redirect to dashboard
-        // In a real app, you'd set authentication state here
+      if (result.success) {
         router.push('/dashboard');
       } else {
-        setError('No demo results found for this phone number. Please check your number or contact support.');
+        setError(result.error || 'Login failed');
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -86,6 +84,18 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white flex items-center justify-center p-4">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-psychology-blue" />
+          <p className="text-slate-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white flex items-center justify-center p-4">
@@ -147,7 +157,7 @@ export default function LoginPage() {
 
               <Button 
                 type="submit" 
-                className="w-full bg-psychology-blue hover:bg-psychology-blue/90"
+                className="w-full bg-psychology-blue hover:bg-psychology-blue/90 cursor-pointer"
                 disabled={isLoading || !phoneNumber}
               >
                 {isLoading ? (

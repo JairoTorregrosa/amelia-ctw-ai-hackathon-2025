@@ -42,6 +42,20 @@ export class ProfilesModel extends BaseModel<'profiles'> {
   }
 
   /**
+   * Find profile by ID
+   */
+  async getById(id: string): Promise<Profile | null> {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error && 'code' in error && error.code !== 'PGRST116') throw error;
+    return (data as Profile) ?? null;
+  }
+
+  /**
    * Find profile by email
    */
   async getByEmail(email: string): Promise<Profile | null> {
@@ -53,6 +67,38 @@ export class ProfilesModel extends BaseModel<'profiles'> {
 
     if (error && 'code' in error && error.code !== 'PGRST116') throw error;
     return (data as Profile) ?? null;
+  }
+
+  /**
+   * Find profile by phone number (digits only)
+   * Queries for profiles with phone numbers and filters by matching digits
+   */
+  async getByPhone(phoneDigits: string): Promise<Profile | null> {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .eq('phone', phoneDigits)
+      .maybeSingle();
+
+    if (error) throw error;
+    
+    return data;
+  }
+
+  /**
+   * Check if a profile exists with the given phone number (digits only)
+   * Returns boolean indicating existence without fetching the full profile
+   */
+  async existsByPhone(phoneDigits: string): Promise<boolean> {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('phone')
+      .eq('phone', phoneDigits)
+      .maybeSingle();
+
+    if (error) throw error;
+    
+    return !!data?.phone || false;
   }
 
   /**

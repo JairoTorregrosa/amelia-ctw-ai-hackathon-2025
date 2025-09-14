@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/components/user-avatar';
 import { Brain, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
+import { AuthGuard } from '@/components/auth-guard';
+import { useAuth } from '@/contexts/auth-context';
 import { PatientSidebar } from '@/components/patient-sidebar';
 import { InsightCharts } from '@/components/insight-charts';
 import { DateRangePicker } from '@/components/date-range-picker';
@@ -25,6 +27,7 @@ import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/ins
 import { MessageSender } from '@/types/constants';
 
 export default function DashboardPage() {
+  const { logout } = useAuth();
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
   // Initialize default date range: 2025-08-24 through 2025-09-13
   const [dateRange, setDateRange] = useState({
@@ -189,7 +192,8 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="bg-background flex min-h-screen">
+    <AuthGuard>
+      <div className="bg-background flex min-h-screen">
       {/* Left Sidebar - Patient Info */}
       {selectedPatient ? (
         <PatientSidebar
@@ -235,8 +239,12 @@ export default function DashboardPage() {
               alt={therapist?.full_name}
             />
             <span className="text-sm font-medium">{therapist?.full_name || 'Therapist'}</span>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/login">Logout</Link>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={logout}
+            >
+              Logout
             </Button>
           </div>
         </div>
@@ -364,6 +372,7 @@ export default function DashboardPage() {
           dateRange={{ from: dateRange.from, to: dateRange.to }}
         />
       </div>
-    </div>
+      </div>
+    </AuthGuard>
   );
 }

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import { ReactQueryProvider } from '@/libraries/react-query';
+import { AuthProvider } from '@/contexts/auth-context';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -43,7 +44,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable}>
       <body className="font-sans antialiased">
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
