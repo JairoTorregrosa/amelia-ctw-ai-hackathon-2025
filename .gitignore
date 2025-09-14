@@ -210,3 +210,7 @@ __marimo__/
 # Frontend
 .next/
 node_modules/
+
+# MCP (Model Context Protocol) configurations
+**/.cursor/mcp.json
+.cursor/mcp.json
