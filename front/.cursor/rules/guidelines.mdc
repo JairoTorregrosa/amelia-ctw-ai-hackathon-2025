@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+- Always check the @package.json folder to make sure which packages are available
+- The package manager is pnpm
+- ALWAYS use function components when creating a new component
+- The project backend is in supabase
