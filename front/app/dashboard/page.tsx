@@ -236,7 +236,7 @@ export default function DashboardPage() {
             />
             <span className="text-sm font-medium">{therapist?.full_name || 'Therapist'}</span>
             <Button asChild variant="outline" size="sm">
-              <Link href="/">Logout</Link>
+              <Link href="/login">Logout</Link>
             </Button>
           </div>
         </div>

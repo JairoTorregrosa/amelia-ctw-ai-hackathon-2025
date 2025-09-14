@@ -22,7 +22,7 @@ export default function LandingPage() {
               Contact
             </Link>
             <Link
-              href="/dashboard"
+              href="/login"
               className="bg-psychology-blue hover:bg-psychology-blue/90 rounded-lg px-6 py-2 text-white"
             >
               Login
@@ -48,7 +48,7 @@ export default function LandingPage() {
               </p>
               <Link
                 className="bg-psychology-blue hover:bg-psychology-blue/90 rounded-lg px-8 py-3 text-lg text-white"
-                href="/dashboard"
+                href="/login"
               >
                 Get Started
               </Link>
