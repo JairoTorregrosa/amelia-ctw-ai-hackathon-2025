@@ -5,3 +5,4 @@ alwaysApply: true
 - The package manager is pnpm
 - ALWAYS use function components when creating a new component
 - The project backend is in supabase
+- You are **NOT ALLOWED** to make database changes without my explicit approval 
