@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Messages } from '@/models/messages';
 import { ConversationInsights } from '@/models/conversation_insights';
 import { Conversations } from '@/models/conversations';
-import { format, parseISO } from 'date-fns';
+import { addWeeks, format, parseISO, subWeeks } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
 import { MessageSender } from '@/types/constants';
@@ -22,10 +22,13 @@ import { MessageSender } from '@/types/constants';
 export default function DashboardPage() {
   const { logout, user } = useAuth();
   const selectedPatientId = user?.id || null;
-  // Initialize default date range: 2025-08-24 through 2025-09-13
-  const [dateRange, setDateRange] = useState({
-    from: '2025-08-24',
-    to: '2025-09-13',
+  // Initialize default date range: one week before to one week after today
+  const [dateRange, setDateRange] = useState(() => {
+    const today = new Date();
+    return {
+      from: format(subWeeks(today, 1), 'yyyy-MM-dd'),
+      to: format(addWeeks(today, 1), 'yyyy-MM-dd'),
+    };
   });
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [engagementHelpOpen, setEngagementHelpOpen] = useState(false);
