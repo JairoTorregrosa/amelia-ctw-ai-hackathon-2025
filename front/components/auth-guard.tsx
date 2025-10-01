@@ -23,7 +23,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-100 to-white">
         <div className="text-center">
-          <LoadingSpinner size="lg" text="Checking authentication..." />
+          <LoadingSpinner size="lg" text="Verificando autenticación..." />
         </div>
       </div>
     );

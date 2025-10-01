@@ -34,10 +34,10 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
         align="start"
       >
         <div className="space-y-4 p-4">
-          <div className="text-sm font-medium">Select Date Range</div>
+          <div className="text-sm font-medium">Selecciona el rango de fechas</div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-muted-foreground text-xs">From</label>
+              <label className="text-muted-foreground text-xs">Desde</label>
               <input
                 type="date"
                 value={dateRange.from}
@@ -46,7 +46,7 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
               />
             </div>
             <div>
-              <label className="text-muted-foreground text-xs">To</label>
+              <label className="text-muted-foreground text-xs">Hasta</label>
               <input
                 type="date"
                 value={dateRange.to}
@@ -56,7 +56,7 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
             </div>
           </div>
           <Button onClick={() => setIsOpen(false)} className="w-full text-sm" size="sm">
-            Apply
+            Aplicar
           </Button>
         </div>
       </PopoverContent>

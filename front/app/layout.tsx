@@ -15,14 +15,21 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   applicationName: 'Amelia',
   title: {
-    default: 'Amelia - AI Therapy Assistant',
+    default: 'Amelia - Asistente de terapia con IA',
     template: '%s • Amelia',
   },
   description:
-    'AI-powered therapy assistant and insights dashboard for psychologists and patients.',
-  keywords: ['Amelia', 'therapy', 'mental health', 'psychology', 'AI assistant', 'dashboard'],
-  authors: [{ name: 'Amelia Team' }],
-  creator: 'Amelia Team',
+    'Asistente de terapia impulsado por IA y panel de insights para psicólogos y pacientes.',
+  keywords: [
+    'Amelia',
+    'terapia',
+    'salud mental',
+    'psicología',
+    'asistente IA',
+    'panel de control',
+  ],
+  authors: [{ name: 'Equipo Amelia' }],
+  creator: 'Equipo Amelia',
   publisher: 'Amelia',
   generator: 'nextjs',
   icons: {
@@ -42,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={poppins.variable}>
+    <html lang="es" className={poppins.variable}>
       <body className="font-sans antialiased">
         <ReactQueryProvider>
           <AuthProvider>{children}</AuthProvider>

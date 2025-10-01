@@ -22,7 +22,7 @@ export function ChartLoadingSkeleton({ title, icon, height = 250 }: ChartLoading
           className="bg-muted/30 flex items-center justify-center rounded-lg"
           style={{ height: `${height}px` }}
         >
-          <LoadingSpinner size="lg" text="Loading chart data..." />
+          <LoadingSpinner size="lg" text="Cargando datos del gráfico..." />
         </div>
       </CardContent>
     </Card>

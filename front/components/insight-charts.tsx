@@ -25,7 +25,7 @@ import type {
   AggregatedEmotion,
   CrisisClassificationRow,
 } from '@/types/insights';
-import { EMOTION_COLORS } from '@/types/constants';
+import { EMOTION_COLORS, EMOTION_LABELS_ES, SEVERITY_LABELS_ES } from '@/types/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Conversations } from '@/models/conversations';
 import { format, eachDayOfInterval } from 'date-fns';
@@ -201,7 +201,8 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
       const color = EMOTION_COLORS[name] || palette[i++ % palette.length];
       // Deduplicate keeping first occurrences
       const dedupe = (arr: string[]) => Array.from(new Set(arr)).slice(0, 5);
-      const displayName = name.charAt(0).toUpperCase() + name.slice(1);
+      const displayName =
+        EMOTION_LABELS_ES[name.toLowerCase()] || name.charAt(0).toUpperCase() + name.slice(1);
       return {
         name: displayName,
         count: b.total,
@@ -236,19 +237,19 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
     return (
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <ChartLoadingSkeleton
-          title="Mood & Anxiety Trends"
+          title="Tendencias de estado de ánimo y ansiedad"
           icon={<TrendingUp className="text-primary h-5 w-5" />}
         />
         <ChartLoadingSkeleton
-          title="Weekly Session Activity"
+          title="Actividad semanal de sesiones"
           icon={<MessageSquare className="text-secondary h-5 w-5" />}
         />
         <ChartLoadingSkeleton
-          title="Emotion Distribution"
+          title="Distribución de emociones"
           icon={<Activity className="text-accent h-5 w-5" />}
         />
         <ChartLoadingSkeleton
-          title="Crisis Events"
+          title="Eventos de crisis"
           icon={<AlertTriangle className="h-5 w-5 text-red-500" />}
           height={200}
         />
@@ -259,12 +260,12 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
   return (
     <>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Daily Mood (Average per day) */}
+        {/* Estado de ánimo diario (promedio por día) */}
         <Card className="bg-card border-border">
           <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="text-primary h-5 w-5" />
-              Daily Average Mood
+              Estado de ánimo promedio diario
             </CardTitle>
           </CardHeader>
           <CardContent className="px-2 pb-4 pt-0 sm:px-6 sm:pb-6">
@@ -287,19 +288,19 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                   stroke="#6CAEDD"
                   strokeWidth={3}
                   dot={{ fill: '#6CAEDD', strokeWidth: 2, r: 4 }}
-                  name="Avg Mood"
+                  name="Estado de ánimo promedio"
                 />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Daily Conversation Activity */}
+        {/* Actividad conversacional diaria */}
         <Card className="bg-card border-border">
           <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <MessageSquare className="text-secondary h-5 w-5" />
-              Daily Conversation Activity
+              Actividad conversacional diaria
             </CardTitle>
           </CardHeader>
           <CardContent className="px-2 pb-4 pt-0 sm:px-6 sm:pb-6">
@@ -318,28 +319,28 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                     borderRadius: '8px',
                   }}
                 />
-                <Bar dataKey="sessions" fill="#A5E3D0" radius={[4, 4, 0, 0]} name="Conversations" />
+                <Bar dataKey="sessions" fill="#A5E3D0" radius={[4, 4, 0, 0]} name="Conversaciones" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Emotion Distribution (Primary Emotions from Insights) */}
+        {/* Distribución de emociones (emociones primarias de los insights) */}
         <Card className="bg-card border-border">
           <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <Activity className="text-accent h-5 w-5" />
-              Emotion Distribution
+              Distribución de emociones
             </CardTitle>
           </CardHeader>
           <CardContent className="px-2 pb-4 pt-0 sm:px-6 sm:pb-6">
             {loadingPrimaryEmotions ? (
               <div className="text-muted-foreground flex h-[250px] items-center justify-center text-sm">
-                Loading emotions…
+                Cargando emociones…
               </div>
             ) : aggregatedEmotions.length === 0 ? (
               <div className="text-muted-foreground flex h-[250px] items-center justify-center text-sm">
-                No emotion data in range
+                No hay datos de emociones en este rango
               </div>
             ) : (
               <>
@@ -399,18 +400,18 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
           </CardContent>
         </Card>
 
-        {/* Crisis Classifications */}
+        {/* Clasificaciones de crisis */}
         <Card className="bg-card border-border">
           <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-red-500" />
-              Crisis Classifications
+              Clasificaciones de crisis
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6">
             {crisisItems.length === 0 ? (
               <div className="text-muted-foreground text-sm">
-                No crisis detected in the selected period.
+                No se detectaron crisis en el periodo seleccionado.
               </div>
             ) : (
               <div className="space-y-3">
@@ -425,7 +426,8 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                         {format(new Date(item.created_at), 'MMM d, yyyy HH:mm')}
                       </div>
                       <div className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700">
-                        {item.content?.crisis_severity || 'unspecified'}
+                        {SEVERITY_LABELS_ES[(item.content?.crisis_severity || '').toLowerCase()] ||
+                          SEVERITY_LABELS_ES.unspecified}
                       </div>
                     </div>
                     <div className="text-muted-foreground mt-1 line-clamp-2 text-xs">
@@ -445,17 +447,17 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" style={{ color: selectedEmotion?.color }} />
-              {selectedEmotion?.name} Details
+              Detalles de {selectedEmotion?.name}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <div className="text-muted-foreground text-xs">Occurrences</div>
+                <div className="text-muted-foreground text-xs">Ocurrencias</div>
                 <div className="font-semibold">{selectedEmotion?.count ?? 0}</div>
               </div>
               <div>
-                <div className="text-muted-foreground text-xs">Avg Intensity</div>
+                <div className="text-muted-foreground text-xs">Intensidad promedio</div>
                 <div className="font-semibold">
                   {selectedEmotion?.avgIntensity != null
                     ? selectedEmotion?.avgIntensity.toFixed(1)
@@ -464,7 +466,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
               </div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-medium">Common Triggers</div>
+              <div className="mb-1 text-sm font-medium">Disparadores frecuentes</div>
               <div className="flex flex-wrap gap-2">
                 {(selectedEmotion?.triggers || []).map((t, i) => (
                   <span key={i} className="bg-muted rounded px-2 py-1 text-xs">
@@ -472,12 +474,12 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                   </span>
                 ))}
                 {(!selectedEmotion || selectedEmotion.triggers.length === 0) && (
-                  <span className="text-muted-foreground text-xs">No triggers</span>
+                  <span className="text-muted-foreground text-xs">Sin disparadores</span>
                 )}
               </div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-medium">Contexts</div>
+              <div className="mb-1 text-sm font-medium">Contextos</div>
               <ul className="max-h-40 list-disc space-y-1 overflow-y-auto pl-5">
                 {(selectedEmotion?.contexts || []).map((c, i) => (
                   <li key={i} className="text-sm">
@@ -485,7 +487,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
                   </li>
                 ))}
                 {(!selectedEmotion || selectedEmotion.contexts.length === 0) && (
-                  <span className="text-muted-foreground text-xs">No contexts</span>
+                  <span className="text-muted-foreground text-xs">Sin contextos</span>
                 )}
               </ul>
             </div>
@@ -502,48 +504,49 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-red-500" />
-              Crisis Classification
+              Clasificación de crisis
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-4 text-sm">
               <div>
-                <div className="text-muted-foreground text-xs">Detected At</div>
+                <div className="text-muted-foreground text-xs">Detectado el</div>
                 <div className="font-medium">
                   {modalData?.created_at ? format(new Date(modalData.created_at), 'PPpp') : '—'}
                 </div>
               </div>
               <div>
-                <div className="text-muted-foreground text-xs">Severity</div>
-                <div className="font-medium capitalize">
-                  {modalData?.content?.crisis_severity || 'unspecified'}
+                <div className="text-muted-foreground text-xs">Severidad</div>
+                <div className="font-medium">
+                  {SEVERITY_LABELS_ES[(modalData?.content?.crisis_severity || '').toLowerCase()] ||
+                    SEVERITY_LABELS_ES.unspecified}
                 </div>
               </div>
               <div>
-                <div className="text-muted-foreground text-xs">Is Crisis</div>
-                <div className="font-medium">{modalData?.content?.is_crisis ? 'Yes' : 'No'}</div>
+                <div className="text-muted-foreground text-xs">¿Es crisis?</div>
+                <div className="font-medium">{modalData?.content?.is_crisis ? 'Sí' : 'No'}</div>
               </div>
             </div>
             {modalData?.content?.activator ? (
               <div>
-                <div className="text-sm font-medium">Activator</div>
+                <div className="text-sm font-medium">Activador</div>
                 <div className="text-muted-foreground text-sm">{modalData.content.activator}</div>
               </div>
             ) : null}
             {modalData?.content?.belief ? (
               <div>
-                <div className="text-sm font-medium">Belief</div>
+                <div className="text-sm font-medium">Creencia</div>
                 <div className="text-muted-foreground text-sm">{modalData.content.belief}</div>
               </div>
             ) : null}
             {modalData?.content?.consequence ? (
               <div>
-                <div className="text-sm font-medium">Consequence</div>
+                <div className="text-sm font-medium">Consecuencia</div>
                 <div className="text-muted-foreground text-sm">{modalData.content.consequence}</div>
               </div>
             ) : null}
             <div>
-              <div className="text-sm font-medium">Context</div>
+              <div className="text-sm font-medium">Contexto</div>
               <div className="text-muted-foreground text-sm whitespace-pre-wrap">
                 {modalData?.content?.context || '—'}
               </div>

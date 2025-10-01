@@ -8,24 +8,24 @@ export default function LandingPage() {
       <header className="">
         <nav className="mx-auto inline-block w-full max-w-full items-center justify-between px-2 py-2 sm:flex sm:max-w-6xl sm:px-6 sm:py-0">
           <Link href="/" className="hidden items-center gap-2 sm:flex">
-            <img src="/logo.png" alt="Logo" width={50} height={50} />
-            <img src="/brand_text.png" alt="Logo" width={100} height={20} />
+            <img src="/logo.png" alt="Logotipo" width={50} height={50} />
+            <img src="/brand_text.png" alt="Texto de marca" width={100} height={20} />
           </Link>
           <div className="flex items-center justify-center gap-8 sm:justify-end">
             <Link href="#home" className="font-medium text-slate-700 hover:text-slate-900">
-              Home
+              Inicio
             </Link>
             <Link href="#about" className="font-medium text-slate-700 hover:text-slate-900">
-              About
+              Acerca de
             </Link>
             <Link href="#contact" className="font-medium text-slate-700 hover:text-slate-900">
-              Contact
+              Contacto
             </Link>
             <Link
               href="/login"
               className="bg-psychology-blue hover:bg-psychology-blue/90 rounded-lg px-6 py-2 text-white"
             >
-              Login
+              Iniciar sesión
             </Link>
           </div>
         </nav>
@@ -37,20 +37,20 @@ export default function LandingPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <h1 className="mb-6 text-5xl leading-tight font-bold text-slate-800">
-                Always here
+                Siempre disponible
                 <br />
-                to support you
+                para apoyarte
               </h1>
               <p className="mb-8 text-xl leading-relaxed text-slate-600">
-                AI therapy assistant offering
+                Asistente de terapia con IA que te acompaña
                 <br />
-                continuous care for mental health.
+                cuando tu terapeuta no está disponible.
               </p>
               <Link
                 className="bg-psychology-blue hover:bg-psychology-blue/90 rounded-lg px-8 py-3 text-lg text-white"
                 href="/login"
               >
-                Get Started
+                Comenzar
               </Link>
             </div>
             <div className="flex justify-center">
@@ -58,7 +58,7 @@ export default function LandingPage() {
                 <div className="flex items-center justify-center">
                   <img
                     src="/amelia.png"
-                    alt="AI Therapy Assistant"
+                    alt="Asistente de terapia con IA"
                     className="amelia-image h-auto w-full object-contain md:w-[500px] md:max-w-none"
                   />
                 </div>
@@ -73,18 +73,18 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-24">
             <div className="max-w-xl lg:pr-8">
-              <h2 className="mb-2 text-4xl font-bold text-slate-800">How It Works</h2>
-              <p className="text-slate-600">Care on WhatsApp, insights for your therapist.</p>
+              <h2 className="mb-2 text-4xl font-bold text-slate-800">Cómo funciona</h2>
+              <p className="text-slate-600">Atención por WhatsApp, insights para tu terapeuta.</p>
               <div className="mt-8 grid gap-5 sm:grid-cols-2">
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3">
                     <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <MessageCircle className="h-5 w-5" />
                     </span>
-                    <h3 className="font-semibold text-slate-800">Reach out anytime</h3>
+                    <h3 className="font-semibold text-slate-800">Comunícate cuando quieras</h3>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">
-                    Message Amelia on WhatsApp for warm, instant support.
+                    Escribe a Amelia por WhatsApp para recibir acompañamiento cálido e inmediato.
                   </p>
                 </div>
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
@@ -92,10 +92,10 @@ export default function LandingPage() {
                     <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <ListChecks className="h-5 w-5" />
                     </span>
-                    <h3 className="font-semibold text-slate-800">Choose your flow</h3>
+                    <h3 className="font-semibold text-slate-800">Elige tu ritmo</h3>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">
-                    Chat freely or do a 2‑minute guided check‑in.
+                    Puedes comentarle lo bueno que fue tu dia o perdirle ayuda si necesitas acompañamiento durante esos momentos difíciles.
                   </p>
                 </div>
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
@@ -103,10 +103,10 @@ export default function LandingPage() {
                     <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <Shield className="h-5 w-5" />
                     </span>
-                    <h3 className="font-semibold text-slate-800">Private by design</h3>
+                    <h3 className="font-semibold text-slate-800">Privado por diseño</h3>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">
-                    Your reflections are stored securely.
+                    Tus reflexiones se almacenan de forma segura.
                   </p>
                 </div>
                 <div className="rounded-xl border bg-white p-5 shadow-sm">
@@ -114,16 +114,16 @@ export default function LandingPage() {
                     <span className="bg-psychology-blue/10 text-psychology-blue rounded-md p-2">
                       <BarChart3 className="h-5 w-5" />
                     </span>
-                    <h3 className="font-semibold text-slate-800">Insight for your care</h3>
+                    <h3 className="font-semibold text-slate-800">Insights para tu cuidado</h3>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">
-                    Summaries and trends help your therapist see progress.
+                    Resúmenes y tendencias que ayudarán a tu terapeuta a ver tu progreso y tener terapia más eficientes.
                   </p>
                 </div>
               </div>
             </div>
             <div className="rounded-2xl bg-slate-50 p-8 shadow-sm md:p-12">
-              <img src="/whatsapp_picture.jpg" alt="Chat Interface" className="h-auto w-full" />
+              <img src="/whatsapp_picture.jpg" alt="Interfaz de chat" className="h-auto w-full" />
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ export default function LandingPage() {
                   <picture>
                     <img
                       src="/dashboard.png"
-                      alt="Professional Dashboard"
+                      alt="Panel profesional"
                       className="h-64 w-96 rounded object-cover"
                     />
                   </picture>
@@ -149,18 +149,18 @@ export default function LandingPage() {
             </div>
             <div>
               <h2 className="mb-6 text-4xl font-bold text-slate-800">
-                For Mental Health
+                Para profesionales
                 <br />
-                Professionals
+                de la salud mental
               </h2>
               <p className="text-xl leading-relaxed text-slate-600">
-                Access tools and insights to
+                Accede a herramientas e insights que
                 <br />
-                enhance patient care.
+                potencian el cuidado de tus pacientes.
               </p>
               <p className="mt-4 text-sm text-slate-600">
-                View mood trends, conversation activity, emotion distribution, crisis alerts, and
-                key insights at a glance.
+                Visualiza tendencias de estado de ánimo, actividad conversacional, distribución de
+                emociones, alertas de crisis y hallazgos clave de un vistazo.
               </p>
             </div>
           </div>
@@ -172,17 +172,17 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <h2 className="mb-6 text-4xl font-bold text-slate-800">Contact</h2>
-              <p className="text-xl leading-relaxed text-slate-600">For inquiries and support</p>
+              <h2 className="mb-6 text-4xl font-bold text-slate-800">Contacto</h2>
+              <p className="text-xl leading-relaxed text-slate-600">Para consultas y soporte</p>
             </div>
             <div className="flex justify-center">
               <Link
                 className="bg-psychology-mint hover:bg-psychology-mint/90 rounded-lg px-12 py-4 text-lg text-slate-800"
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://wa.me/573112853261?text=I'm interested in your services"
+                href="https://wa.me/573112853261?text=Estoy interesado en sus servicios"
               >
-                Submit
+                Enviar
               </Link>
             </div>
           </div>

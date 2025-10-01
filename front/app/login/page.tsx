@@ -63,7 +63,7 @@ export default function LoginPage() {
     setError('');
 
     if (!validatePhoneNumber(phoneNumber)) {
-      setError('Please enter a valid phone number');
+      setError('Por favor ingresa un número de teléfono válido');
       return;
     }
 
@@ -75,11 +75,11 @@ export default function LoginPage() {
       if (result.success) {
         router.push('/dashboard');
       } else {
-        setError(result.error || 'Login failed');
+        setError(result.error || 'Inicio de sesión fallido');
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError('An error occurred while accessing your demo results. Please try again.');
+      setError('Ocurrió un error al acceder a tus resultados de la demo. Inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +91,7 @@ export default function LoginPage() {
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-100 to-white p-4">
         <div className="text-center">
           <Loader2 className="text-psychology-blue mx-auto mb-4 h-8 w-8 animate-spin" />
-          <p className="text-slate-600">Loading...</p>
+          <p className="text-slate-600">Cargando...</p>
         </div>
       </div>
     );
@@ -107,30 +107,30 @@ export default function LoginPage() {
             className="mb-6 inline-flex items-center gap-2 text-slate-600 hover:text-slate-800"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Home
+            Volver al inicio
           </Link>
           <div className="mb-4 flex justify-center">
             <img src="/logo.png" alt="Amelia Logo" width={60} height={60} />
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-slate-800">Demo Access</h1>
+          <h1 className="mb-2 text-2xl font-bold text-slate-800">Acceso a la demo</h1>
           <p className="text-slate-600">
-            Enter your phone number to view your therapy insights from the demo session
+            Ingresa tu número de teléfono para ver tus insights de terapia de la sesión demo
           </p>
         </div>
 
         {/* Login Form */}
         <Card className="shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl">Access Demo Results</CardTitle>
+            <CardTitle className="text-xl">Accede a los resultados de la demo</CardTitle>
             <CardDescription>
-              Enter your phone number with country code (e.g., +57 for Colombia)
+              Ingresa tu número de teléfono con código de país (por ejemplo, +57 para Colombia)
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <label htmlFor="phone" className="text-sm font-medium text-slate-700">
-                  Phone Number with Country Code
+                  Número de teléfono con código de país
                 </label>
                 <div className="relative">
                   <Phone className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-slate-400" />
@@ -146,7 +146,7 @@ export default function LoginPage() {
                   />
                 </div>
                 <p className="text-xs text-slate-500">
-                  Include your country code (e.g., +57 for Colombia, +1 for US)
+                  Incluye tu código de país (p. ej., +57 para Colombia, +1 para EE. UU.)
                 </p>
               </div>
 
@@ -164,34 +164,28 @@ export default function LoginPage() {
                 {isLoading ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Accessing Demo...
+                    Accediendo a la demo...
                   </>
                 ) : (
-                  'View Demo Results'
+                  'Ver resultados'
                 )}
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-sm text-slate-600">
-                This is a demo session. Your phone number should have been registered during the
-                demo process.
-              </p>
-            </div>
           </CardContent>
         </Card>
 
         {/* Help Section */}
         <div className="mt-8 text-center">
           <p className="text-sm text-slate-500">
-            Having trouble accessing your demo results?{' '}
+            ¿Tienes problemas para acceder a tus resultados?{' '}
             <Link
-              href="https://wa.me/573112853261?text=I'm having trouble accessing my demo results"
+              href="https://wa.me/573112853261?text=Estoy teniendo problemas para acceder a mis resultados de la demo"
               target="_blank"
               rel="noopener noreferrer"
               className="text-psychology-blue hover:underline"
             >
-              Contact Support
+              Contactar soporte
             </Link>
           </p>
         </div>

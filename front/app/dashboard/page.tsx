@@ -15,6 +15,7 @@ import { Messages } from '@/models/messages';
 import { ConversationInsights } from '@/models/conversation_insights';
 import { Conversations } from '@/models/conversations';
 import { addWeeks, format, parseISO, subWeeks } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
 import { MessageSender } from '@/types/constants';
@@ -22,7 +23,7 @@ import { MessageSender } from '@/types/constants';
 export default function DashboardPage() {
   const { logout, user } = useAuth();
   const selectedPatientId = user?.id || null;
-  // Initialize default date range: one week before to one week after today
+  // Inicializa el rango predeterminado: una semana antes y una semana después de hoy
   const [dateRange, setDateRange] = useState(() => {
     const today = new Date();
     return {
@@ -141,42 +142,43 @@ export default function DashboardPage() {
 
         {/* Main Content Area */}
         <div className="flex-1 p-6">
-          {/* Top Header */}
+          {/* Encabezado superior */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h1 className="text-foreground text-2xl font-semibold">Insights</h1>
+              <h1 className="text-foreground text-2xl font-semibold">Resumen</h1>
             </div>
 
-            {/* Psychologist Profile */}
+            {/* Perfil del profesional */}
             <div className="flex items-center gap-3">
               <UserAvatar src={user?.profile_picture_url ?? undefined} alt={user?.full_name} />
-              <span className="text-sm font-medium">{user?.full_name || 'User'}</span>
+              <span className="text-sm font-medium">{user?.full_name || 'Usuario'}</span>
               <Button variant="outline" size="sm" onClick={logout}>
-                Logout
+                Salir
               </Button>
             </div>
           </div>
 
-          {/* Date Range Picker */}
+          {/* Selector de rango de fechas */}
           <div className="mb-6">
             <DateRangePicker dateRange={dateRange} onDateRangeChange={setDateRange} />
           </div>
 
-          {/* Insights Grid */}
+          {/* Cuadrícula de insights */}
           <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {/* Summary Card - Full Width */}
+            {/* Tarjeta de resumen - ancho completo */}
             <Card className="bg-card border-border lg:col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Brain className="text-primary h-5 w-5" />
-                  Patient Summary ({format(parseISO(dateRange.from), 'MMM d, yyyy')} -{' '}
-                  {format(parseISO(dateRange.to), 'MMM d, yyyy')})
+                  Resumen del paciente (
+                  {format(parseISO(dateRange.from), "d 'de' MMMM 'de' yyyy", { locale: es })} -{' '}
+                  {format(parseISO(dateRange.to), "d 'de' MMMM 'de' yyyy", { locale: es })})
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {isLoadingSummary ? (
                   <div className="py-8">
-                    <LoadingSpinner size="lg" text="Loading patient summary..." />
+                    <LoadingSpinner size="lg" text="Cargando resumen del paciente..." />
                   </div>
                 ) : (
                   <>
@@ -185,25 +187,25 @@ export default function DashboardPage() {
                         <div className="text-primary text-2xl font-bold">
                           {totalConversations ?? 0}
                         </div>
-                        <div className="text-muted-foreground text-sm">Total Conversations</div>
+                        <div className="text-muted-foreground text-sm">Conversaciones totales</div>
                       </div>
                       <div className="bg-secondary/10 rounded-lg p-4 text-center">
                         <div className="text-secondary text-2xl font-bold">{crisisCount ?? 0}</div>
-                        <div className="text-muted-foreground text-sm">Crisis Events</div>
+                        <div className="text-muted-foreground text-sm">Eventos de crisis</div>
                       </div>
                       <div className="bg-accent/10 rounded-lg p-4 text-center">
                         <div className="text-accent text-2xl font-bold">{avgMood ?? '—'}</div>
-                        <div className="text-muted-foreground text-sm">Average Mood</div>
+                        <div className="text-muted-foreground text-sm">Estado de ánimo promedio</div>
                       </div>
                       <div className="rounded-lg bg-green-100 p-4 text-center">
                         <div className="text-2xl font-bold text-green-600">
                           {engagementPct ?? 0}%
                         </div>
                         <div className="text-muted-foreground flex items-center justify-center gap-1 text-sm">
-                          Engagement Rate
+                          Tasa de participación
                           <Popover open={engagementHelpOpen} onOpenChange={setEngagementHelpOpen}>
                             <PopoverTrigger
-                              aria-label="What is engagement rate?"
+                              aria-label="¿Qué es la tasa de participación?"
                               className="text-muted-foreground hover:text-foreground inline-flex items-center"
                               onMouseEnter={() => setEngagementHelpOpen(true)}
                               onMouseLeave={() => setEngagementHelpOpen(false)}
@@ -217,28 +219,28 @@ export default function DashboardPage() {
                               onMouseEnter={() => setEngagementHelpOpen(true)}
                               onMouseLeave={() => setEngagementHelpOpen(false)}
                             >
-                              Percentage of days in the selected period when the patient sent at
-                              least one message to the bot.
+                              Porcentaje de días del periodo seleccionado en los que el paciente envió al
+                              menos un mensaje al bot.
                             </PopoverContent>
                           </Popover>
                         </div>
                       </div>
                     </div>
                     <div className="bg-muted mt-4 space-y-2 rounded-lg p-4">
-                      <div className="text-sm font-medium">Key Insights</div>
+                      <div className="text-sm font-medium">Insights clave</div>
                       {loadingGeneralSummary ? (
                         <div className="flex items-center gap-3">
                           <LoadingSpinner size="sm" />
                           <div className="text-muted-foreground text-xs">
-                            Generating insights... This may take up to a minute. Please stay on this
-                            page.
+                            Generando insights... Puede tomar hasta un minuto. Permanece en esta
+                            página.
                           </div>
                         </div>
                       ) : generalSummaryError ? (
                         <div className="text-xs text-red-600">
-                          Failed to load summary.{' '}
+                          No se pudo cargar el resumen.{' '}
                           <button className="underline" onClick={() => refetchGeneralSummary()}>
-                            Try again
+                            Intentar de nuevo
                           </button>
                         </div>
                       ) : generalSummary ? (
@@ -255,7 +257,7 @@ export default function DashboardPage() {
                           ) : null}
                         </div>
                       ) : (
-                        <p className="text-muted-foreground text-sm">No summary available.</p>
+                        <p className="text-muted-foreground text-sm">No hay resumen disponible.</p>
                       )}
                     </div>
                   </>
@@ -264,7 +266,7 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          {/* Charts Grid */}
+          {/* Cuadrícula de gráficos */}
           <InsightCharts
             isLoading={isLoadingSummary}
             patientId={selectedPatientId ?? undefined}

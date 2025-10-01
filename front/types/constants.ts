@@ -51,6 +51,24 @@ export const EMOTION_COLORS: Record<string, string> = {
   default: '#6B7280',
 } as const;
 
+// Spanish labels for primary emotions
+export const EMOTION_LABELS_ES: Record<string, string> = {
+  joy: 'Alegría',
+  sadness: 'Tristeza',
+  anger: 'Enojo',
+  fear: 'Miedo',
+  surprise: 'Sorpresa',
+} as const;
+
+// Spanish labels for crisis severity levels
+export const SEVERITY_LABELS_ES: Record<string, string> = {
+  severe: 'Severa',
+  high: 'Alta',
+  moderate: 'Moderada',
+  low: 'Baja',
+  unspecified: 'Sin especificar',
+} as const;
+
 // Risk level color mappings
 export const RISK_LEVEL_COLORS: Record<string, string> = {
   low: 'bg-green-100 text-green-800',

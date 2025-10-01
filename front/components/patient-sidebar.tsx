@@ -14,6 +14,7 @@ import type { Profile } from '@/models/profiles';
 import type { TriageInfo } from '@/models/patient_context';
 import { RISK_LEVEL_COLORS } from '@/types/constants';
 import { format, parseISO, isValid as isValidDate } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 interface PatientSidebarProps {
   profile: Profile;
@@ -40,20 +41,24 @@ export function PatientSidebar({
   };
 
   const formatRiskLabel = (label?: string) => {
-    if (!label) return 'Unknown';
-    const cleaned = label.replace(/[_-]/g, ' ');
-    return cleaned
-      .split(' ')
-      .filter(Boolean)
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-      .join(' ');
+    if (!label) return 'Desconocido';
+    const cleaned = label.replace(/[_-]/g, ' ').toLowerCase();
+    const translations: Record<string, string> = {
+      'low risk': 'Riesgo bajo',
+      'medium risk': 'Riesgo medio',
+      'moderate risk': 'Riesgo moderado',
+      'high risk': 'Riesgo alto',
+      'very high risk': 'Riesgo muy alto',
+      default: 'Desconocido',
+    };
+    return translations[cleaned] || cleaned.replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
   const formatDateString = (value?: string | null) => {
     if (!value) return '—';
     try {
       const date = parseISO(value);
-      if (isValidDate(date)) return format(date, 'MMM d, yyyy');
+      if (isValidDate(date)) return format(date, "d 'de' MMMM, yyyy", { locale: es });
     } catch {
       return value;
     }
@@ -61,9 +66,10 @@ export function PatientSidebar({
   };
 
   const formatUnderscoreToSpace = (value?: string | null) => {
-    if (!value) return 'n/a';
+    if (!value) return 'No aplica';
     return value
       .split('_')
+      .filter(Boolean)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   };
@@ -81,7 +87,7 @@ export function PatientSidebar({
         <div className="mb-4">
           <Select value={selectedPatientId ?? ''} onValueChange={onPatientChange}>
             <SelectTrigger className="w-full bg-white text-black dark:bg-white dark:text-black">
-              <SelectValue placeholder="Select patient" />
+              <SelectValue placeholder="Selecciona un paciente" />
             </SelectTrigger>
             <SelectContent>
               {patients.map((p) => (
@@ -96,7 +102,7 @@ export function PatientSidebar({
       <Card className="bg-card border-border">
         {isLoading ? (
           <div className="p-8">
-            <LoadingSpinner size="lg" text="Loading patient data..." />
+            <LoadingSpinner size="lg" text="Cargando datos del paciente..." />
           </div>
         ) : (
           <>
@@ -111,7 +117,7 @@ export function PatientSidebar({
                   <h2 className="text-card-foreground text-center text-xl font-semibold break-words">
                     {displayName}
                   </h2>
-                  {age != null ? <p className="text-muted-foreground text-sm">Age: {age}</p> : null}
+                  {age != null ? <p className="text-muted-foreground text-sm">Edad: {age}</p> : null}
                 </div>
               </div>
             </CardHeader>
@@ -119,7 +125,7 @@ export function PatientSidebar({
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <div className="flex flex-col gap-2">
-                  <span className="text-card-foreground text-sm font-medium">Objectives </span>
+                  <span className="text-card-foreground text-sm font-medium">Objetivos </span>
                   {triageInfo?.motivo_consulta?.objetivos_iniciales_usuario?.map(
                     (objective: string, index: number) => (
                       <Badge
@@ -130,11 +136,11 @@ export function PatientSidebar({
                         {objective}
                       </Badge>
                     ),
-                  ) || 'Not specified'}
+                  ) || 'Sin especificar'}
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-card-foreground text-sm font-medium">Risk Level</span>
+                  <span className="text-card-foreground text-sm font-medium">Nivel de riesgo</span>
                   <Badge className={getRiskColor(risk)}>
                     <AlertTriangle className="mr-1 h-3 w-3" />
                     {formatRiskLabel(risk)}
@@ -142,7 +148,7 @@ export function PatientSidebar({
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-card-foreground text-sm font-medium">Last Session</span>
+                  <span className="text-card-foreground text-sm font-medium">Última sesión</span>
                   <div className="text-muted-foreground flex items-center gap-1 text-sm">
                     <CalendarDays className="h-3 w-3" />
                     {lastSession}
@@ -151,12 +157,12 @@ export function PatientSidebar({
               </div>
 
               <div className="border-border border-t pt-4">
-                <h3 className="text-card-foreground mb-3 text-sm font-medium">Patient Info</h3>
+                <h3 className="text-card-foreground mb-3 text-sm font-medium">Información del paciente</h3>
                 <div className="text-muted-foreground space-y-2 text-sm">
                   <div className="flex items-center gap-2">
                     <Heart className="text-primary h-4 w-4" />
                     <span>
-                      {formatUnderscoreToSpace(triageInfo?.plan_inicial?.modalidad) || 'Treatment'}{' '}
+                      {formatUnderscoreToSpace(triageInfo?.plan_inicial?.modalidad) || 'Tratamiento'}{' '}
                       • {formatUnderscoreToSpace(triageInfo?.plan_inicial?.frecuencia)}
                     </span>
                   </div>
@@ -164,9 +170,9 @@ export function PatientSidebar({
               </div>
 
               <div className="border-border border-t pt-4">
-                <h3 className="text-card-foreground mb-2 text-sm font-medium">Recent Notes</h3>
+                <h3 className="text-card-foreground mb-2 text-sm font-medium">Notas recientes</h3>
                 <p className="text-muted-foreground max-h-24 overflow-y-auto pr-1 text-xs leading-relaxed">
-                  {triageInfo?.motivo_consulta?.descripcion_breve || 'No notes available.'}
+                  {triageInfo?.motivo_consulta?.descripcion_breve || 'No hay notas disponibles.'}
                 </p>
               </div>
             </CardContent>

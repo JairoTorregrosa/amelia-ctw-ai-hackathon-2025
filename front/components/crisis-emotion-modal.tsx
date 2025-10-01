@@ -40,95 +40,6 @@ interface CrisisEmotionModalProps {
   data: CrisisEvent | EmotionEvent | null;
 }
 
-// Mock detailed data
-const mockCrisisDetails: Record<string, CrisisEvent> = {
-  'crisis-1': {
-    id: 'crisis-1',
-    time: '09:30',
-    date: '2025-07-20',
-    intensity: 8,
-    duration: 15,
-    triggers: ['Work deadline', 'Lack of sleep', 'Conflict with colleague'],
-    symptoms: ['Rapid heartbeat', 'Sweating', 'Difficulty breathing', 'Trembling'],
-    copingStrategies: ['Deep breathing', 'Called support person', 'Used grounding technique'],
-    notes:
-      'Patient experienced panic attack during morning meeting. Applied learned coping strategies effectively.',
-    location: 'Office conference room',
-    beforeMood: 4,
-    afterMood: 6,
-  },
-  'crisis-2': {
-    id: 'crisis-2',
-    time: '14:20',
-    date: '2025-07-21',
-    intensity: 6,
-    duration: 8,
-    triggers: ['Unexpected phone call', 'Financial concerns'],
-    symptoms: ['Chest tightness', 'Racing thoughts', 'Nausea'],
-    copingStrategies: ['Progressive muscle relaxation', 'Mindfulness meditation'],
-    notes: 'Shorter episode, patient showed improved self-regulation skills.',
-    location: 'Home',
-    beforeMood: 5,
-    afterMood: 7,
-  },
-  'crisis-3': {
-    id: 'crisis-3',
-    time: '19:45',
-    date: '2025-07-22',
-    intensity: 9,
-    duration: 22,
-    triggers: ['Social gathering', 'Fear of judgment', 'Crowded environment'],
-    symptoms: ['Dizziness', 'Hot flashes', 'Feeling of unreality', 'Urge to escape'],
-    copingStrategies: ['Stepped outside', 'Used breathing app', 'Contacted therapist'],
-    notes: 'Most severe episode this week. Patient successfully used emergency coping plan.',
-    location: 'Restaurant',
-    beforeMood: 3,
-    afterMood: 5,
-  },
-};
-
-const mockEmotionDetails: Record<string, EmotionEvent> = {
-  'emotion-calm': {
-    id: 'emotion-calm',
-    emotion: 'Calm',
-    intensity: 7,
-    duration: 120,
-    triggers: ['Morning meditation', "Good night's sleep", 'Peaceful environment'],
-    physicalSensations: ['Relaxed muscles', 'Steady breathing', 'Warm feeling'],
-    thoughts: ['I feel at peace', 'Everything is manageable', 'I am safe'],
-    behaviors: ['Slow movements', 'Gentle speaking', 'Mindful actions'],
-    context: 'After completing morning routine and meditation session',
-    timestamp: '2025-07-20 08:00',
-    color: '#A5E3D0',
-  },
-  'emotion-anxious': {
-    id: 'emotion-anxious',
-    emotion: 'Anxious',
-    intensity: 6,
-    duration: 45,
-    triggers: ['Upcoming presentation', 'Time pressure', 'Performance concerns'],
-    physicalSensations: ['Butterflies in stomach', 'Tense shoulders', 'Restlessness'],
-    thoughts: ['What if I mess up?', 'Everyone will judge me', "I'm not prepared enough"],
-    behaviors: ['Pacing', 'Checking notes repeatedly', 'Avoiding eye contact'],
-    context: 'Before important work presentation',
-    timestamp: '2025-07-21 13:30',
-    color: '#6CAEDD',
-  },
-  'emotion-happy': {
-    id: 'emotion-happy',
-    emotion: 'Happy',
-    intensity: 8,
-    duration: 180,
-    triggers: ['Achievement at work', 'Positive feedback', 'Social connection'],
-    physicalSensations: ['Light feeling', 'Smiling', 'Energy boost'],
-    thoughts: ['I did well', 'People appreciate me', 'Life is good'],
-    behaviors: ['Animated talking', 'Laughing', 'Sharing good news'],
-    context: 'After receiving promotion news',
-    timestamp: '2025-07-19 16:00',
-    color: '#C7B7E8',
-  },
-};
-
 export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotionModalProps) {
   if (!data) return null;
 
@@ -144,12 +55,12 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
             {isCrisis ? (
               <>
                 <AlertTriangle className="h-5 w-5 text-red-500" />
-                Crisis Event Details
+                Detalles del evento de crisis
               </>
             ) : (
               <>
                 <Heart className="h-5 w-5" style={{ color: emotionData?.color }} />
-                {emotionData?.emotion} Emotion Details
+                Detalles de la emoción {emotionData?.emotion}
               </>
             )}
           </DialogTitle>
@@ -161,31 +72,31 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
             <CardContent className="pt-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-muted-foreground text-sm">Time</div>
+                  <div className="text-muted-foreground text-sm">Hora</div>
                   <div className="font-medium">
                     {isCrisis
-                      ? `${crisisData?.date} at ${crisisData?.time}`
+                      ? `${crisisData?.date} a las ${crisisData?.time}`
                       : emotionData?.timestamp}
                   </div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-sm">Intensity</div>
+                  <div className="text-muted-foreground text-sm">Intensidad</div>
                   <div className="font-medium">
                     {isCrisis ? `${crisisData?.intensity}/10` : `${emotionData?.intensity}/10`}
                   </div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-sm">Duration</div>
+                  <div className="text-muted-foreground text-sm">Duración</div>
                   <div className="flex items-center gap-1 font-medium">
                     <Clock className="h-4 w-4" />
                     {isCrisis
-                      ? `${crisisData?.duration} minutes`
-                      : `${emotionData?.duration} minutes`}
+                      ? `${crisisData?.duration} minutos`
+                      : `${emotionData?.duration} minutos`}
                   </div>
                 </div>
                 {isCrisis && (
                   <div>
-                    <div className="text-muted-foreground text-sm">Location</div>
+                    <div className="text-muted-foreground text-sm">Lugar</div>
                     <div className="font-medium">{crisisData?.location}</div>
                   </div>
                 )}
@@ -196,7 +107,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
           {/* Triggers */}
           <Card>
             <CardContent className="pt-4">
-              <div className="text-muted-foreground mb-2 text-sm">Triggers</div>
+              <div className="text-muted-foreground mb-2 text-sm">Disparadores</div>
               <div className="flex flex-wrap gap-2">
                 {(isCrisis ? crisisData?.triggers : emotionData?.triggers)?.map(
                   (trigger, index) => (
@@ -215,7 +126,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Symptoms */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Symptoms</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Síntomas</div>
                   <div className="flex flex-wrap gap-2">
                     {crisisData.symptoms.map((symptom, index) => (
                       <Badge key={index} variant="destructive">
@@ -229,7 +140,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Coping Strategies */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Coping Strategies Used</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Estrategias de afrontamiento utilizadas</div>
                   <div className="flex flex-wrap gap-2">
                     {crisisData.copingStrategies.map((strategy, index) => (
                       <Badge
@@ -247,17 +158,17 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Mood Change */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Mood Change</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Cambio en el estado de ánimo</div>
                   <div className="flex items-center gap-4">
                     <div className="text-center">
-                      <div className="text-muted-foreground text-xs">Before</div>
+                        <div className="text-muted-foreground text-xs">Antes</div>
                       <div className="text-lg font-bold text-red-600">
                         {crisisData.beforeMood}/10
                       </div>
                     </div>
                     <TrendingUp className="h-4 w-4 text-green-500" />
                     <div className="text-center">
-                      <div className="text-muted-foreground text-xs">After</div>
+                        <div className="text-muted-foreground text-xs">Después</div>
                       <div className="text-lg font-bold text-green-600">
                         {crisisData.afterMood}/10
                       </div>
@@ -269,9 +180,9 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Notes */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 flex items-center gap-1 text-sm">
+                    <div className="text-muted-foreground mb-2 flex items-center gap-1 text-sm">
                     <MessageCircle className="h-4 w-4" />
-                    Clinical Notes
+                      Notas clínicas
                   </div>
                   <p className="text-sm">{crisisData.notes}</p>
                 </CardContent>
@@ -285,7 +196,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Physical Sensations */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Physical Sensations</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Sensaciones físicas</div>
                   <div className="flex flex-wrap gap-2">
                     {emotionData.physicalSensations.map((sensation, index) => (
                       <Badge
@@ -303,7 +214,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Thoughts */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Thoughts</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Pensamientos</div>
                   <ul className="space-y-1">
                     {emotionData.thoughts.map((thought, index) => (
                       <li key={index} className="text-sm italic">
@@ -317,7 +228,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Behaviors */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Behaviors</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Conductas</div>
                   <div className="flex flex-wrap gap-2">
                     {emotionData.behaviors.map((behavior, index) => (
                       <Badge key={index} variant="secondary">
@@ -331,7 +242,7 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
               {/* Context */}
               <Card>
                 <CardContent className="pt-4">
-                  <div className="text-muted-foreground mb-2 text-sm">Context</div>
+                    <div className="text-muted-foreground mb-2 text-sm">Contexto</div>
                   <p className="text-sm">{emotionData.context}</p>
                 </CardContent>
               </Card>
@@ -341,16 +252,4 @@ export function CrisisEmotionModal({ isOpen, onClose, type, data }: CrisisEmotio
       </DialogContent>
     </Dialog>
   );
-}
-
-// Helper function to get crisis details
-export function getCrisisDetails(crisisIndex: number): CrisisEvent | null {
-  const crisisId = `crisis-${crisisIndex + 1}`;
-  return mockCrisisDetails[crisisId] || null;
-}
-
-// Helper function to get emotion details
-export function getEmotionDetails(emotionName: string): EmotionEvent | null {
-  const emotionId = `emotion-${emotionName.toLowerCase()}`;
-  return mockEmotionDetails[emotionId] || null;
 }
