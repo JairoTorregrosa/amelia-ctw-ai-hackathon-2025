@@ -21,15 +21,21 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-fit bg-transparent">
+        <Button
+          variant="outline"
+          className="w-full justify-start bg-transparent text-sm sm:w-auto sm:text-base"
+        >
           <CalendarDays className="mr-2 h-4 w-4" />
           {dateRange.from} - {dateRange.to}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <div className="p-4">
-          <div className="mb-2 text-sm font-medium">Select Date Range</div>
-          <div className="grid grid-cols-2 gap-4">
+      <PopoverContent
+        className="w-[90vw] max-w-sm p-0 sm:w-auto sm:max-w-md"
+        align="start"
+      >
+        <div className="space-y-4 p-4">
+          <div className="text-sm font-medium">Select Date Range</div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="text-muted-foreground text-xs">From</label>
               <input
@@ -49,7 +55,7 @@ export function DateRangePicker({ dateRange, onDateRangeChange }: DateRangePicke
               />
             </div>
           </div>
-          <Button onClick={() => setIsOpen(false)} className="mt-4 w-full" size="sm">
+          <Button onClick={() => setIsOpen(false)} className="w-full text-sm" size="sm">
             Apply
           </Button>
         </div>

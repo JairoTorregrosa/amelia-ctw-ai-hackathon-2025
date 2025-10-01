@@ -261,18 +261,18 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Daily Mood (Average per day) */}
         <Card className="bg-card border-border">
-          <CardHeader>
+          <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="text-primary h-5 w-5" />
               Daily Average Mood
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 pb-4 pt-0 sm:px-6 sm:pb-6">
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={moodDaily}>
+              <LineChart data={moodDaily} margin={{ top: 16, right: 8, bottom: 0, left: -12 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
-                <YAxis stroke="#6b7280" fontSize={12} domain={[0, 10]} />
+                <YAxis width={32} stroke="#6b7280" fontSize={12} domain={[0, 10]} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: '#ffffff',
@@ -296,18 +296,21 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
 
         {/* Daily Conversation Activity */}
         <Card className="bg-card border-border">
-          <CardHeader>
+          <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <MessageSquare className="text-secondary h-5 w-5" />
               Daily Conversation Activity
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 pb-4 pt-0 sm:px-6 sm:pb-6">
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={dailyConversations || []}>
+              <BarChart
+                data={dailyConversations || []}
+                margin={{ top: 16, right: 8, bottom: 0, left: -12 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
-                <YAxis stroke="#6b7280" fontSize={12} />
+                <YAxis width={32} stroke="#6b7280" fontSize={12} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: '#ffffff',
@@ -323,13 +326,13 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
 
         {/* Emotion Distribution (Primary Emotions from Insights) */}
         <Card className="bg-card border-border">
-          <CardHeader>
+          <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <Activity className="text-accent h-5 w-5" />
               Emotion Distribution
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 pb-4 pt-0 sm:px-6 sm:pb-6">
             {loadingPrimaryEmotions ? (
               <div className="text-muted-foreground flex h-[250px] items-center justify-center text-sm">
                 Loading emotions…
@@ -341,7 +344,7 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
             ) : (
               <>
                 <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
+                  <PieChart margin={{ top: 16, right: 12, bottom: 0, left: 12 }}>
                     <Pie
                       data={aggregatedEmotions.map((e) => ({
                         name: e.name,
@@ -398,13 +401,13 @@ export function InsightCharts({ isLoading = false, patientId, dateRange }: Insig
 
         {/* Crisis Classifications */}
         <Card className="bg-card border-border">
-          <CardHeader>
+          <CardHeader className="px-4 py-3 sm:px-6 sm:py-4">
             <CardTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-red-500" />
               Crisis Classifications
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6">
             {crisisItems.length === 0 ? (
               <div className="text-muted-foreground text-sm">
                 No crisis detected in the selected period.
