@@ -6,12 +6,12 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white">
       {/* Header */}
       <header className="">
-        <nav className="mx-auto px-2 sm:px-6 py-2 sm:py-0 inline-block sm:flex max-w-full w-full sm:max-w-6xl items-center justify-between">
-          <Link href="/" className="hidden sm:flex items-center gap-2">
+        <nav className="mx-auto inline-block w-full max-w-full items-center justify-between px-2 py-2 sm:flex sm:max-w-6xl sm:px-6 sm:py-0">
+          <Link href="/" className="hidden items-center gap-2 sm:flex">
             <img src="/logo.png" alt="Logo" width={50} height={50} />
             <img src="/brand_text.png" alt="Logo" width={100} height={20} />
           </Link>
-          <div className="flex items-center justify-center sm:justify-end gap-8">
+          <div className="flex items-center justify-center gap-8 sm:justify-end">
             <Link href="#home" className="font-medium text-slate-700 hover:text-slate-900">
               Home
             </Link>

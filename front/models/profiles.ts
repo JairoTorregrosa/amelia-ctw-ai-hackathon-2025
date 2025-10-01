@@ -81,7 +81,7 @@ export class ProfilesModel extends BaseModel<'profiles'> {
       .maybeSingle();
 
     if (error) throw error;
-    
+
     return data;
   }
 
@@ -97,7 +97,7 @@ export class ProfilesModel extends BaseModel<'profiles'> {
       .maybeSingle();
 
     if (error) throw error;
-    
+
     return !!data?.phone || false;
   }
 

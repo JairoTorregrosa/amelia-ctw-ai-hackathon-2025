@@ -33,7 +33,6 @@ export default function DashboardPage() {
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [engagementHelpOpen, setEngagementHelpOpen] = useState(false);
 
-
   const { data: engagementPct } = useQuery({
     queryKey: ['engagement', selectedPatientId, dateRange.from, dateRange.to],
     enabled: Boolean(selectedPatientId),
@@ -138,145 +137,140 @@ export default function DashboardPage() {
   return (
     <AuthGuard>
       <div className="bg-background flex min-h-screen">
-      {/* PatientSidebar removed for this demo; page shows data for the authenticated user */}
+        {/* PatientSidebar removed for this demo; page shows data for the authenticated user */}
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-6">
-        {/* Top Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-foreground text-2xl font-semibold">Insights</h1>
+        {/* Main Content Area */}
+        <div className="flex-1 p-6">
+          {/* Top Header */}
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <h1 className="text-foreground text-2xl font-semibold">Insights</h1>
+            </div>
+
+            {/* Psychologist Profile */}
+            <div className="flex items-center gap-3">
+              <UserAvatar src={user?.profile_picture_url ?? undefined} alt={user?.full_name} />
+              <span className="text-sm font-medium">{user?.full_name || 'User'}</span>
+              <Button variant="outline" size="sm" onClick={logout}>
+                Logout
+              </Button>
+            </div>
           </div>
 
-          {/* Psychologist Profile */}
-          <div className="flex items-center gap-3">
-            <UserAvatar
-              src={user?.profile_picture_url ?? undefined}
-              alt={user?.full_name}
-            />
-            <span className="text-sm font-medium">{user?.full_name || 'User'}</span>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={logout}
-            >
-              Logout
-            </Button>
+          {/* Date Range Picker */}
+          <div className="mb-6">
+            <DateRangePicker dateRange={dateRange} onDateRangeChange={setDateRange} />
           </div>
-        </div>
 
-        {/* Date Range Picker */}
-        <div className="mb-6">
-          <DateRangePicker dateRange={dateRange} onDateRangeChange={setDateRange} />
-        </div>
-
-        {/* Insights Grid */}
-        <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* Summary Card - Full Width */}
-          <Card className="bg-card border-border lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="text-primary h-5 w-5" />
-                Patient Summary ({format(parseISO(dateRange.from), 'MMM d, yyyy')} -{' '}
-                {format(parseISO(dateRange.to), 'MMM d, yyyy')})
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {isLoadingSummary ? (
-                <div className="py-8">
-                  <LoadingSpinner size="lg" text="Loading patient summary..." />
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                    <div className="bg-primary/10 rounded-lg p-4 text-center">
-                      <div className="text-primary text-2xl font-bold">
-                        {totalConversations ?? 0}
-                      </div>
-                      <div className="text-muted-foreground text-sm">Total Conversations</div>
-                    </div>
-                    <div className="bg-secondary/10 rounded-lg p-4 text-center">
-                      <div className="text-secondary text-2xl font-bold">{crisisCount ?? 0}</div>
-                      <div className="text-muted-foreground text-sm">Crisis Events</div>
-                    </div>
-                    <div className="bg-accent/10 rounded-lg p-4 text-center">
-                      <div className="text-accent text-2xl font-bold">{avgMood ?? '—'}</div>
-                      <div className="text-muted-foreground text-sm">Average Mood</div>
-                    </div>
-                    <div className="rounded-lg bg-green-100 p-4 text-center">
-                      <div className="text-2xl font-bold text-green-600">{engagementPct ?? 0}%</div>
-                      <div className="text-muted-foreground flex items-center justify-center gap-1 text-sm">
-                        Engagement Rate
-                        <Popover open={engagementHelpOpen} onOpenChange={setEngagementHelpOpen}>
-                          <PopoverTrigger
-                            aria-label="What is engagement rate?"
-                            className="text-muted-foreground hover:text-foreground inline-flex items-center"
-                            onMouseEnter={() => setEngagementHelpOpen(true)}
-                            onMouseLeave={() => setEngagementHelpOpen(false)}
-                          >
-                            <HelpCircle className="h-4 w-4" />
-                          </PopoverTrigger>
-                          <PopoverContent
-                            side="top"
-                            align="center"
-                            className="w-72 text-left text-xs"
-                            onMouseEnter={() => setEngagementHelpOpen(true)}
-                            onMouseLeave={() => setEngagementHelpOpen(false)}
-                          >
-                            Percentage of days in the selected period when the patient sent at least
-                            one message to the bot.
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                    </div>
+          {/* Insights Grid */}
+          <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Summary Card - Full Width */}
+            <Card className="bg-card border-border lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="text-primary h-5 w-5" />
+                  Patient Summary ({format(parseISO(dateRange.from), 'MMM d, yyyy')} -{' '}
+                  {format(parseISO(dateRange.to), 'MMM d, yyyy')})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {isLoadingSummary ? (
+                  <div className="py-8">
+                    <LoadingSpinner size="lg" text="Loading patient summary..." />
                   </div>
-                  <div className="bg-muted mt-4 space-y-2 rounded-lg p-4">
-                    <div className="text-sm font-medium">Key Insights</div>
-                    {loadingGeneralSummary ? (
-                      <div className="flex items-center gap-3">
-                        <LoadingSpinner size="sm" />
-                        <div className="text-muted-foreground text-xs">
-                          Generating insights... This may take up to a minute. Please stay on this
-                          page.
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+                      <div className="bg-primary/10 rounded-lg p-4 text-center">
+                        <div className="text-primary text-2xl font-bold">
+                          {totalConversations ?? 0}
+                        </div>
+                        <div className="text-muted-foreground text-sm">Total Conversations</div>
+                      </div>
+                      <div className="bg-secondary/10 rounded-lg p-4 text-center">
+                        <div className="text-secondary text-2xl font-bold">{crisisCount ?? 0}</div>
+                        <div className="text-muted-foreground text-sm">Crisis Events</div>
+                      </div>
+                      <div className="bg-accent/10 rounded-lg p-4 text-center">
+                        <div className="text-accent text-2xl font-bold">{avgMood ?? '—'}</div>
+                        <div className="text-muted-foreground text-sm">Average Mood</div>
+                      </div>
+                      <div className="rounded-lg bg-green-100 p-4 text-center">
+                        <div className="text-2xl font-bold text-green-600">
+                          {engagementPct ?? 0}%
+                        </div>
+                        <div className="text-muted-foreground flex items-center justify-center gap-1 text-sm">
+                          Engagement Rate
+                          <Popover open={engagementHelpOpen} onOpenChange={setEngagementHelpOpen}>
+                            <PopoverTrigger
+                              aria-label="What is engagement rate?"
+                              className="text-muted-foreground hover:text-foreground inline-flex items-center"
+                              onMouseEnter={() => setEngagementHelpOpen(true)}
+                              onMouseLeave={() => setEngagementHelpOpen(false)}
+                            >
+                              <HelpCircle className="h-4 w-4" />
+                            </PopoverTrigger>
+                            <PopoverContent
+                              side="top"
+                              align="center"
+                              className="w-72 text-left text-xs"
+                              onMouseEnter={() => setEngagementHelpOpen(true)}
+                              onMouseLeave={() => setEngagementHelpOpen(false)}
+                            >
+                              Percentage of days in the selected period when the patient sent at
+                              least one message to the bot.
+                            </PopoverContent>
+                          </Popover>
                         </div>
                       </div>
-                    ) : generalSummaryError ? (
-                      <div className="text-xs text-red-600">
-                        Failed to load summary.{' '}
-                        <button className="underline" onClick={() => refetchGeneralSummary()}>
-                          Try again
-                        </button>
-                      </div>
-                    ) : generalSummary ? (
-                      <div className="space-y-3">
-                        {Array.isArray(generalSummary) && generalSummary.length > 0 ? (
-                          <div>
-                            <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
-                              {generalSummary.map((k, i) => {
-                                const html = formatInlineMarkdown(k);
-                                return <li key={i} dangerouslySetInnerHTML={{ __html: html }} />;
-                              })}
-                            </ul>
+                    </div>
+                    <div className="bg-muted mt-4 space-y-2 rounded-lg p-4">
+                      <div className="text-sm font-medium">Key Insights</div>
+                      {loadingGeneralSummary ? (
+                        <div className="flex items-center gap-3">
+                          <LoadingSpinner size="sm" />
+                          <div className="text-muted-foreground text-xs">
+                            Generating insights... This may take up to a minute. Please stay on this
+                            page.
                           </div>
-                        ) : null}
-                      </div>
-                    ) : (
-                      <p className="text-muted-foreground text-sm">No summary available.</p>
-                    )}
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                        </div>
+                      ) : generalSummaryError ? (
+                        <div className="text-xs text-red-600">
+                          Failed to load summary.{' '}
+                          <button className="underline" onClick={() => refetchGeneralSummary()}>
+                            Try again
+                          </button>
+                        </div>
+                      ) : generalSummary ? (
+                        <div className="space-y-3">
+                          {Array.isArray(generalSummary) && generalSummary.length > 0 ? (
+                            <div>
+                              <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
+                                {generalSummary.map((k, i) => {
+                                  const html = formatInlineMarkdown(k);
+                                  return <li key={i} dangerouslySetInnerHTML={{ __html: html }} />;
+                                })}
+                              </ul>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <p className="text-muted-foreground text-sm">No summary available.</p>
+                      )}
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Charts Grid */}
-        <InsightCharts
-          isLoading={isLoadingSummary}
-          patientId={selectedPatientId ?? undefined}
-          dateRange={{ from: dateRange.from, to: dateRange.to }}
-        />
-      </div>
+          {/* Charts Grid */}
+          <InsightCharts
+            isLoading={isLoadingSummary}
+            patientId={selectedPatientId ?? undefined}
+            dateRange={{ from: dateRange.from, to: dateRange.to }}
+          />
+        </div>
       </div>
     </AuthGuard>
   );
