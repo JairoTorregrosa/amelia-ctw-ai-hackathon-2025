@@ -1,34 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/components/user-avatar';
 import { Brain, HelpCircle } from 'lucide-react';
-import Link from 'next/link';
 import { AuthGuard } from '@/components/auth-guard';
 import { useAuth } from '@/contexts/auth-context';
-import { PatientSidebar } from '@/components/patient-sidebar';
 import { InsightCharts } from '@/components/insight-charts';
 import { DateRangePicker } from '@/components/date-range-picker';
 import { LoadingSpinner } from '@/components/loading-spinner';
 import { useQuery } from '@tanstack/react-query';
-import { PatientContext, Profiles } from '@/models';
 import { Messages } from '@/models/messages';
 import { ConversationInsights } from '@/models/conversation_insights';
 import { Conversations } from '@/models/conversations';
-import type { Profile } from '@/models/profiles';
-import type { TriageInfo } from '@/models/patient_context';
 import { format, parseISO } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Clock } from 'lucide-react';
 import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
 import { MessageSender } from '@/types/constants';
 
 export default function DashboardPage() {
-  const { logout } = useAuth();
-  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+  const { logout, user } = useAuth();
+  const selectedPatientId = user?.id || null;
   // Initialize default date range: 2025-08-24 through 2025-09-13
   const [dateRange, setDateRange] = useState({
     from: '2025-08-24',
@@ -37,51 +30,6 @@ export default function DashboardPage() {
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [engagementHelpOpen, setEngagementHelpOpen] = useState(false);
 
-  const { data: patients, isLoading: loadingPatients } = useQuery({
-    queryKey: ['patients'],
-    queryFn: () =>
-      Profiles.list({
-        filters: { role: 'patient' },
-        order: { column: 'full_name', ascending: true },
-      }),
-  });
-
-  const { data: therapist } = useQuery({
-    queryKey: ['therapist'],
-    queryFn: async () => {
-      const result = await Profiles.list({ filters: { role: 'therapist' }, limit: 1 });
-      return result[0] ?? null;
-    },
-  });
-
-  useEffect(() => {
-    if (!selectedPatientId && patients && patients.length > 0) {
-      const defaultCarlos = patients.find((p) =>
-        (p.full_name || '').toLowerCase().includes('carlos'),
-      );
-      setSelectedPatientId((defaultCarlos || patients[0]).id);
-    }
-  }, [patients, selectedPatientId]);
-
-  const selectedPatient: Profile | undefined = patients?.find((p) => p.id === selectedPatientId);
-
-  const { data: patientContext, isLoading: loadingPatientContext } = useQuery({
-    queryKey: ['patientContext', selectedPatientId],
-    enabled: !!selectedPatientId,
-    queryFn: async () => {
-      const result = await PatientContext.list({
-        filters: { patient_id: selectedPatientId as string },
-        limit: 1,
-      });
-      return result[0] ?? null;
-    },
-  });
-
-  const triageInfo: TriageInfo | null =
-    (patientContext?.triage_info as unknown as TriageInfo) || null;
-  const lastUpdatedIso = patientContext?.last_updated_at ?? null;
-
-  const isLoadingPatientData = loadingPatients || loadingPatientContext;
 
   const { data: engagementPct } = useQuery({
     queryKey: ['engagement', selectedPatientId, dateRange.from, dateRange.to],
@@ -179,13 +127,6 @@ export default function DashboardPage() {
     retry: 0,
   });
 
-  const handlePatientChange = (patientId: string) => {
-    setSelectedPatientId(patientId);
-    setIsLoadingSummary(true);
-    // Simulate summary recompute
-    setTimeout(() => setIsLoadingSummary(false), 800);
-  };
-
   // Minimal inline markdown formatter for **bold** segments used in key_insights
   const formatInlineMarkdown = (text: string): string => {
     return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -194,35 +135,7 @@ export default function DashboardPage() {
   return (
     <AuthGuard>
       <div className="bg-background flex min-h-screen">
-      {/* Left Sidebar - Patient Info */}
-      {selectedPatient ? (
-        <PatientSidebar
-          profile={selectedPatient}
-          triageInfo={triageInfo}
-          lastUpdatedIso={lastUpdatedIso}
-          isLoading={isLoadingPatientData}
-          patients={patients || []}
-          selectedPatientId={selectedPatientId}
-          onPatientChange={handlePatientChange}
-        />
-      ) : (
-        <PatientSidebar
-          profile={{
-            id: '',
-            created_at: '',
-            updated_at: null,
-            email: '',
-            full_name: 'Loading...',
-            phone: null,
-            profile_picture_url: null,
-            role: 'patient',
-          }}
-          isLoading={true}
-          patients={patients || []}
-          selectedPatientId={selectedPatientId}
-          onPatientChange={handlePatientChange}
-        />
-      )}
+      {/* PatientSidebar removed for this demo; page shows data for the authenticated user */}
 
       {/* Main Content Area */}
       <div className="flex-1 p-6">
@@ -235,10 +148,10 @@ export default function DashboardPage() {
           {/* Psychologist Profile */}
           <div className="flex items-center gap-3">
             <UserAvatar
-              src={therapist?.profile_picture_url ?? undefined}
-              alt={therapist?.full_name}
+              src={user?.profile_picture_url ?? undefined}
+              alt={user?.full_name}
             />
-            <span className="text-sm font-medium">{therapist?.full_name || 'Therapist'}</span>
+            <span className="text-sm font-medium">{user?.full_name || 'User'}</span>
             <Button 
               variant="outline" 
               size="sm"
@@ -252,17 +165,6 @@ export default function DashboardPage() {
         {/* Date Range Picker */}
         <div className="mb-6">
           <DateRangePicker dateRange={dateRange} onDateRangeChange={setDateRange} />
-        </div>
-
-        {/* Report Generation Notice */}
-        <div className="mb-6">
-          <Alert className="border-blue-200 bg-blue-50">
-            <Clock className="h-4 w-4 text-blue-600" />
-            <AlertDescription className="text-blue-800">
-              <strong>Note:</strong> Reports and insights may take up to 10 minutes to be generated
-              and become viewable in the dashboard after a conversation is finished.
-            </AlertDescription>
-          </Alert>
         </div>
 
         {/* Insights Grid */}

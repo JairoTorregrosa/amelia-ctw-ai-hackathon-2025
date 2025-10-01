@@ -160,14 +160,6 @@ export function PatientSidebar({
                       • {formatUnderscoreToSpace(triageInfo?.plan_inicial?.frecuencia)}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CalendarDays className="text-secondary h-4 w-4" />
-                    <span>
-                      Next appointment:{' '}
-                      {format(parseISO(triageInfo?.proxima_cita_iso8601 || ''), 'MMM d, yyyy') ||
-                        '—'}
-                    </span>
-                  </div>
                 </div>
               </div>
 
