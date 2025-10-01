@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/components/user-avatar';
-import { Brain, HelpCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Brain, HelpCircle, Megaphone } from 'lucide-react';
 import { AuthGuard } from '@/components/auth-guard';
 import { useAuth } from '@/contexts/auth-context';
 import { InsightCharts } from '@/components/insight-charts';
@@ -17,6 +18,15 @@ import { Conversations } from '@/models/conversations';
 import { addWeeks, format, parseISO, subWeeks } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import Link from 'next/link';
 import type { MoodClassificationRow, CrisisClassificationRow } from '@/types/insights';
 import { MessageSender } from '@/types/constants';
 
@@ -33,6 +43,7 @@ export default function DashboardPage() {
   });
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [engagementHelpOpen, setEngagementHelpOpen] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
 
   const { data: engagementPct } = useQuery({
     queryKey: ['engagement', selectedPatientId, dateRange.from, dateRange.to],
@@ -138,11 +149,66 @@ export default function DashboardPage() {
   return (
     <AuthGuard>
       <div className="bg-background flex min-h-screen">
+        <Dialog open={showWelcomeModal} onOpenChange={setShowWelcomeModal}>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Bienvenido al panel de Amelia</DialogTitle>
+              <DialogDescription>
+                Explora un resumen de tus conversaciones recientes, tendencias emocionales y la
+                participación registrada en el periodo seleccionado.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="text-muted-foreground text-sm space-y-3">
+              <p>
+                Usa los widgets y gráficos para identificar oportunidades de seguimiento rápido y
+                detectar señales relevantes. Cambia el rango de fechas para profundizar en periodos
+                específicos.
+              </p>
+              <p>
+                ¿Nos cuentas qué tal te fue? Tu retroalimentación nos ayuda a priorizar mejoras y
+                nuevas funcionalidades.
+              </p>
+            </div>
+            <DialogFooter>
+              <Button variant="ghost" onClick={() => setShowWelcomeModal(false)}>
+                Quizás después
+              </Button>
+              <Button asChild onClick={() => setShowWelcomeModal(false)}>
+                <Link
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSeNlN0jajjVxZCxsIhD5oZ000RcW-3_pWzNSyiEGynfWyex3w/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Compartir feedback
+                </Link>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         {/* PatientSidebar removed for this demo; page shows data for the authenticated user */}
 
         {/* Main Content Area */}
         <div className="flex-1 p-6">
           {/* Encabezado superior */}
+          <Alert className="border-psychology-blue/40 bg-psychology-blue/10 mb-6">
+            <Megaphone className="h-5 w-5 text-psychology-blue" />
+            <AlertDescription className="text-sm text-slate-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <span>
+                Gracias por probar Amelia. Cuéntanos cómo te fue para ayudarnos a priorizar mejoras y nuevas funcionalidades.
+              </span>
+              <Button asChild variant="secondary" size="sm" className="whitespace-nowrap">
+                <Link
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSeNlN0jajjVxZCxsIhD5oZ000RcW-3_pWzNSyiEGynfWyex3w/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Compartir feedback
+                </Link>
+              </Button>
+            </AlertDescription>
+          </Alert>
+
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <h1 className="text-foreground text-2xl font-semibold">Resumen</h1>
