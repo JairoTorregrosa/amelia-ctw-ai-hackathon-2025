@@ -6,17 +6,17 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white">
       {/* Header */}
       <header className="">
-        <nav className="mx-auto inline-block w-full max-w-full items-center justify-between px-2 py-2 sm:flex sm:max-w-6xl sm:px-6 sm:py-0">
+        <nav className="mx-auto w-full max-w-full items-center justify-between px-4 py-3 sm:flex sm:max-w-6xl sm:px-6 sm:py-0">
           <Link href="/" className="hidden items-center gap-2 sm:flex">
             <img src="/logo.png" alt="Logotipo" width={50} height={50} />
             <img src="/brand_text.png" alt="Texto de marca" width={100} height={20} />
           </Link>
-          <div className="flex items-center justify-center gap-8 sm:justify-end">
+          <div className="flex items-center justify-center gap-5 sm:gap-8 sm:justify-end">
             <Link href="#home" className="font-medium text-slate-700 hover:text-slate-900">
               Inicio
             </Link>
             <Link href="#about" className="font-medium text-slate-700 hover:text-slate-900">
-              Acerca de
+              Sobre Amelia
             </Link>
             <Link href="#contact" className="font-medium text-slate-700 hover:text-slate-900">
               Contacto
@@ -25,7 +25,7 @@ export default function LandingPage() {
               href="/login"
               className="bg-psychology-blue hover:bg-psychology-blue/90 rounded-lg px-6 py-2 text-white"
             >
-              Iniciar sesión
+              Ingresar
             </Link>
           </div>
         </nav>
